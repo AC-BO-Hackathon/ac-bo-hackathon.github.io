@@ -94,7 +94,7 @@ def gp_posterior(x_train, y_train, x_test, length_scale, variance, noise):
     k_s = rbf_kernel(x_train, x_test, length_scale, variance)
     k_ss = rbf_kernel(x_test, x_test, length_scale, variance)
 
-    k_inv = np.linalg.inv(k)
+    k_inv = np.linalg.solve(k, np.eye(len(x_train)))
     mean = k_s.T @ k_inv @ y_train
     cov = k_ss - k_s.T @ k_inv @ k_s
     std = np.sqrt(np.clip(np.diag(cov), 0.0, None))
