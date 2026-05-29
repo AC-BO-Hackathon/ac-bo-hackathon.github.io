@@ -226,12 +226,15 @@
 
 
 
+
 \begin{abstract}
-The Acceleration Consortium and Merck KGaA hosted a 2-day virtual hackathon on March 27-28, 2024, bringing together scientists to explore, collaborate, and innovate in the field of Bayesian optimization for the physical sciences. Participants were encouraged to select or develop Bayesian optimization algorithms, apply them to benchmarking tasks, design new benchmarks, create instructional tutorials, and describe real-world applications. With over 100 participants across 60 academic, industry, and government organizations located in 38 cities, 14 countries, and 4 continents, this was a global event. % https://chatgpt.com/share/f6cd733f-1126-4151-86c5-d4b59d158dc3
+The Acceleration Consortium and Merck KGaA hosted a 2-day virtual hackathon on March 27-28, 2024, bringing together scientists to explore, collaborate, and innovate in the field of Bayesian optimization for the physical sciences. Participants were encouraged to select or develop Bayesian optimization algorithms, apply them to benchmarking tasks, design new benchmarks, create instructional tutorials, and describe real-world applications. With over 100 participants across 69 academic, industry, and government organizations located in 59 cities, 19 countries, and 4 continents, this was a global event. % https://chatgpt.com/share/f6cd733f-1126-4151-86c5-d4b59d158dc3
 The outputs from this event, including developed algorithms, benchmarks, and tutorials, will serve as valuable resources for the research community, in addition to the new skills learned and connections formed. Released projects and general information are available at \url{https://ac-bo-hackathon.github.io/} and other locations linked from individual project pages. This event demonstrates the potential of community-driven research efforts to accelerate advances in Bayesian optimization in chemistry and materials science.
 \end{abstract}
 
 \maketitle
+
+\clearpage
 
 
 
@@ -255,7 +258,7 @@ A hackathon is a short competition where people work together in teams to solve 
     \label{fig:intro-bo}
 \end{figure}
 
-The goal of the AC BO Hackathon was to leverage the expertise of a diverse, global community to advance the development and application of \gls{bo} techniques for solving critical challenges in the physical sciences. The hackathon also aimed to foster collaboration and knowledge sharing among participants from different backgrounds, including academia, national laboratories, government agencies, and private industry. The event attracted 120 active participants from 44 teams, representing 41 academic institutions, 12 national labs, and 9 companies. Likewise, the participants were located in 38 cities, 14 countries, and 4 continents (\cref{fig:map}). A full list of projects, including links to the corresponding GitHub repositories, submission video, and social media post are provided in \cref{tab:projects}.
+The goal of the AC BO Hackathon was to leverage the expertise of a diverse, global community to advance the development and application of \gls{bo} techniques for solving critical challenges in the physical sciences. The hackathon also aimed to foster collaboration and knowledge sharing among participants from different backgrounds, including academia, national laboratories, government agencies, and private industry. The event attracted 139 active participants from 39 teams, representing 52 academic institutions, 3 national labs, and 14 companies. Likewise, the participants were located in 59 cities, 19 countries, and 4 continents (\cref{fig:map}). A full list of projects, including links to the corresponding GitHub repositories, submission video, and social media post are provided in \cref{tab:projects}.
 
 % \onecolumngrid % (https://tex.stackexchange.com/a/214834/224861)
 % % don't remove this linebreak 
@@ -265,7 +268,7 @@ The goal of the AC BO Hackathon was to leverage the expertise of a diverse, glob
     \centering
     % \captionsetup{justification=centering}
     \includegraphics[width=0.95\linewidth]{latex/figures/world_map.png}
-    \caption{Demographic distributions of the participating teams and their affiliations. The hackathon supported 129 participants across 60 academic, industry, and government organizations located in 59 cities, 19 countries, and 4 continents. \label{fig:map} }
+    \caption{Demographic distributions of the hackathon participants and their affiliations. The hackathon supported 139 participants across 69 academic, industry, and government organizations located in 59 cities, 19 countries, and 4 continents. \label{fig:map} }
 \end{figure*}
 
 
@@ -283,12 +286,12 @@ The goal of the AC BO Hackathon was to leverage the expertise of a diverse, glob
 
 This hackathon was in large part inspired by \citet{jablonka_14_2023} and is one of several materials-focused hackathons in the past \cite{mulholland_hackathon_2015, sparks_insights_2024}. % l.ferguson_conference_2019
 
-Participants were provided with various resources to prepare for the hackathon – this included GitHub classroom assignments with automated feedback, application- and theory-focused videos and tutorials, Python refresher materials, and a list of tools to consider using during the hackathon (\cref{fig:preparation}).
+Participants were provided with various resources to prepare for the hackathon – this included GitHub classroom assignments with automated feedback, application- and theory-focused videos and tutorials, Python refresher materials, a list of tools to consider using during the hackathon, project submission instructions, and authorship criteria (\cref{fig:preparation}).
 
 \begin{figure*}
     \centering
-    \includegraphics[width=0.98\linewidth]{latex/figures/preparation.png}
-    \caption{A snapshot of \href{https://ac-bo-hackathon.github.io/resources/}{resources listed on the hackathon webpage} such as hackathon orientation, intro to \gls{bo}, and a Python refresher assignment. These resources prepared participants to maximize their time during the two-day synchronous portion of the hackathon and helped level the playing field for participants with varied backgrounds and skill levels.}
+    \includegraphics[width=0.98\linewidth]{latex/figures/preparation_blurred.png}
+    \caption{A snapshot of \href{https://ac-bo-hackathon.github.io/resources/}{resources listed on the hackathon webpage} such as hackathon orientation, intro to \gls{bo}, and a Python refresher assignment. These resources prepared participants to maximize their time during the two-day synchronous portion of the hackathon and helped level the playing field for participants with varied backgrounds and skill levels. Image is blurred per preprint server policy.}
     \label{fig:preparation}
 \end{figure*}
 
@@ -418,6 +421,9 @@ This automated approach enhances efficiency while maintaining a structured and o
 We express a huge thanks to Kevin Jablonka and Ben Blaiszik (latter a co-author of this paper) and others did phenomenal work paving the way with the LLMs for Chemistry and Materials Hackathon (2023). Much of the setup and many of the patterns of the Bayesian optimization hackathon was either directly replicated based off of or inspired by the LLM hackathon.
 
 This work was undertaken thanks in part to funding provided to the University of Toronto’s Acceleration Consortium from the Canada First Research Excellence Fund (CFREF-2022-00042). Tim Würger acknowledges Tiago L. P. Galvão for providing Al alloy data from the CORDATA database. Can Özkan acknowledges the VIPCOAT project (Virtual Open Innovation Platform for Active Protective Coatings Guided by Modelling and Optimisation) funded by the Horizon 2020 research and innovation programme of the European Union by grant agreement no. 952903. Ankur Kumar Gupta acknowledges support by the U.S. Department of Energy, Office of Science, Basic Energy Sciences, Materials Sciences and Engineering Division under Contract No. DE-AC02-05CH11231, FWP No. DAC-LBL-Long.
+Andy S. Anker acknowledges support by Novo Nordisk Foundation grant NNF23OC0081359.
+
+Finally, we express thanks to all participants in the hackathon. The hackathon was only possible and meaningful due to the time dedicated by many in the projects themselves.
 
 \section*{References}
 

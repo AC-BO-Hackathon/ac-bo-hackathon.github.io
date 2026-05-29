@@ -2,7 +2,5 @@
     "project_number": 28,
     "project_name": "The Impact of Dataset Size on Bayesian Optimization, Insights from the QM9 Dataset",
     "video_url": "https://www.youtube.com/watch?v=hvODyYejxuc",
-    "summaries": null,
-    "status": "failed",
-    "error": "list index out of range"
+    "summary": "The Chihuahuas team investigated the critical dataset size threshold required for effective Bayesian Optimization of Graph Convolutional Neural Networks (GCNNs) using the QM9 molecular dataset\\cite{ramakrishnan2014quantum}. The research systematically examined hyperparameter optimization (learning rate, batch size, number of neurons) across dataset sizes ranging from 200 to 2000 molecules to determine minimum viable data requirements for reliable BO performance. Results demonstrated that BO successfully optimized GCNN hyperparameters even with small datasets (200 molecules), though performance improved with larger datasets, achieving lowest losses at 2000 molecules (0.001134 for learning rate optimization). The study revealed a trade-off between dataset size and computational efficiency, with larger datasets requiring more time to reach convergence despite better performance. The research provides a methodological framework for applying BO in data-scarce scenarios common in computational chemistry and materials science, demonstrating that machine learning optimization remains viable even with limited molecular data."
 }

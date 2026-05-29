@@ -1,8 +1,7 @@
 {
     "project_number": 18,
     "project_name": "Investigation of Multi-Objective Bayesian Optimization of QM9 Dataset",
-    "video_url": "",
-    "summary": "",
-    "status": "failed",
-    "error": "No video"
+    "video_url": "https://www.youtube.com/watch?v=LwArft0pmP8",
+    "summary": "In this work, the team explores the application of multi-objective Bayesian optimization (MoBO) techniques to molecular property optimization using the QM9 dataset\\cite{ramakrishnan2014quantum}. The project implements and compares state-of-the-art MoBO algorithms—including Expected Hypervolume Improvement (EHVI)\\cite{yang2019multi} and ParEGO—to\\cite{knowles2006parego} efficiently navigate the trade-offs between multiple molecular objectives such as HOMO-LUMO gap, molecular weight, and dipole moment. Leveraging molecular feature encodings and Gaussian process surrogate models, the optimization framework identifies candidate molecules that balance competing objectives in chemical design. This study highlights the potential of MoBO to accelerate lead discovery by providing a principled, sample-efficient method for exploring high-dimensional molecular spaces.",
+    "status": "success"
 }

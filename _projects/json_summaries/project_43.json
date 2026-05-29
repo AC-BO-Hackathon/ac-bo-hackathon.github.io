@@ -2,8 +2,8 @@
     "project_number": 43,
     "project_name": "Bayesian Optimization Awesome List",
     "video_url": "",
-    "summary": "",
-    "status": "failed",
+    "summary": "This awesome list curates a collection of software, tutorials, research papers, and other resources related to Bayesian optimization in materials science and chemistry.",
+    "status": "success",
     "error": "No video"
     
 }
