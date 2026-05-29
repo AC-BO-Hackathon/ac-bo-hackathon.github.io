@@ -7,10 +7,18 @@ but simplifies it for use as a stand-alone visual:
 * the affiliation legend in the top-right corner is masked out,
 
 so that only the clean world map with the participant locations remains. A
-Bayesian-optimization surrogate model -- a Gaussian-process posterior with
-observed data points, the predictive mean, and a (mostly transparent)
-uncertainty band -- is then overlaid on top of the map to convey the theme of
-the hackathon: a global community advancing Bayesian optimization.
+Bayesian-optimization surrogate model -- the predictive mean and a (mostly
+transparent) uncertainty band of a Gaussian-process posterior -- is then
+overlaid on top of the map to convey the theme of the hackathon: a global
+community advancing Bayesian optimization. The surrogate is a *real* GP fit
+with the Ax Platform (`ax-platform`); the observations are treated as
+noiseless, so the band collapses at the measured points and widens away from
+them, illustrating how Bayesian optimization reasons about uncertainty.
+
+The output respects the Royal Society of Chemistry / Digital Discovery
+graphical-abstract guidelines: it is a landscape image (graphical abstracts are
+*not* required to be square; they are reproduced at up to 8 cm wide by 4 cm
+high) saved well above the 300 dpi minimum.
 
 Running the script writes ``latex/figures/graphical-abstract.png``.
 """
@@ -18,6 +26,9 @@ Running the script writes ``latex/figures/graphical-abstract.png``.
 import os
 
 import numpy as np
+import torch
+from ax.api.client import Client
+from ax.api.configs import RangeParameterConfig
 from PIL import Image, ImageFilter
 import matplotlib
 
@@ -81,46 +92,61 @@ def load_simplified_map():
     return pixels[:crop_height, :, :]
 
 
-def rbf_kernel(a, b, length_scale, variance):
-    """Squared-exponential (RBF) covariance between two sets of inputs."""
-    sq_dist = (a[:, None] - b[None, :]) ** 2
-    return variance * np.exp(-0.5 * sq_dist / length_scale**2)
-
-
-def gp_posterior(x_train, y_train, x_test, length_scale, variance, noise):
-    """Return the GP posterior mean and standard deviation at ``x_test``."""
-    k = rbf_kernel(x_train, x_train, length_scale, variance)
-    k += noise**2 * np.eye(len(x_train))
-    k_s = rbf_kernel(x_train, x_test, length_scale, variance)
-    k_ss = rbf_kernel(x_test, x_test, length_scale, variance)
-
-    k_inv = np.linalg.solve(k, np.eye(len(x_train)))
-    mean = k_s.T @ k_inv @ y_train
-    cov = k_ss - k_s.T @ k_inv @ k_s
-    std = np.sqrt(np.clip(np.diag(cov), 0.0, None))
-    return mean, std
-
-
 def build_surrogate(seed=7):
-    """Create observations and the GP posterior for the overlay."""
+    """Fit a real Gaussian-process surrogate with Ax and return its posterior.
+
+    A handful of noiseless observations of a smooth latent function are
+    attached to an :class:`ax.api.client.Client`. Ax fits a Gaussian-process
+    surrogate (via BoTorch) which is then queried on a dense grid. Because the
+    observations are reported with zero noise, the predictive standard
+    deviation collapses at the measured points and grows away from them.
+
+    Returns the test grid, posterior mean, and posterior standard deviation.
+    """
+    np.random.seed(seed)
+    torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
 
     def latent(x):
         return np.sin(2.6 * x) + 0.55 * np.sin(5.5 * x + 0.8)
 
+    lower, upper = 0.0, 6.5
     x_train = np.array([0.4, 1.2, 2.1, 3.0, 3.9, 4.8, 5.6, 6.1])
-    y_train = latent(x_train) + rng.normal(scale=0.12, size=x_train.shape)
-    x_test = np.linspace(0.0, 6.5, 400)
+    y_train = latent(x_train) + rng.normal(scale=0.05, size=x_train.shape)
 
-    mean, std = gp_posterior(
-        x_train,
-        y_train,
-        x_test,
-        length_scale=0.9,
-        variance=1.0,
-        noise=0.12,
+    client = Client()
+    client.configure_experiment(
+        parameters=[
+            RangeParameterConfig(
+                name="x", bounds=(lower, upper), parameter_type="float"
+            )
+        ]
     )
-    return x_train, y_train, x_test, mean, std
+    client.configure_optimization(objective="y")
+    # Move past the random initialization phase immediately so the predictive
+    # Gaussian-process node is used, and reuse our attached observations.
+    client.configure_generation_strategy(
+        initialization_budget=2,
+        initialize_with_center=False,
+        initialization_random_seed=seed,
+    )
+
+    for xi, yi in zip(x_train, y_train):
+        trial_index = client.attach_trial(parameters={"x": float(xi)})
+        # A standard error of 0 marks the observation as noiseless.
+        client.complete_trial(
+            trial_index=trial_index, raw_data={"y": (float(yi), 0.0)}
+        )
+
+    # Generating a trial fits the Gaussian-process surrogate that ``predict``
+    # subsequently queries.
+    client.get_next_trials(max_trials=1)
+
+    x_test = np.linspace(lower, upper, 400)
+    predictions = client.predict(points=[{"x": float(x)} for x in x_test])
+    mean = np.array([p["y"][0] for p in predictions])
+    std = np.array([p["y"][1] for p in predictions])
+    return x_test, mean, std
 
 
 def main():
@@ -140,7 +166,7 @@ def main():
     overlay.set_ylim(0, 1)
     overlay.patch.set_alpha(0)
 
-    x_train, y_train, x_test, mean, std = build_surrogate()
+    x_test, mean, std = build_surrogate()
 
     # Map model coordinates into the [0, 1] overlay frame. The band is centred
     # vertically and uses a moderate amplitude so it stays legible.
@@ -154,7 +180,6 @@ def main():
         return band_center + band_amplitude * y
 
     accent = "#0b3d91"  # deep blue, harmonises with the ocean
-    point_color = "#f4a13a"  # warm amber so the observations stand out
 
     overlay.fill_between(
         to_x(x_test),
@@ -172,16 +197,6 @@ def main():
         alpha=0.85,
         linewidth=3.0,
         zorder=3,
-    )
-    overlay.scatter(
-        to_x(x_train),
-        to_y(y_train),
-        s=90,
-        color=point_color,
-        edgecolors="white",
-        linewidths=1.5,
-        alpha=0.95,
-        zorder=4,
     )
 
     fig.savefig(OUTPUT, dpi=300)
