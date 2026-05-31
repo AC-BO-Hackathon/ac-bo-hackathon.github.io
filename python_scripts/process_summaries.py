@@ -9,7 +9,6 @@ def clean_text(text):
         text.replace("&", "\\&")
         .replace("%", "\\%")
         .replace("#", "\\#")
-        .replace("^", "\\textasciicircum{}")
     )
     
     # Handle underscores carefully - don't escape them inside \cite{} commands
