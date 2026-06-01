@@ -75,7 +75,7 @@ ANALYSIS_QUERY = (
     "Discovery (RSC). For each candidate provide: full name, current "
     "affiliation, a public email or profile URL if known, their specific area "
     "of expertise relevant to this manuscript, and 1-3 representative recent "
-    "publications. Prioritise researchers active in Bayesian optimization, "
+    "publications. Prioritize researchers active in Bayesian optimization, "
     "active learning, self-driving labs, and machine learning for materials and "
     "chemistry. Explicitly flag and EXCLUDE likely conflicts of interest "
     "(manuscript co-authors, very close collaborators, and same-institution "
@@ -189,7 +189,7 @@ def poll_until_done(client, task_ids: dict[str, str], timeout: float):
     start = time.monotonic()
 
     while pending:
-        if timeout is not None and (time.monotonic() - start) > timeout:
+        if timeout and timeout > 0 and (time.monotonic() - start) > timeout:
             print(
                 f"Timed out after {timeout}s with {len(completed)}/"
                 f"{len(task_ids)} tasks complete.",
@@ -255,7 +255,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--timeout",
         type=float,
         default=3600.0,
-        help="Maximum seconds to wait for tasks to finish (default: 3600).",
+        help="Maximum seconds to wait for tasks to finish (default: 3600; "
+             "use 0 or a negative value to wait indefinitely).",
     )
     parser.add_argument(
         "--no-analysis",
