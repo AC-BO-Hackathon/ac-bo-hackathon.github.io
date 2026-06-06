@@ -19,6 +19,7 @@ same time.
 Usage
 -----
     export EDISON_API_KEY=...           # your Edison Scientific API key
+                                        # (EDISON_PLATFORM_API_KEY also accepted)
     pip install edison-client
     python scripts/edison_suggest_reviewers.py
 
@@ -282,10 +283,13 @@ def main(argv: list[str] | None = None) -> int:
         print("Nothing to do: both tasks were disabled.", file=sys.stderr)
         return 2
 
-    api_key = os.environ.get("EDISON_API_KEY")
+    api_key = os.environ.get("EDISON_API_KEY") or os.environ.get(
+        "EDISON_PLATFORM_API_KEY"
+    )
     if not api_key:
         print(
-            "EDISON_API_KEY is not set. Export it before running:\n"
+            "No Edison API key found. Export EDISON_API_KEY (or "
+            "EDISON_PLATFORM_API_KEY) before running:\n"
             "    export EDISON_API_KEY=...",
             file=sys.stderr,
         )
