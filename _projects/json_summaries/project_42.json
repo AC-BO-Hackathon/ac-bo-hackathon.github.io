@@ -2,6 +2,6 @@
     "project_number": 42,
     "project_name": "Bayesian Optimization and Design of Experiments for Pharmaceutical Formulation (BODoE)",
     "video_url": "",
-    "summary": "This industry-led project combined BO and design of experiments (DoE) with an automated laboratory setup for the formulation design of pharmaceutical drug compounds as multi-component mixtures. A central aim was practical and infrastructural: defining the data schemas and interfaces that connect laboratory devices, container and prediction algorithms (for example, COSMO-SAC property predictions), and the BO-driven DoE loop, so that formulation experiments can be planned and executed in a closed loop. The work is available in an open repository (MQS-mark/BODoE). (No recorded video was submitted for this project; this summary is based on the team's project page and repository.)",
+    "summary": "This industry-led project combined BO and design of experiments (DoE) with an automated laboratory setup for the formulation design of pharmaceutical drug compounds as multi-component mixtures. A central aim was practical and infrastructural: defining the data schemas and interfaces that connect laboratory devices, container and prediction algorithms (for example, COSMO-SAC property predictions), and the BO-driven DoE loop, so that formulation experiments can be planned and executed in a closed loop. (No recorded video was submitted for this project; this summary is based on the team's project page.)",
     "status": "manual"
 }
