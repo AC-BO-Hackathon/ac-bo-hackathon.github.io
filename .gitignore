@@ -146,3 +146,8 @@ main.blg
 main_diff.acn
 main_diff.glo
 main_diffNotes.bib
+
+# Edison Scientific run outputs (scripts/edison_suggest_reviewers.py).
+# The committed reviewer suggestions / literature review live in edison_output/;
+# ignore only the large analysis notebook artifact from local reruns.
+edison_output/*_notebook.ipynb
