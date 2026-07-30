@@ -298,7 +298,7 @@ Participants were provided with various resources to prepare for the hackathon â
 \begin{figure*}
     \centering
     \includegraphics[width=0.98\linewidth]{latex/figures/preparation_blurred.png}
-    \caption{A snapshot of \href{https://ac-bo-hackathon.github.io/resources/}{resources listed on the hackathon webpage} such as hackathon orientation, intro to \gls{bo}, and a Python refresher assignment. These resources prepared participants to maximize their time during the two-day synchronous portion of the hackathon and helped level the playing field for participants with varied backgrounds and skill levels. Image is blurred per preprint server policy.}
+    \caption{A snapshot of \href{https://ac-bo-hackathon.github.io/resources/}{resources listed on the hackathon webpage} such as hackathon orientation, intro to \gls{bo}, and a Python refresher assignment. These resources prepared participants to maximize their time during the two-day synchronous portion of the hackathon and helped level the playing field for participants with varied backgrounds and skill levels. Portions of the screenshot have been blurred to protect potentially identifying information.}
     \label{fig:preparation}
 \end{figure*}
 
@@ -426,6 +426,91 @@ Six projects (14, 19, 23, 29, 34, and 42) did not have a recorded video submissi
 \input{|python3 python_scripts/process_summaries.py}
 
 \clearpage
+
+\section{Cross-Project Synthesis}
+\label{sec:synthesis}
+
+The per-project summaries above document \emph{what} each team attempted; here we step back to synthesize patterns \emph{across} the 45 submissions and to distill practical and scientific lessons, as encouraged by the reviewers. These observations carry an important caveat: the synchronous hackathon spanned only two days, so most submissions are best understood as rapid feasibility studies rather than validated results. We therefore report qualitative trends and illustrative examples rather than statistically powered conclusions, and we caution against over-interpreting the outcome of any single project.
+
+\subsection{Classification of project outputs}
+\label{sec:classification}
+
+To make the collection easier to navigate and reuse, we classified each submission by its \emph{primary} deliverable into one of five categories: mature software, benchmark dataset/problem, tutorial or educational resource, application demonstration, and preliminary concept (\cref{tab:classification}). The distribution is dominated by application demonstrations ($24$ of $45$), with comparatively few released, reusable software tools ($3$)---a pattern consistent with a short event in which most teams probed feasibility rather than completing and validating a finished artifact. The label ``mature software'' denotes a usable, released tool or a contribution to an established library (e.g., input warping and tutorials contributed to \textsc{gauche}~\cite{griffiths_gauche_2024}); it should not be read as evidence of production readiness.
+
+\begin{table*}[tbp]
+\centering
+\caption{Classification of the 45 project outputs by primary deliverable. Categories are assigned by each project's principal artifact; some projects have secondary characteristics that are not double-counted. Shares are rounded to whole percentages.}
+\label{tab:classification}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{4.2cm} c c X}
+\toprule
+\textbf{Primary output category} & \textbf{Count} & \textbf{Share} & \textbf{Project numbers} \\
+\midrule
+Application demonstration & 24 & 53\% & 6, 7, 8, 9, 13, 14, 16, 17, 18, 21, 22, 25, 26, 27, 29, 30, 32, 34, 37, 38, 39, 40, 42, 44 \\
+Preliminary concept & 8 & 18\% & 2, 3, 15, 19, 20, 23, 36, 41 \\
+Benchmark dataset/problem & 6 & 13\% & 1, 5, 24, 28, 33, 45 \\
+Tutorial/educational & 4 & 9\% & 10, 12, 31, 43 \\
+Mature software & 3 & 7\% & 4, 11, 35 \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+We also assessed code availability and licensing across the submissions, since these largely determine immediate reusability. Of the 45 projects, 42 link to a public code repository (40 distinct repository URLs after accounting for shared or duplicate links); the three without a standalone repository are projects 19, 29, and 42. \Cref{tab:licenses} summarizes the licenses of the linked repositories. Of the 36 repositories that were accessible at the time of analysis, 25 ($\sim$69\%) carry an explicit license, overwhelmingly permissive (19 MIT and 4 Apache-2.0), with a single copyleft (GPL-3.0) and one repository under non-standard terms; 11 provide no license file, which limits straightforward reuse. Four linked repositories were private or otherwise inaccessible when checked. Consistent with the reviewers' observations and with the two-day format, dependency specifications were frequently incomplete, and few teams articulated an explicit maintenance plan; the outputs are therefore best treated as reusable starting points that typically require further engineering before production use~\cite{nolte_what_2020}. The license tabulation was generated by a script archived with the manuscript source so that it can be reproduced and updated.
+
+\begin{table}[tbp]
+\centering
+\caption{License distribution across the 40 distinct project repositories linked from \cref{tab:projects}, as reported by the GitHub API. ``No license file'' indicates a public repository lacking a recognized license; ``inaccessible'' indicates a private or removed repository.}
+\label{tab:licenses}
+\begin{tabular}{l c}
+\toprule
+\textbf{License} & \textbf{Repositories} \\
+\midrule
+MIT & 19 \\
+Apache-2.0 & 4 \\
+GPL-3.0 & 1 \\
+Other / unspecified terms & 1 \\
+No license file & 11 \\
+Inaccessible (private/removed) & 4 \\
+\midrule
+\textbf{Total} & \textbf{40} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Commonalities, differences, and participant expertise}
+\label{sec:commonalities}
+
+Across the projects, a common template emerged: frame a chemistry or materials task as sequential optimization of an expensive objective using a Gaussian-process surrogate and an acquisition function, most often built on \textsc{BoTorch}/\textsc{GPyTorch} or Ax, sometimes through domain-oriented wrappers such as \textsc{BayBE}~\cite{fitzner_baybe_2022} or \textsc{gauche}~\cite{griffiths_gauche_2024}. Recurring design choices included expected improvement, upper-confidence-bound, or Thompson-sampling acquisition, and single- versus multi-objective formulations (e.g., expected hypervolume improvement)~\cite{ament_sustainable_2023}. The submissions spanned a balanced mix of domains---molecular and drug discovery, materials and self-driving-laboratory workflows, and generic BO methodology---with smaller clusters on reaction optimization and one on crop genetics.
+
+Teams differed most in three respects: the representation of inputs (physical descriptors versus molecular fingerprints versus learned embeddings), whether they compared against simple baselines such as random search, and whether they targeted real experimental data or retrospective benchmarks. A notable cross-cutting theme was the use of large language models (LLMs) and generative models: under a strict definition, 6 of the 45 projects (and 8 under a broader definition that includes pretrained scientific language-model representations) incorporated such models for design-space specification, preference elicitation, warm-start retrieval, or multi-agent orchestration. This prevalence---roughly one in six projects---mirrors the momentum of dedicated LLM-for-chemistry hackathons~\cite{jablonka_14_2023, zimmermann_reflections_2024} and motivates the outlook in \cref{sec:future}.
+
+Participants ranged from students to senior researchers spanning academia, industry, and government. Consistent with prior scientific hackathons, mixed-expertise teams that paired domain scientists with BO practitioners appeared to be an asset~\cite{valentine_hacktive_2025, busby_building_2015}. We did not conduct a controlled study relating prior expertise to project quality, and because the event was short we caution that apparent performance differences may reflect problem difficulty or the availability of warm-start data rather than expertise or method choice. Likewise, a rigorous longitudinal study of whether participants subsequently adopt BO in their own research is beyond the scope of this report; the broader literature notes that such follow-up data are generally scarce and that many hackathon prototypes do not continue past the event~\cite{nolte_what_2020}. Qualitatively, several outputs have persisted---for example, contributions folded into the maintained \textsc{gauche} library and a community-curated ``awesome'' resource list (project 43)---and a durable community formed around the event, echoing the persistent communities reported for sibling hackathons~\cite{zimmermann_reflections_2024}.
+
+\section{Lessons Learned}
+\label{sec:lessons}
+
+\subsection{Organizational lessons}
+\label{sec:org-lessons}
+
+Several organizational choices worked well and would be retained. Extensive pre-event preparation---orientation materials, an introduction to BO, curated tooling, and a Python refresher delivered through GitHub Classroom with automated feedback---helped level a wide range of backgrounds (\cref{fig:preparation}). A persistent virtual venue (Gather Town) sustained informal interaction and mentor access in a fully online setting, and a transparent pairwise-comparison judging system (Gavel) scaled expert evaluation across many projects with modest per-judge effort (35 judges cast 319 votes). Archiving every output to GitHub and consolidating them in a single Zenodo record produced a durable, citable community resource. These choices align with best practices identified across scientific hackathons: strong onboarding, structured mentoring, and disciplined post-event archiving~\cite{stoltzfus_community_2017, busby_building_2015, valentine_hacktive_2025}.
+
+Other aspects proved more difficult. Some teams that registered before the event did not converge into active projects, and six teams recorded no closing video, which made their outputs harder to capture---echoing reports that pre-event team formation and mentor engagement are among the most fragile parts of virtual hackathons~\cite{diemar_report_2025}. The compressed two-day window necessarily limited validation depth, and the reproducibility of participant code varied widely (\cref{sec:classification}). In hindsight, we would (i) begin team formation earlier with structured virtual meet-and-greets one to two weeks in advance; (ii) provide explicit reproducibility and licensing checklists (pinned dependencies, a runnable notebook, and an appropriate license) to raise the floor on code quality; (iii) request a short recorded or written summary from every team so that all outputs are captured uniformly; and (iv) communicate evaluation expectations to participants more explicitly. We note that judging used holistic pairwise comparison rather than a numeric scoring rubric; the instructions given to judges together with the submission and authorship requirements that functioned as evaluation criteria are documented on the hackathon website and archived in the Zenodo record.
+
+\subsection{Scientific lessons: strengths and limitations of Bayesian optimization}
+\label{sec:sci-lessons}
+
+Taken together, the projects illustrate both the appeal and the practical pitfalls of BO in chemistry and materials, in line with the broader literature. On the strengths side, teams repeatedly exploited BO's sample efficiency in low-data regimes, recovering strong candidates within a handful of iterations relative to design-of-experiments or random baselines~\cite{frazier_tutorial_2018, shahriari_taking_2016}. The submissions collectively demonstrated BO's flexibility, handling continuous, categorical, mixed, molecular, multi-objective, multi-fidelity, contextual, batched, and cost-aware problems, including successful prototypes of multi-objective search and preference-based, human-in-the-loop workflows~\cite{lin_preference_2022}. Specialized kernels and representations (e.g., for molecules) further extended BO to structured inputs~\cite{griffiths_gauche_2024}.
+
+The projects also surfaced well-known limitations. Default BO was not always superior to simple baselines: in project 33, standard GP-based BO was comparable to random search, and in the narrow benchmark of project 1 an off-the-shelf method struggled against random candidates---underscoring the importance of baseline comparisons and careful benchmarking~\cite{liang_benchmarking_2021}. Results were sensitive to molecular representation, featurization, and kernel choice; warm-start data quality, observation noise, and high-dimensional search spaces were recurring pain points, for which noise-robust and heteroscedastic-aware methods are relevant remedies~\cite{aldeghi_golem_2021, altamirano_robust_2023}. Acquisition-function optimization itself mattered: one of the top-ranked projects (project 3) showed that investing more computation in the acquisition optimizer changed observed performance, connecting to ongoing work on scalable and high-dimensional acquisition strategies~\cite{ament_sustainable_2023, maus_local_2023}. Finally, retrospective benchmark gains do not guarantee wet-laboratory success, and reproducing comparisons across studies remains difficult~\cite{liang_benchmarking_2021}. Where teams integrated LLMs, the models lowered access barriers and helped specify spaces or retrieve priors, but they added another uncertain component that can degrade on complex objectives and requires validation against non-LLM baselines~\cite{kristiadi_sober_2024}.
+
+On the recurring question of which framework works best for a given noise regime, the projects and literature suggest there is no universal winner. For low-noise, near-deterministic objectives, standard GP-based BO with expected improvement remains a reasonable default, whereas noisy, heteroscedastic, or multi-objective settings benefit from noise-robust acquisitions and tooling, and deployment-oriented libraries such as \textsc{BayBE} and \textsc{BoFire} target the experimental setting specifically~\cite{fitzner_baybe_2022, durholt_bofire_2024}. We again emphasize the two-day caveat: these are directional observations drawn from short feasibility studies, not benchmark verdicts.
+
+\section{Future Opportunities}
+\label{sec:future}
+
+Building on the hackathon outputs and the trends above, we highlight several promising directions for BO in chemistry and materials discovery. \emph{Autonomous and self-driving laboratories} are a natural home for BO, closing the loop between algorithmic suggestion and automated experimentation~\cite{tom_self-driving_2024, abolhasani_rise_2023}. \emph{Multi-fidelity optimization} that fuses cheap simulations or proxy measurements with expensive experiments can substantially reduce cost, provided its assumptions are handled carefully~\cite{sabanza-gil_best_2025, judge_applying_2024}. \emph{Uncertainty-aware experimental planning} and active learning under design constraints can make campaigns more sample-efficient and trustworthy~\cite{low_evolution_2024}.
+
+The large share of hackathon projects that already incorporated language models points to \emph{foundation-model- and LLM-assisted BO} as a particularly active frontier---for design-space specification, prior construction, and warm-starting---though recent work cautions that LLM-based surrogates and priors do not yet consistently outperform strong classical baselines and must be benchmarked rigorously~\cite{kristiadi_sober_2024, rankovic_gollum_2025}. Other opportunities include \emph{preference-based and human-in-the-loop BO} for subjective or hard-to-quantify objectives~\cite{adachi_looping_2024, deneault_preferential_2025}; \emph{multi-objective materials design} with scalable hypervolume-based acquisitions~\cite{ament_sustainable_2023}; \emph{robust BO under noisy experimental data}~\cite{aldeghi_golem_2021, altamirano_robust_2023}; \emph{community benchmark development} to enable reproducible, apples-to-apples comparisons~\cite{liang_benchmarking_2021, felton_summit_2021}; and \emph{domain-specific, deployment-ready BO tools} for synthesis and processing optimization that meet experimentalists where they work~\cite{durholt_bofire_2024, fitzner_baybe_2022}. Collectively, these directions echo the broader perspective that Bayesian methods are becoming a core component of the autonomous materials-discovery toolkit~\cite{arroyave_perspective_2022}, while the hackathon itself illustrates both the promise and the present-day rough edges that motivate continued community effort.
+
 
 \section*{Data Availability}
 
