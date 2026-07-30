@@ -1,0 +1,7 @@
+{
+    "project_number": 14,
+    "project_name": "Bayesian optimization of likely negative candidates in imbalanced biological datasets",
+    "video_url": "",
+    "summary": "High-throughput biological screens often yield highly class-imbalanced datasets because reliable negative examples are difficult to obtain. This project combined BO with positive-unlabeled (PU) learning to address that imbalance: rather than treating all unlabeled peptides as negatives or selecting them heuristically, the team used BO to strategically choose likely-negative (reliable-negative) candidates from the unlabeled pool. The selection was framed as an optimization over candidate PU splits, seeking the split that most improves a downstream classifier for biological tasks such as hemolysis prediction and binding against the SHP-2 protein target. The work builds on the team's prior positive-example-only peptide modeling and is implemented in an openly available repository (mehradans92/BO-PU). (No recorded video was submitted for this project; this summary is based on the team's project page and code repository.)",
+    "status": "manual"
+}

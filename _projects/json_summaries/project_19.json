@@ -1,0 +1,7 @@
+{
+    "project_number": 19,
+    "project_name": "Quantum Bayesian Optimization for Automatic Chemical Design",
+    "video_url": "",
+    "summary": "This project explored a quantum-computing approach to BO for molecular design. Starting from the data-driven continuous representation of molecules used in automatic chemical design, the team proposed a Quantum Bayesian Optimization (QBO) framework in which quantum Gaussian-process regression and quantum parallelism take the place of their classical counterparts, with the goal of accelerating convergence when exploring chemical space. The project was a proof of concept aimed at assessing whether near-term quantum routines could expedite the discovery of new functional compounds for drug development and materials science. (No recorded video was submitted for this project; this summary is based on the team's project page.)",
+    "status": "manual"
+}

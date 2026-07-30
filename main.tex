@@ -216,6 +216,13 @@
 
 \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 
+% Improve PDF/A text accessibility: emit correct ToUnicode mappings so that
+% f-ligatures (ff, fi, ffi) and accented glyphs (e.g. in names such as
+% Griffiths, Lala, Ozkan, Sosic, Watchorn) copy and extract correctly rather
+% than appearing dropped in the generated PDF.
+\input glyphtounicode
+\pdfgentounicode=1
+
 \begin{document}
 
 \title{Bayesian Optimization Hackathon for Chemistry and Materials}
@@ -406,10 +413,11 @@ The corresponding Gavel web app was hosted on Heroku according to directions in 
 
 \section{Projects' Key Findings}
 
-This section provides a comprehensive summary and highlights the key findings from all project submissions.
-To streamline the evaluation process, all YouTube video submissions were transcribed and analyzed using an AI agent powered by Anthropics’s \emph{claude-3-5-sonnet-20240620} with a temperature of 0.3, ensuring consistent and accurate processing.
-Each transcript was then manually edited to ensure a high-quality manuscript compilation.
-This automated approach enhances efficiency while maintaining a structured and objective assessment of the submissions.
+This section provides a summary of the key findings from all 45 project submissions.
+To streamline the process, the audio from each YouTube video submission was transcribed and condensed into a draft summary by an AI agent powered by Anthropic's \emph{claude-3-5-sonnet-20240620} language model with a temperature of 0.3, applied uniformly across submissions so that each project received consistent treatment.
+Each draft was then manually reviewed and edited by the organizers to correct errors and ensure a faithful description; the resulting per-project summaries are archived alongside the manuscript source.
+We emphasize that these summaries are intended as concise, uniformly generated descriptions of what each team set out to do and reported, rather than as an independent or objective evaluation of the projects' technical merit.
+Six projects (14, 19, 23, 29, 34, and 42) did not have a recorded video submission and therefore could not be processed through the transcription pipeline; for these, the summaries below were instead prepared manually from the corresponding project pages and code repositories, as noted at the end of each such summary.
 
 
 \input{|python3 python_scripts/process_summaries.py}

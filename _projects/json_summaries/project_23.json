@@ -1,0 +1,7 @@
+{
+    "project_number": 23,
+    "project_name": "Reliable Surrogate Models of Noisy Data",
+    "video_url": "",
+    "summary": "This project, which was awarded first place, examined how reliably BO reaches optima when the underlying data are noisy. Research and development data are inevitably noisy---arising from measurement error, equipment drift, contamination, calibration errors, and environmental variability---yet teams often wish to begin BO soon after a small, noisy initial campaign. Using the two-dimensional Schwefel function (a highly multimodal test problem with many local minima) as a ground-truth target with added Gaussian noise, the team compared surrogate models in both BoTorch and BayBE. The BoTorch arm specifically evaluated the effect of encoding noise assumptions into the surrogate model, while the BayBE arm relied on its default noise-aware model, testing optimization over both a difficult local range and the broader domain containing the global optimum. The project aimed to identify the threshold in noise level and data quantity at which BO becomes useful, along with strategies to mitigate the impact of noise, and it provides notebooks and source code for both arms. (No recorded video was submitted for this project; this summary is based on the team's project page and code repository.)",
+    "status": "manual"
+}
