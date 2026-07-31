@@ -1,0 +1,7 @@
+{
+    "project_number": 29,
+    "project_name": "A Bayesian Approach to Predict Solubility Parameters",
+    "video_url": "",
+    "summary": "Solubility governs behavior across pharmaceuticals, coatings, organic semiconductors, and chemical synthesis, but is difficult to predict because of the complex solute-solvent interplay. This project set out to model Hansen solubility parameters with Gaussian-process regression trained on chemical descriptors and sigma profiles, using the recently released GAUCHE framework (Gaussian processes for chemistry, built on GPyTorch and BoTorch) to compare a range of molecular kernels, including fingerprint-based kernels. The aim was to establish a reproducible GP/BO benchmark for solubility prediction and to identify which kernels perform best on this task. (No recorded video was submitted for this project; this summary is based on the team's project page.)",
+    "status": "manual"
+}

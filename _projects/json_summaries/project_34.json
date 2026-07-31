@@ -1,0 +1,7 @@
+{
+    "project_number": 34,
+    "project_name": "Streamlining Material Discovery - Bayesian Optimization in Thermal Fluid Mixtures",
+    "video_url": "",
+    "summary": "This project, which was awarded second place, applied BO to the discovery of thermal-fluid mixtures, where candidate mixtures must be optimized against several thermophysical properties simultaneously. The team framed the search as optimizing a figure of merit defined over four thermophysical properties of the mixtures while incorporating constraints on those properties, and developed a workflow for tuning the surrogate-model hyperparameters accordingly. The goal was to recommend the most efficient mixture candidates to experimentalists and to reduce uncertainty across the search space, thereby streamlining materials discovery for thermal-management applications. The project's code is archived within the hackathon Zenodo record. (No recorded video was submitted for this project; this summary is based on the team's project page.)",
+    "status": "manual"
+}
