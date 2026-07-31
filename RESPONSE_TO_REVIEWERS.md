@@ -96,9 +96,9 @@ that LLM-based surrogates and priors do not yet consistently beat strong classic
 > would strengthen the resource value of the paper.
 
 Added as **Cross-Project Synthesis → Classification of project outputs**, using exactly the five
-categories you propose (Table 3: application demonstration 24, preliminary concept 8, benchmark
+categories you propose (Table IV: application demonstration 24, preliminary concept 8, benchmark
 dataset/problem 6, tutorial/educational 4, mature software 3). Code availability and licensing are
-reported in the accompanying text and in Table 4 (license distribution across the 40 distinct linked
+reported in the accompanying text and in Table V (license distribution across the 40 distinct linked
 repositories, queried programmatically via the GitHub API): 25 of the 36 accessible repositories
 carry an explicit license, overwhelmingly permissive, while 11 have none. On documentation,
 dependency status, and maintenance plans we report the aggregate finding rather than a per-project
