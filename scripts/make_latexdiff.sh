@@ -73,10 +73,25 @@ latexdiff --encoding=utf8 --append-safecmd="gls,Gls,cref,Cref,zenodolink,orcidli
 cp "$BUILD/main-diff.tex" "$REPO_ROOT/main-diff.tex"
 trap 'rm -f "$REPO_ROOT/main-diff.tex"' EXIT
 
-echo "==> compiling"
-latexmk -pdf -interaction=nonstopmode -shell-escape \
-    -outdir="$BUILD" "$REPO_ROOT/main-diff.tex" || {
-        echo "latexmk reported errors; check $BUILD/main-diff.log" >&2
-    }
+# latexmk is not used here: \bibliography{latex/references, ...} uses paths
+# relative to the repository root, and bibtex runs with the output directory as
+# its working directory, so BIBINPUTS has to be set explicitly.  Driving the
+# passes by hand keeps that under control.
+export BIBINPUTS="$REPO_ROOT:${BIBINPUTS:-}"
 
-echo "==> $BUILD/main-diff.pdf"
+echo "==> compiling"
+run_pdflatex() {
+    pdflatex -interaction=nonstopmode -shell-escape \
+        -output-directory="$BUILD" "$REPO_ROOT/main-diff.tex" >/dev/null || true
+}
+
+run_pdflatex
+run_pdflatex
+( cd "$BUILD" && bibtex main-diff >/dev/null ) || {
+    echo "warning: bibtex reported errors; see $BUILD/main-diff.blg" >&2
+}
+run_pdflatex
+run_pdflatex
+
+unresolved=$(grep -cE 'Citation .* undefined|Reference .* undefined' "$BUILD/main-diff.log" || true)
+echo "==> $BUILD/main-diff.pdf (${unresolved} unresolved refs/citations)"
