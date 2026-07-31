@@ -62,7 +62,7 @@ jobs:
           # or https://code.claude.com/docs/en/cli-reference for available options
           # claude_args: '--allowed-tools Bash(gh pr *)'
           claude_args: |
-            --model claude-fable-5
+            --model claude-opus-5
             --permission-mode bypassPermissions
 
       # # Optional, recommended if you set show_full_output=True
