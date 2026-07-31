@@ -1,0 +1,18 @@
+# Baseline for latexdiff against the version submitted to Digital Discovery.
+#
+# Manuscript: DD-ART-06-2026-000353
+#
+# main.tex was byte-identical across every commit on main from e190ce6
+# (2026-06-08, the last manuscript-content commit before the review round) up to
+# and including 6d2c616, the merge-base of the revision branch with main.  The
+# later commits on main touched only CI configuration, CLAUDE.md, the graphical
+# abstract, and the Edison scripts, so 6d2c616 is an unambiguous stand-in for
+# the submitted source and is what we diff against.
+#
+# Regenerate the marked-up PDF with:
+#
+#     scripts/make_latexdiff.sh
+#
+# Pass a different commit-ish as the first argument to override.
+
+baseline: 6d2c616

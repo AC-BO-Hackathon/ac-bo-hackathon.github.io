@@ -42,3 +42,12 @@ If using Edison Analysis, refer to https://docs.edisonscientific.com/edison-clie
 ## LaTeX
 
 Install MiKTeX instead of TeXLive to reduce download size and time. In the first installation of MiKTeX, download known required packages based on the LaTeX file itself, and install anything else ad-hoc as needed.
+
+`main.tex` needs `revtex4-2`, `pdfx` (PDF/A-1b), `fontawesome5`, `siunitx`, `mhchem`, `tcolorbox`, `glossaries`, and `longtable`. It **requires shell-escape**: Table 1 and the per-project summaries are pulled in with `\input{|python3 python_scripts/...}`, so compile with `-shell-escape`.
+
+## Manuscript revision (Digital Discovery)
+
+- Reviewer replies live in `RESPONSE_TO_REVIEWERS.md`, addressed to the referees (not to the maintainer), quoting their text with `>` and interspersing responses. Point at manuscript sections rather than restating the changes.
+- The latexdiff baseline is recorded in `latex/SUBMITTED_BASELINE.txt`; regenerate the marked-up PDF with `scripts/make_latexdiff.sh`. That script flattens the `\input{|python3 ...}` pipes in both trees first — latexdiff cannot see through them, and without flattening the diff silently reports no change to the project listing.
+- Figures 2, 4, and 5 are **generated**, not hand-edited: `scripts/fix_manuscript_figures.py` derives `world_map_readable.png`, `gathertown_redacted.png`, and `posters_redacted.png` from the committed originals (map-label backing plates and participant-name redaction). Re-run the script rather than editing the PNGs, and keep the originals in place as its inputs.
+- The per-project summaries rendered into the manuscript come from `_projects/json_summaries/`, **not** `project_video_summaries/`. The latter is the raw pipeline output and carries `"status": "failed"` records for the six projects with no video submission (14, 19, 23, 29, 34, 42); those six were missing from the submitted manuscript because nothing was ever copied across for them.

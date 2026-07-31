@@ -274,8 +274,8 @@ The goal of the AC BO Hackathon was to leverage the expertise of a diverse, glob
 \begin{figure*}
     \centering
     % \captionsetup{justification=centering}
-    \includegraphics[width=0.95\linewidth]{latex/figures/world_map.png}
-    \caption{Demographic distributions of the hackathon participants and their affiliations. The hackathon supported 139 participants across 69 academic, industry, and government organizations located in 59 cities, 19 countries, and 4 continents. \label{fig:map} }
+    \includegraphics[width=0.95\linewidth]{latex/figures/world_map_readable.png}
+    \caption{Demographic distributions of the hackathon participants and their affiliations. The hackathon supported 139 participants across 69 academic, industry, and government organizations located in 59 cities, 19 countries, and 4 continents. The inset histogram axes are plotted over the map; a light backing plate has been added behind the axis labels and panel titles so that they remain legible against the underlying imagery. \label{fig:map} }
 \end{figure*}
 
 
@@ -306,8 +306,8 @@ One of the unique aspects of this event is that it was hosted in Gather Town, a 
 
 \begin{figure*}
     \centering
-    \includegraphics[width=0.95\linewidth]{latex/figures/gathertown.png}
-    \caption{Gather town \href{https://ac-bo-hackathon.github.io/videos-slides/}{keynote} room (left), custom avatars (top-right), and an example of a breakout room for teams (bottom-right). Keynotes were broadcasted in realtime to participants via an embedded YouTube livestream. Use of Gather Town helped level the playing field for teams who were in physically separate locations and made it easier for facilitators and other teams to have more natural "check-ins" with other projects.}
+    \includegraphics[width=0.95\linewidth]{latex/figures/gathertown_redacted.png}
+    \caption{Gather town \href{https://ac-bo-hackathon.github.io/videos-slides/}{keynote} room (left), custom avatars (top-right), and an example of a breakout room for teams (bottom-right). Keynotes were broadcasted in realtime to participants via an embedded YouTube livestream. Use of Gather Town helped level the playing field for teams who were in physically separate locations and made it easier for facilitators and other teams to have more natural "check-ins" with other projects. Participant display names in the keynote room have been pixelated because participants were not asked to consent to publication of their names; the names left visible belong to co-authors of this manuscript who have consented.}
     \label{fig:gathertown}
 \end{figure*}
 
@@ -316,8 +316,8 @@ The hackathon concluded with a project showcase accompanied by crowdsourced judg
 
 \begin{figure*}
     \centering
-    \includegraphics[width=0.95\linewidth]{latex/figures/posters.png}
-    \caption{The synchronous portion of the hackathon concluded with a poster session and community judging. One participant noted that "it almost felt like a real poster session."}
+    \includegraphics[width=0.95\linewidth]{latex/figures/posters_redacted.png}
+    \caption{The synchronous portion of the hackathon concluded with a poster session and community judging. One participant noted that "it almost felt like a real poster session." As in \cref{fig:gathertown}, participant display names have been pixelated; the project/room labels are retained.}
     \label{fig:poster}
 \end{figure*}
 
@@ -329,13 +329,21 @@ The corresponding Gavel web app was hosted on Heroku according to directions in 
 
 % \clearpage
 
-\begin{longtable*}{>{\centering\arraybackslash}p{1.5cm} @{\hspace{0.4cm}} >{\raggedright\arraybackslash}p{11cm} @{\hspace{1.5cm}} >{\raggedright\arraybackslash}p{2.5cm}}
+% Set in \footnotesize so that the 45 entries pack onto two pages that both
+% carry entries: at the default size the table spilled onto a further page that
+% carried only the closing rule.  The caption/label live in \endfirsthead (not
+% \endhead) so that they are typeset once rather than repeated -- repeating them
+% also made \label{tab:projects} multiply defined.
+\begingroup
+\footnotesize
+\begin{longtable*}{>{\centering\arraybackslash}p{1.4cm} @{\hspace{0.4cm}} >{\raggedright\arraybackslash}p{10.5cm} @{\hspace{1.2cm}} >{\raggedright\arraybackslash}p{2.5cm}}
 \caption{List of projects with links to GitHub, Social Media, and Video. Project pages on the hackathon website are available at \url{https://ac-bo-hackathon.github.io/projects/}.} \label{tab:projects} \\
-% \toprule
-% \textbf{Proj. \#} & \textbf{Project Name} & \textbf{Links} \\
-% \midrule
-% \endfirsthead
+\toprule
+\textbf{Proj. \#} & \textbf{Project Name} & \textbf{Links} \\
+\midrule
+\endfirsthead
 
+\multicolumn{3}{l}{\textit{Table \thetable{}, continued.}} \\
 \toprule
 \textbf{Proj. \#} & \textbf{Project Name} & \textbf{Links} \\
 \midrule
@@ -351,6 +359,7 @@ The corresponding Gavel web app was hosted on Heroku according to directions in 
 \input{|python3 python_scripts/process_spreadsheet.py}
 
 \end{longtable*}
+\endgroup
 
 
 
