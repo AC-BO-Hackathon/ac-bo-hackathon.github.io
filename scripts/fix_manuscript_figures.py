@@ -14,9 +14,13 @@ result is reproducible:
 2. ``gathertown.png`` (Fig. 4) -- participant name labels in the plenary-room
    panel are redacted.  Participants were not asked to consent to publication of
    their display names, so every name label in the large group panel is
-   pixelated.  The two breakout panels on the right are left untouched: those
-   show only organizers/authors (Sterling Baird, Taylor Sparks, Ramsey Issa),
-   who have consented, plus project names.
+   pixelated.  As in Fig. 5, the redaction is done per label: the near-white
+   glyphs are found by connected components, joined horizontally into one run
+   per label, and only that run's tight bounding box is mosaicked, so the
+   surrounding room (seats, avatars, floor) is left intact.  The two breakout
+   panels on the right are untouched: those show only organizers/authors
+   (Sterling Baird, Taylor Sparks, Ramsey Issa), who have consented, plus
+   project names.
 
 3. ``posters.png`` (Fig. 5) -- the same redaction for the poster-room panel.
    Here name labels and room labels ("Project NN") share the panel, so the two
@@ -103,49 +107,111 @@ PLENARY_X_FRAC = 0.652
 PLENARY_Y_FRAC = (0.20, 0.78)
 
 WHITE_CUTOFF = 210  # label glyphs are near-white on a dark pill
-DILATE_PASSES = 7  # each pass is a 9x9 max filter -> ~28 px of growth
-PIXEL_BLOCK = 26  # mosaic block size, in source pixels
+# Glyph geometry in the plenary panel (source pixels).  Every near-white
+# component in the panel is a name-label glyph; nothing taller than ~23 px
+# occurs, so the ceilings below only reject stray specks and joined runs that
+# are too tall to be a single line of text.
+GATHER_GLYPH_MAX_H = 26
+GATHER_GLYPH_MAX_W = 34
+GATHER_LABEL_MIN_W = 24  # a run narrower than this is not a name
+GATHER_LABEL_MAX_H = 44  # one line of text, ascender to descender, plus slack
+GATHER_PAD_X = 4  # padding around the redacted run, in source pixels
+GATHER_PAD_Y = 3
+GATHER_PIXEL_BLOCK = 10  # mosaic block size, ~half the glyph height
 
 
-def _text_mask(panel: Image.Image) -> Image.Image:
-    """Binary mask of the near-white label glyphs inside ``panel``."""
-    r, g, b = panel.convert("RGB").split()
-    mask = Image.new("L", panel.size, 0)
-    px = mask.load()
-    rp, gp, bp = r.load(), g.load(), b.load()
-    w, h = panel.size
-    for y in range(h):
-        for x in range(w):
-            if rp[x, y] > WHITE_CUTOFF and gp[x, y] > WHITE_CUTOFF and bp[x, y] > WHITE_CUTOFF:
-                px[x, y] = 255
-    return mask
+def _redact_label_runs(
+    img: Image.Image,
+    box: tuple[int, int, int, int],
+    glyph_max_h: int,
+    glyph_max_w: int,
+    label_min_w: int,
+    label_max_h: int,
+    pad_x: int,
+    pad_y: int,
+    pixel_block: int,
+) -> int:
+    """Mosaic each near-white text run inside ``box``; return the run count.
+
+    Glyphs are found as connected components, joined horizontally into one run
+    per label, and only the run's tight bounding box (plus a few pixels of
+    padding) is replaced, so the redaction stays confined to the text itself.
+    """
+    import numpy as np
+    from scipy import ndimage
+
+    region = img.crop(box)
+    arr = np.asarray(region).astype(int)
+    white = (
+        (arr[:, :, 0] > WHITE_CUTOFF)
+        & (arr[:, :, 1] > WHITE_CUTOFF)
+        & (arr[:, :, 2] > WHITE_CUTOFF)
+    )
+
+    labelled, _ = ndimage.label(white)
+    glyphs = np.zeros_like(white)
+    for idx, sl in enumerate(ndimage.find_objects(labelled), start=1):
+        if sl is None:
+            continue
+        gh = sl[0].stop - sl[0].start
+        gw = sl[1].stop - sl[1].start
+        if gh <= glyph_max_h and gw <= glyph_max_w:
+            glyphs[sl] |= labelled[sl] == idx
+
+    # Bridge the inter-glyph and inter-word gaps of one label without bridging
+    # to the label on the line above or below.
+    joined = ndimage.binary_dilation(glyphs, structure=np.ones((3, 15), bool), iterations=2)
+
+    redact = np.zeros_like(white)
+    runs, _ = ndimage.label(joined)
+    kept = 0
+    for sl in ndimage.find_objects(runs):
+        if sl is None:
+            continue
+        rh = sl[0].stop - sl[0].start
+        rw = sl[1].stop - sl[1].start
+        if rw < label_min_w or rh > label_max_h:
+            continue
+        y0 = max(0, sl[0].start - pad_y)
+        y1 = min(arr.shape[0], sl[0].stop + pad_y)
+        x0 = max(0, sl[1].start - pad_x)
+        x1 = min(arr.shape[1], sl[1].stop + pad_x)
+        redact[y0:y1, x0:x1] = True
+        kept += 1
+
+    pixelated = region.resize(
+        (max(1, region.width // pixel_block), max(1, region.height // pixel_block)),
+        Image.BILINEAR,
+    ).resize(region.size, Image.NEAREST)
+
+    mask = Image.fromarray((redact * 255).astype("uint8"), mode="L")
+    img.paste(Image.composite(pixelated, region, mask), box[:2])
+    return kept
 
 
 def fix_gathertown(src: Path, dst: Path) -> None:
     img = Image.open(src).convert("RGB")
     w, h = img.size
 
-    x_end = int(w * PLENARY_X_FRAC)
-    y0 = int(h * PLENARY_Y_FRAC[0])
-    y1 = int(h * PLENARY_Y_FRAC[1])
-
-    region = img.crop((0, y0, x_end, y1))
-    mask = _text_mask(region)
-    for _ in range(DILATE_PASSES):
-        mask = mask.filter(ImageFilter.MaxFilter(9))
-    # Square off the blobs so each label is covered by a solid plate rather than
-    # a glyph-shaped halo (glyph shapes can remain legible).
-    mask = mask.filter(ImageFilter.MaxFilter(9)).point(lambda v: 255 if v > 0 else 0)
-
-    pixelated = region.resize(
-        (max(1, region.width // PIXEL_BLOCK), max(1, region.height // PIXEL_BLOCK)),
-        Image.BILINEAR,
-    ).resize(region.size, Image.NEAREST)
-
-    redacted = Image.composite(pixelated, region, mask)
-    img.paste(redacted, (0, y0))
+    box = (
+        0,
+        int(h * PLENARY_Y_FRAC[0]),
+        int(w * PLENARY_X_FRAC),
+        int(h * PLENARY_Y_FRAC[1]),
+    )
+    kept = _redact_label_runs(
+        img,
+        box,
+        GATHER_GLYPH_MAX_H,
+        GATHER_GLYPH_MAX_W,
+        GATHER_LABEL_MIN_W,
+        GATHER_LABEL_MAX_H,
+        GATHER_PAD_X,
+        GATHER_PAD_Y,
+        GATHER_PIXEL_BLOCK,
+    )
     img.save(dst, optimize=True)
-    print(f"wrote {dst.relative_to(REPO_ROOT)} ({w}x{h})")
+    print(f"wrote {dst.relative_to(REPO_ROOT)} ({w}x{h}); {kept} name labels redacted")
 
 
 # --------------------------------------------------------------------------
