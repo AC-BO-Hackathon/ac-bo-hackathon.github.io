@@ -216,6 +216,33 @@
 
 \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 
+% Float placement: the defaults leave large gaps around the full-width figures
+% and tables.  Two things cause that.  (1) The default top/float-page fractions
+% are conservative enough that only one full-width float is accepted per page,
+% so a run of figures spreads out over several mostly-empty pages.  (2) On a
+% float page LaTeX separates floats with \@fpsep, whose default 8pt plus 2fil
+% is infinitely stretchable, so two figures on one page get pushed to opposite
+% ends of it.  Relaxing the fractions and fixing \@fpsep to a rigid length
+% packs the floats together from the top of the page.
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.6}
+\renewcommand{\dbltopfraction}{0.95}
+\renewcommand{\dblfloatpagefraction}{0.6}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}
+\setcounter{dbltopnumber}{3}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{14pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\setlength{\@dblfptop}{0pt}
+\setlength{\@dblfpsep}{14pt}
+\setlength{\@dblfpbot}{0pt plus 1fil}
+\makeatother
+
 % Improve PDF/A text accessibility: emit correct ToUnicode mappings so that
 % f-ligatures (ff, fi, ffi) and accented glyphs (e.g. in names such as
 % Griffiths, Lala, Ozkan, Sosic, Watchorn) copy and extract correctly rather
@@ -271,16 +298,6 @@ The goal of the AC BO Hackathon was to leverage the expertise of a diverse, glob
 % % don't remove this linebreak 
 
 
-\begin{figure*}
-    \centering
-    % \captionsetup{justification=centering}
-    \includegraphics[width=0.95\linewidth]{latex/figures/world_map_readable.png}
-    \caption{Demographic distributions of the hackathon participants and their affiliations. The hackathon supported 139 participants across 69 academic, industry, and government organizations located in 59 cities, 19 countries, and 4 continents. The inset histogram axes are plotted over the map; a thin white outline has been added around the axis labels and panel titles so that they remain legible against the underlying imagery. \label{fig:map} }
-\end{figure*}
-
-
-
-
 % \begin{table*}[]
 % \caption{List of projects and project types, with links to corresponding website project pages, repositories, videos, and social media posts.} \label{tab:projects} \setlength{\extrarowheight}{0.4em} \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1cm} X >{\centering\arraybackslash}X} \toprule \# & Project Name & Links \\ \midrule \href{https://example.com}{\#1} & Project A & \href{https://github.com/example}{\faGithub} \, \href{https://youtube.com}{\faVideo} \, \href{https://twitter.com}{\faTwitter} \tabularnewline \href{https://example.com}{\#2} & Project B & \href{https://github.com/example}{\faGithub} \, \href{https://youtube.com}{\faVideo} \, \href{https://linkedin.com}{\faLinkedin} \tabularnewline \href{https://example.com}{\#3} & Project C & \href{https://github.com/example}{\faGithub} \, \href{https://youtube.com}{\faVideo} \, \href{https://twitter.com}{\faTwitter} \tabularnewline \bottomrule \end{tabularx} 
 % \end{table*} 
@@ -295,39 +312,49 @@ This hackathon was in large part inspired by \citet{jablonka_14_2023} and is one
 
 Participants were provided with various resources to prepare for the hackathon – this included GitHub classroom assignments with automated feedback, application- and theory-focused videos and tutorials, Python refresher materials, a list of tools to consider using during the hackathon, project submission instructions, and authorship criteria (\cref{fig:preparation}).
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.98\linewidth]{latex/figures/preparation_blurred.png}
-    \caption{A snapshot of \href{https://ac-bo-hackathon.github.io/resources/}{resources listed on the hackathon webpage} such as hackathon orientation, intro to \gls{bo}, and a Python refresher assignment. These resources prepared participants to maximize their time during the two-day synchronous portion of the hackathon and helped level the playing field for participants with varied backgrounds and skill levels. Portions of the screenshot have been blurred to protect potentially identifying information.}
-    \label{fig:preparation}
-\end{figure*}
-
 One of the unique aspects of this event is that it was hosted in Gather Town, a sort of union between traditional video conferencing software and retro arcade-style avatars and virtual spaces (\cref{fig:gathertown}). Participants create a custom avatar and maneuver in a two-dimensional space. The videos and audio of other participants appear and become audible when nearby, and fade out when far away, simulating an in-person experience. At the beginning of the hackathon, all participants gathered to listen to keynotes in realtime, which were broadcasted via YouTube live and embedded into the Gather Town space. The videos were then \href{https://ac-bo-hackathon.github.io/videos-slides/}{made available on the hackathon website}, which collectively garnered approximately 1600 views within two months. After the keynotes, teams were assigned tables in breakout rooms, each with a whiteboard. Individual tables were assigned as "private spaces" which isolated the shared audio and video within each space. This had a number of advantages for collaboration within and across teams.
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.95\linewidth]{latex/figures/gathertown_redacted.png}
-    \caption{Gather town \href{https://ac-bo-hackathon.github.io/videos-slides/}{keynote} room (left), custom avatars (top-right), and an example of a breakout room for teams (bottom-right). Keynotes were broadcasted in realtime to participants via an embedded YouTube livestream. Use of Gather Town helped level the playing field for teams who were in physically separate locations and made it easier for facilitators and other teams to have more natural "check-ins" with other projects. Participant display names in the keynote room have been pixelated because participants were not asked to consent to publication of their names; the names left visible belong to co-authors of this manuscript who have consented.}
-    \label{fig:gathertown}
-\end{figure*}
-
-
 The hackathon concluded with a project showcase accompanied by crowdsourced judging within a "poster room" (\cref{fig:poster}).
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.95\linewidth]{latex/figures/posters_redacted.png}
-    \caption{The synchronous portion of the hackathon concluded with a poster session and community judging. One participant noted that "it almost felt like a real poster session." As in \cref{fig:gathertown}, participant display names have been pixelated; the project/room labels are retained.}
-    \label{fig:poster}
-\end{figure*}
 
 Community judging occurred via \href{https://github.com/anishathalye/gavel}{Gavel}, an automated pairwise comparison judging system. Use of this system helped to improve fairness, scalability, and accuracy by having judges compare projects relative to each other rather than assigning subjective numerical scores (for example, "rate your pain on a scale from 1 to 10, where 10 is the worst possible pain you can imagine"). The approach of pairwise judging reduces bias, allows for handling large competitions efficiently, and produces high-quality rankings using statistical models with dynamic assignments to judges to maximize information gain. It has been successfully used at HackMIT and other events to streamline judging and enhance transparency and credibility.
 
 The corresponding Gavel web app was hosted on Heroku according to directions in the Gavel repository. Individualized links were distributed to judges via email using Gavel's SendGrid integration. Collectively, 35 judges cast 319 votes.
 
 
+% The four full-width figures are declared consecutively here, after the last
+% paragraph that refers to any of them, so that LaTeX emits them as a
+% contiguous run of float pages rather than scattering one per page through
+% the running text.  The \clearpage below flushes them before the project
+% listing starts, so the listing sits beneath the whole figure block.
+\begin{figure*}[tp]
+    \centering
+    % \captionsetup{justification=centering}
+    \includegraphics[width=0.95\linewidth]{latex/figures/world_map_readable.png}
+    \caption{Demographic distributions of the hackathon participants and their affiliations. The hackathon supported 139 participants across 69 academic, industry, and government organizations located in 59 cities, 19 countries, and 4 continents. \label{fig:map} }
+\end{figure*}
 
-% \clearpage
+\begin{figure*}[tp]
+    \centering
+    \includegraphics[width=0.98\linewidth]{latex/figures/preparation_blurred.png}
+    \caption{A snapshot of \href{https://ac-bo-hackathon.github.io/resources/}{resources listed on the hackathon webpage} such as hackathon orientation, intro to \gls{bo}, and a Python refresher assignment. These resources prepared participants to maximize their time during the two-day synchronous portion of the hackathon and helped level the playing field for participants with varied backgrounds and skill levels. Portions of the screenshot have been blurred to protect potentially identifying information.}
+    \label{fig:preparation}
+\end{figure*}
+
+\begin{figure*}[tp]
+    \centering
+    \includegraphics[width=0.95\linewidth]{latex/figures/gathertown_redacted.png}
+    \caption{Gather town \href{https://ac-bo-hackathon.github.io/videos-slides/}{keynote} room (left), custom avatars (top-right), and an example of a breakout room for teams (bottom-right). Keynotes were broadcasted in realtime to participants via an embedded YouTube livestream. Use of Gather Town helped level the playing field for teams who were in physically separate locations and made it easier for facilitators and other teams to have more natural "check-ins" with other projects. Participant display names have been pixelated to protect potentially identifying information.}
+    \label{fig:gathertown}
+\end{figure*}
+
+\begin{figure*}[tp]
+    \centering
+    \includegraphics[width=0.95\linewidth]{latex/figures/posters_redacted.png}
+    \caption{The synchronous portion of the hackathon concluded with a poster session and community judging. One participant noted that "it almost felt like a real poster session." Participant display names have been pixelated to protect potentially identifying information.}
+    \label{fig:poster}
+\end{figure*}
+
+\clearpage
 
 % Set in \footnotesize so that the 45 entries pack onto two pages that both
 % carry entries: at the default size the table spilled onto a further page that
@@ -336,7 +363,10 @@ The corresponding Gavel web app was hosted on Heroku according to directions in 
 % also made \label{tab:projects} multiply defined.
 \begingroup
 \footnotesize
-\begin{longtable*}{>{\centering\arraybackslash}p{1.4cm} @{\hspace{0.4cm}} >{\raggedright\arraybackslash}p{10.5cm} @{\hspace{1.2cm}} >{\raggedright\arraybackslash}p{2.5cm}}
+% The project-number column is set flush left (not centred): centring makes the
+% one- and two-digit entries sit at different horizontal offsets, so the column
+% of numbers reads as ragged.  Flush left aligns every entry on its left edge.
+\begin{longtable*}{>{\raggedright\arraybackslash}p{1.4cm} @{\hspace{0.4cm}} >{\raggedright\arraybackslash}p{10.5cm} @{\hspace{1.2cm}} >{\raggedright\arraybackslash}p{2.5cm}}
 \caption{List of projects with links to GitHub, Social Media, and Video. Project pages on the hackathon website are available at \url{https://ac-bo-hackathon.github.io/projects/}.} \label{tab:projects} \\
 \toprule
 \textbf{Proj. \#} & \textbf{Project Name} & \textbf{Links} \\
@@ -361,32 +391,6 @@ The corresponding Gavel web app was hosted on Heroku according to directions in 
 \end{longtable*}
 \endgroup
 
-
-
-
-\begin{table*}[]
-\caption{Ranked Projects with Team Names and Prize Distribution. To avoid incentivizing single-person teams and very large teams, both per-person and per-team limits were imposed (e.g., teams of 4 or more would have the max per-team amount divided equally rather than receive the max per-person amount).}
-\label{tab:winners}
-\setlength{\extrarowheight}{0.8em}
-\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.0cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{3cm} X >{\centering\arraybackslash}p{3cm}}
-\toprule
-\textbf{Rank} & \textbf{Proj. \#} & \textbf{Team Name} & \textbf{Project Name} & \textbf{Prize* (CAD)} \\ \midrule
-1st  & \#23 & Noisy Nerds                & Reliable Surrogate Models of Noisy Data                                                   & 300 (1000 max)          \tabularnewline
-2nd  & \#34 & BOMS Prob                  & Streamlining Material Discovery - Bayesian Optimization in Thermal Fluid Mixtures          & 150 (500 max)           \tabularnewline
-3rd  & \#7  & Surface Science Syndicate  & BayBE One More Time - Exploring Corrosion Inhibitors for Materials Design                  & 75 (250 max)            \tabularnewline
-4th  & \#5  & KLM                        & Comparing Bayesian Optimization Methods \ldots Against Simulated "Human" Decision-making & 40 (125 max)            \tabularnewline
-5th  & \#8  & Molecular Representation   & BO for Drug Discovery - What is the role of molecular representation?                      & 40 (125 max)            \tabularnewline
-6th  & \#9  & PME No Hikari              & Optimizing The CO2 Adsorption Capacity of Metal-Organic Frameworks Using Thompson Sampling  & 40 (125 max)            \tabularnewline
-7th  & \#11 & BlenDS                     & BlendDS - An intuitive specification of the design space for blends of components          & 40 (125 max)            \tabularnewline
-8th  & \#30 & SERO Opt                   & Active learning for voltammetry waveform design                                            & 40 (125 max)            \tabularnewline
-9th  & \#43 & General Optimizers         & Bayesian Optimization for Generality                                                      & 40 (125 max)            \tabularnewline
-10th & \#3  & Sparks Group               & Take Your Time - Improving Optimization Performance Through Greater Investment in ACQF Optimizer Runtime & 40 (125 max)           \tabularnewline
-\bottomrule
-\end{tabularx}
-
-\vspace{0.3em}
-{\footnotesize *The first value is the prize awarded to each team member; the value in parentheses is the maximum total prize per team (see caption).}
-\end{table*}
 
 
 
@@ -434,8 +438,35 @@ Six projects (14, 19, 23, 29, 34, and 42) did not have a recorded video submissi
 
 \input{|python3 python_scripts/process_summaries.py}
 
-\clearpage
+% The ranked-winners table follows the per-project summaries (rather than
+% preceding them) so that the reader meets all 45 projects before the ranking
+% that draws on them.  The asterisk footnote that used to sit under the table
+% has been folded into the caption, which already had to explain the
+% per-person/per-team split.
+\begin{table*}[tp]
+\caption{Ranked projects with team names and prize distribution. The first prize value is the amount awarded to each team member and the value in parentheses is the maximum total per team: to avoid incentivizing single-person teams and very large teams, both per-person and per-team limits were imposed (e.g., teams of 4 or more would have the max per-team amount divided equally rather than receive the max per-person amount).}
+\label{tab:winners}
+\setlength{\extrarowheight}{0.8em}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.0cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{3cm} X >{\centering\arraybackslash}p{3cm}}
+\toprule
+\textbf{Rank} & \textbf{Proj. \#} & \textbf{Team Name} & \textbf{Project Name} & \textbf{Prize (CAD)} \\ \midrule
+1st  & \#23 & Noisy Nerds                & Reliable Surrogate Models of Noisy Data                                                   & 300 (1000 max)          \tabularnewline
+2nd  & \#34 & BOMS Prob                  & Streamlining Material Discovery - Bayesian Optimization in Thermal Fluid Mixtures          & 150 (500 max)           \tabularnewline
+3rd  & \#7  & Surface Science Syndicate  & BayBE One More Time - Exploring Corrosion Inhibitors for Materials Design                  & 75 (250 max)            \tabularnewline
+4th  & \#5  & KLM                        & Comparing Bayesian Optimization Methods \ldots Against Simulated "Human" Decision-making & 40 (125 max)            \tabularnewline
+5th  & \#8  & Molecular Representation   & BO for Drug Discovery - What is the role of molecular representation?                      & 40 (125 max)            \tabularnewline
+6th  & \#9  & PME No Hikari              & Optimizing The CO2 Adsorption Capacity of Metal-Organic Frameworks Using Thompson Sampling  & 40 (125 max)            \tabularnewline
+7th  & \#11 & BlenDS                     & BlendDS - An intuitive specification of the design space for blends of components          & 40 (125 max)            \tabularnewline
+8th  & \#30 & SERO Opt                   & Active learning for voltammetry waveform design                                            & 40 (125 max)            \tabularnewline
+9th  & \#43 & General Optimizers         & Bayesian Optimization for Generality                                                      & 40 (125 max)            \tabularnewline
+10th & \#3  & Sparks Group               & Take Your Time - Improving Optimization Performance Through Greater Investment in ACQF Optimizer Runtime & 40 (125 max)           \tabularnewline
+\bottomrule
+\end{tabularx}
+\end{table*}
 
+% No \clearpage here: the winners table only fills about half a page, so
+% forcing a page break after it left the rest of that page blank.  Letting the
+% next section start underneath the table closes the gap.
 \section{Cross-Project Synthesis}
 \label{sec:synthesis}
 

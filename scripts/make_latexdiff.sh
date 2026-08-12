@@ -47,6 +47,18 @@ src = Path("main.tex").read_text(encoding="utf-8")
 
 PIPE = re.compile(r"\\input\{\|python3\s+([^}]+)\}")
 
+# The per-project headings used to be \subsection*{\href{video}{Project N: Name}}
+# and are now \subsection*{Project N: Name}: the heading *text* is unchanged,
+# only the hyperlink wrapper is gone.  latexdiff cannot see that, so it strikes
+# out all 45 headings and reinserts each one verbatim, which buries the real
+# changes.  Unwrapping \href inside \subsection* in BOTH trees before diffing
+# makes the headings compare equal, so the diff shows them as untouched.  This
+# is deliberately scoped to \subsection* headings; \href elsewhere (notably the
+# repository links in the projects table) still diffs normally.
+HREF_HEADING = re.compile(
+    r"\\subsection\*\{\\href\{[^{}]*\}\{((?:[^{}]|\{[^{}]*\})*)\}\}"
+)
+
 
 def expand(match):
     script = match.group(1).strip()
@@ -56,8 +68,10 @@ def expand(match):
     return result.stdout
 
 
-out.write_text(PIPE.sub(expand, src), encoding="utf-8")
-print(f"flattened -> {out}")
+flat = PIPE.sub(expand, src)
+flat, unwrapped = HREF_HEADING.subn(r"\\subsection*{\1}", flat)
+out.write_text(flat, encoding="utf-8")
+print(f"flattened -> {out} ({unwrapped} \\subsection* href wrappers unwrapped)")
 PY
 }
 

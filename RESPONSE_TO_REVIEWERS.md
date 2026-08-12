@@ -296,8 +296,10 @@ explicitly not an independent or objective evaluation of technical merit.
 Fixed. The inset histograms are drawn over the map, so their axis labels and panel titles sat
 directly on the map imagery. A thin white stroke has been added around those glyphs -- the frequency
 numbers to the left of each panel, the panel titles above them, and the category labels below --
-restoring contrast against the imagery while leaving the map itself visible; the caption notes this.
-The transformation is applied by a script archived with the manuscript source.
+restoring contrast against the imagery while leaving the map itself visible. Each outline is derived
+from the letterforms of the label itself rather than from the dark pixels under it, so the coastlines
+and borders that pass through the text are not outlined along with it. The transformation is applied
+by a script archived with the manuscript source.
 
 > 7. Table 1 spans two pages but contains no entries on the second page.
 
@@ -316,8 +318,10 @@ identifying information.
 
 > 11. Table 2: The "Prize" header is marked for a footnote that is not present.
 
-Fixed. The footnote has been added: the first value is the prize awarded to each team member, and the
-value in parentheses is the maximum total prize per team.
+Fixed. Rather than adding a footnote marker, the explanation has been folded into the caption itself:
+the first value is the prize awarded to each team member, and the value in parentheses is the maximum
+total prize per team. The header therefore no longer carries an asterisk. This table now follows the
+per-project summaries rather than preceding them, so it is numbered Table 3 in the revision.
 
 > 13. Figures 4 & 5: Were participants informed that their names and commentary may be made public
 > prior to joining the event?
@@ -325,7 +329,8 @@ value in parentheses is the maximum total prize per team.
 They were not, so we have redacted them. Participant display names are now pixelated throughout the
 keynote-room panel of Fig. 4 and throughout the poster room of Fig. 5; the project and room labels are
 retained, as are the names of the co-authors of this manuscript, who have consented. Both captions
-state this. The redaction is applied by the same archived script.
+disclose the redaction, in the same wording already used for the blurring in Fig. 3. The redaction is
+applied by the same archived script.
 
 ### Minor comments
 
