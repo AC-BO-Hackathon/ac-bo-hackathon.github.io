@@ -45,6 +45,8 @@ Install MiKTeX instead of TeXLive to reduce download size and time. In the first
 
 `main.tex` needs `revtex4-2`, `pdfx` (PDF/A-1b), `fontawesome5`, `siunitx`, `mhchem`, `tcolorbox`, `glossaries`, and `longtable`. It **requires shell-escape**: Table 1 and the per-project summaries are pulled in with `\input{|python3 python_scripts/...}`, so compile with `-shell-escape`.
 
+Compile with `latexmk -pdf -f -shell-escape -interaction=nonstopmode main.tex`. The `-f` is **not optional**: several Zotero-exported entries in `references.bib` carry `language = {en}`, which `apsrev4-2.bst` renders as `\selectlanguage{en}` in the `.bbl`, and babel only knows `english`. The error is recoverable and the bibliography typesets correctly, but without `-f` latexmk stops on the non-zero return code before the passes that resolve citation numbers, and every citation comes out blank.
+
 ## Manuscript revision (Digital Discovery)
 
 - Reviewer replies live in `RESPONSE_TO_REVIEWERS.md`, addressed to the referees (not to the maintainer), quoting their text with `>` and interspersing responses. Point at manuscript sections rather than restating the changes.
