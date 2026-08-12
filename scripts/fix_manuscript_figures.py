@@ -6,12 +6,16 @@ result is reproducible:
 1. ``world_map.png`` (Fig. 2) -- "the black text which falls above the map can be
    difficult to read".  The two inset histograms are drawn on top of the world
    map, so their axis labels and panel titles sit directly on the map imagery.
-   We add a thin white stroke around those black glyphs: the glyph runs are found
-   as connected components inside the label bands, the ink coverage is grown by a
-   few pixels to make a halo, the halo is painted white, and the original ink is
-   re-composited on top.  The map underneath is otherwise untouched, and the plot
-   is not regenerated (the underlying survey data are not redistributable at
-   participant granularity).
+   We add a thin white stroke around those black glyphs.  Only the glyphs
+   themselves are outlined: they are found as dark connected components inside
+   the label bands, sized against the median component of their own band, and a
+   component that a map feature happens to touch is trimmed back to the glyph.
+   Map ink that merely passes close by -- a coastline, a dashed country border,
+   an axis rule -- contributes nothing to the coverage map, so it is neither
+   re-inked nor given an outline of its own.  The halo is opaque white with no
+   feathering, so the outline cannot read as gray.  The map underneath is
+   otherwise untouched, and the plot is not regenerated (the underlying survey
+   data are not redistributable at participant granularity).
 
 2. ``gathertown.png`` (Fig. 4) -- participant name labels in the plenary-room
    panel are redacted.  Participants were not asked to consent to publication of
@@ -60,11 +64,22 @@ MAP_TEXT_BANDS = (
     # "Country Distribution" / "Affiliation Distribution" panel titles.
     (0.185, 0.583, 0.339, 0.629),
     (0.683, 0.583, 0.844, 0.629),
-    # y-axis tick numbers + rotated "Frequency" label, left of each panel.
-    (0.000, 0.644, 0.046, 0.853),
-    (0.506, 0.644, 0.549, 0.853),
+    # y-axis tick numbers + rotated "Frequency" label, left of each panel.  The
+    # right edge stops between the widest tick label and the axis spine, so the
+    # spine and its tick marks are not mistaken for text.
+    (0.000, 0.644, 0.0385, 0.853),
+    (0.506, 0.644, 0.5435, 0.853),
     # x-axis category labels underneath both panels.
     (0.000, 0.848, 1.000, 1.000),
+)
+
+# Map ink that physically touches a glyph, so no amount of component analysis
+# can tell the two apart: the Antarctic coastline runs into the right-hand side
+# of the left panel's "0" tick label.  Pixels in these fractional boxes are
+# excluded from the ink search, which stops the coastline being outlined along
+# with the digit.  Nothing here contains text.
+MAP_INK_EXCLUSIONS = (
+    (0.03773, 0.8320, 0.0400, 0.8405),
 )
 
 # A glyph is a dark connected component of roughly this size (source pixels at
@@ -75,14 +90,60 @@ MAP_TEXT_BANDS = (
 INK_CUTOFF = 110  # luminance below which a pixel counts as glyph ink
 GLYPH_MIN_H, GLYPH_MAX_H = 12, 95
 GLYPH_MIN_W, GLYPH_MAX_W = 6, 130
-# Luminance ramp converting the flattened raster back into an ink-coverage map,
-# so the anti-aliased glyph edges survive the re-composite.
-INK_DARK = 90
-INK_LIGHT = 175
+# Within a band the text is set in one or two sizes, so the median accepted
+# component is a good yardstick.  Anything much smaller is map ink (a dot from a
+# dashed border, a speck of coastline); anything much wider is a glyph that a
+# map feature happens to touch, and is trimmed back to the glyph (see
+# ``_trim_to_glyph``).
+MIN_REL_HEIGHT = 0.40
+TRIM_REL_WIDTH = 1.6
+TRIM_KEEP_FRAC = 0.35
+# The label text is pure black.  Only pixels darker than AA_LIGHT are treated as
+# (partial) ink, which keeps the ocean -- luminance about 150 where the titles
+# sit -- out of the coverage map entirely; without this the background itself
+# was picked up at low opacity and re-composited as a gray ring around the text.
+AA_LIGHT = 130
+AA_DARK = 20
+AA_MARGIN = 3  # px around a glyph core searched for its anti-aliased edge
 # Halo half-width in source pixels.  About 15% of the glyph height: enough to
 # separate the ink from the imagery at print size, small enough that the counters
 # of "0"/"o"/"e" stay open and the outline does not read as a filled plate.
 STROKE_RADIUS = 9
+
+
+def _trim_to_glyph(mask, keep_frac: float, axes):
+    """Cut a thin appendage off a glyph that a map feature happens to touch.
+
+    The Antarctic coastline runs straight through the left panel's ``0`` tick
+    label and on into the axis spine, so the ``0`` and the coastline are one
+    connected component.  A glyph is dense in the columns it occupies while a
+    passing line contributes only its own stroke width, so the span of columns
+    (or rows, whichever direction the component is over-long in) holding at
+    least ``keep_frac`` of the peak ink marks the glyph's extent.  The component
+    is cut back to that span -- the span rather than the individual dense
+    columns, so that the sparse interior of an "0" survives -- and the largest
+    surviving piece is kept.
+    """
+    import numpy as np
+    from scipy import ndimage
+
+    trimmed = mask.copy()
+    for axis in axes:
+        profile = trimmed.sum(axis=axis)
+        if not profile.max():
+            return mask
+        dense = np.flatnonzero(profile >= keep_frac * profile.max())
+        if not dense.size:
+            return mask
+        span = np.zeros(profile.shape, bool)
+        span[dense[0] : dense[-1] + 1] = True
+        trimmed &= span[None, :] if axis == 0 else span[:, None]
+
+    pieces, count = ndimage.label(trimmed)
+    if count == 0:
+        return mask
+    sizes = ndimage.sum(trimmed, pieces, range(1, count + 1))
+    return pieces == (int(np.argmax(sizes)) + 1)
 
 
 def fix_world_map(src: Path, dst: Path) -> None:
@@ -95,48 +156,66 @@ def fix_world_map(src: Path, dst: Path) -> None:
     lum = np.asarray(img.convert("L")).astype(np.float32)
 
     # 1. Locate the glyphs: dark connected components of glyph-like size that
-    #    lie inside one of the label bands.
-    bands = np.zeros((h, w), bool)
-    for x0, y0, x1, y1 in MAP_TEXT_BANDS:
-        bands[int(y0 * h) : int(y1 * h), int(x0 * w) : int(x1 * w)] = True
+    #    lie inside one of the label bands.  Each band is judged on its own so
+    #    the size yardstick reflects the text set in it.
+    searchable = np.ones((h, w), bool)
+    for x0, y0, x1, y1 in MAP_INK_EXCLUSIONS:
+        searchable[int(y0 * h) : int(y1 * h), int(x0 * w) : int(x1 * w)] = False
 
-    dark = (lum < INK_CUTOFF) & bands
-    labelled, _ = ndimage.label(dark)
     glyphs = np.zeros((h, w), bool)
     kept = 0
-    for idx, sl in enumerate(ndimage.find_objects(labelled), start=1):
-        if sl is None:
+    for x0, y0, x1, y1 in MAP_TEXT_BANDS:
+        sl_y = slice(int(y0 * h), int(y1 * h))
+        sl_x = slice(int(x0 * w), int(x1 * w))
+        band_lum = lum[sl_y, sl_x]
+        labelled, _ = ndimage.label((band_lum < INK_CUTOFF) & searchable[sl_y, sl_x])
+
+        candidates = []
+        for idx, sl in enumerate(ndimage.find_objects(labelled), start=1):
+            if sl is None:
+                continue
+            gh = sl[0].stop - sl[0].start
+            gw = sl[1].stop - sl[1].start
+            if GLYPH_MIN_H <= gh <= GLYPH_MAX_H and GLYPH_MIN_W <= gw <= GLYPH_MAX_W:
+                candidates.append((idx, sl, gh, gw))
+        if not candidates:
             continue
-        gh = sl[0].stop - sl[0].start
-        gw = sl[1].stop - sl[1].start
-        if GLYPH_MIN_H <= gh <= GLYPH_MAX_H and GLYPH_MIN_W <= gw <= GLYPH_MAX_W:
-            glyphs[sl] |= labelled[sl] == idx
+
+        median_h = float(np.median([c[2] for c in candidates]))
+        median_w = float(np.median([c[3] for c in candidates]))
+        band_glyphs = np.zeros_like(band_lum, bool)
+        for idx, sl, gh, gw in candidates:
+            if gh < MIN_REL_HEIGHT * median_h:
+                continue  # a speck of map ink, not a glyph
+            component = labelled[sl] == idx
+            axes = []
+            if gw > TRIM_REL_WIDTH * median_w:
+                axes.append(0)  # drop sparse columns
+            if gh > TRIM_REL_WIDTH * median_h:
+                axes.append(1)  # drop sparse rows
+            if axes:
+                component = _trim_to_glyph(component, TRIM_KEEP_FRAC, axes)
+            band_glyphs[sl] |= component
             kept += 1
+        glyphs[sl_y, sl_x] |= band_glyphs
 
-    # 2. Ink coverage, restricted to a neighbourhood of the accepted glyphs so
-    #    the anti-aliased edges are included but unrelated map ink is not.
-    zone = ndimage.binary_dilation(
-        glyphs, structure=_disk(STROKE_RADIUS + 3)
-    )
-    alpha = np.clip((INK_LIGHT - lum) / (INK_LIGHT - INK_DARK), 0.0, 1.0) * zone
+    # 2. Ink coverage.  Only the accepted glyphs and their own anti-aliased
+    #    edges contribute -- map ink that merely passes nearby does not, so it
+    #    is neither re-inked nor given an outline of its own.
+    near = ndimage.binary_dilation(glyphs, structure=_disk(AA_MARGIN)) & searchable
+    alpha = np.clip((AA_LIGHT - lum) / (AA_LIGHT - AA_DARK), 0.0, 1.0) * near
 
-    # 3. Grow the coverage into a halo and paint it white, then put the original
-    #    ink back on top.  The halo is opaque out to STROKE_RADIUS and feathered
-    #    over the last pixel so its outer edge does not read as a hard cut.
-    halo = ndimage.binary_dilation(
-        alpha > 0.35, structure=_disk(STROKE_RADIUS)
-    ).astype(np.float32)
-    halo = ndimage.gaussian_filter(halo, sigma=1.0)[..., None]
+    # 3. Grow the coverage into a halo, paint it opaque white -- no feathering,
+    #    so the outline never reads as gray -- and lay the black text back over
+    #    it at its own coverage.
+    halo = ndimage.binary_dilation(alpha > 0.15, structure=_disk(STROKE_RADIUS))
     a = alpha[..., None]
-    ink = np.median(rgb[alpha > 0.95], axis=0) if (alpha > 0.95).any() else np.zeros(3)
-
-    backdrop = rgb * (1.0 - halo) + 255.0 * halo
-    out = ink * a + backdrop * (1.0 - a)
+    out = np.where(halo[..., None], 255.0, rgb) * (1.0 - a)
 
     Image.fromarray(np.clip(out, 0, 255).astype("uint8")).save(dst, optimize=True)
     print(
         f"wrote {dst.relative_to(REPO_ROOT)} ({w}x{h}); {kept} glyphs stroked, "
-        f"{100 * float((halo[..., 0] > 0.02).mean()):.2f}% of pixels touched"
+        f"{100 * float(halo.mean()):.2f}% of pixels touched"
     )
 
 
