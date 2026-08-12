@@ -6,16 +6,28 @@ result is reproducible:
 1. ``world_map.png`` (Fig. 2) -- "the black text which falls above the map can be
    difficult to read".  The two inset histograms are drawn on top of the world
    map, so their axis labels and panel titles sit directly on the map imagery.
-   We add a thin white stroke around those black glyphs.  Only the glyphs
-   themselves are outlined: they are found as dark connected components inside
-   the label bands, sized against the median component of their own band, and a
-   component that a map feature happens to touch is trimmed back to the glyph.
-   Map ink that merely passes close by -- a coastline, a dashed country border,
-   an axis rule -- contributes nothing to the coverage map, so it is neither
-   re-inked nor given an outline of its own.  The halo is opaque white with no
-   feathering, so the outline cannot read as gray.  The map underneath is
-   otherwise untouched, and the plot is not regenerated (the underlying survey
-   data are not redistributable at participant granularity).
+   We add a thin white stroke around those black glyphs.
+
+   The text drawn over the map -- the two panel titles, the "Frequency" axis
+   labels and the y-axis tick numbers -- is outlined *typographically* rather
+   than by tracing dark pixels.  Each of those labels is a known string set in
+   the figure's own face (DejaVu Sans, matplotlib's default), so we re-set it,
+   fit it to the image by cross-correlation to recover its size and position,
+   and snap each glyph onto the ink it matches.  The letterform itself then
+   defines the halo.  This is what tracing could not do: a coastline running
+   through the "o" of "Distribution", or the Antarctic coastline running into
+   the left panel's "0", is indistinguishable from the letter when all you have
+   is a mask of dark pixels -- the letter goes unoutlined and the map line gets
+   an outline of its own.  Working from the typography, only the characters are
+   haloed, dots over "i" included, and the dashed country border that happens to
+   place a dot above the "n" of "Distribution" is not mistaken for one.
+
+   The x-axis category labels sit on the white Antarctic band rather than on
+   imagery, so they are found as dark connected components, sized against the
+   median component of the band.  The halo is opaque white with no feathering,
+   so the outline cannot read as gray.  The map underneath is otherwise
+   untouched, and the plot is not regenerated (the underlying survey data are
+   not redistributable at participant granularity).
 
 2. ``gathertown.png`` (Fig. 4) -- participant name labels in the plenary-room
    panel are redacted.  Participants were not asked to consent to publication of
@@ -56,52 +68,68 @@ FIG_DIR = REPO_ROOT / "latex" / "figures"
 # Fig. 2 -- world map readability
 # --------------------------------------------------------------------------
 
-# Fractional (x0, y0, x1, y1) label bands, expressed relative to the image size
-# so the script keeps working if the figure is re-exported at a different
-# resolution.  Each band brackets text that is drawn over the map; nothing
-# outside these bands is touched.
-MAP_TEXT_BANDS = (
-    # "Country Distribution" / "Affiliation Distribution" panel titles.
-    (0.185, 0.583, 0.339, 0.629),
-    (0.683, 0.583, 0.844, 0.629),
-    # y-axis tick numbers + rotated "Frequency" label, left of each panel.  The
-    # right edge stops between the widest tick label and the axis spine, so the
-    # spine and its tick marks are not mistaken for text.
-    (0.000, 0.644, 0.0385, 0.853),
-    (0.506, 0.644, 0.5435, 0.853),
-    # x-axis category labels underneath both panels.
-    (0.000, 0.848, 1.000, 1.000),
+# The text that is drawn over the map, as typography: the string, its rotation,
+# a fractional (x0, y0, x1, y1) box to look for it in, and the range of font
+# sizes to try (source pixels).  Boxes are fractional so the script keeps
+# working if the figure is re-exported at a different resolution; each is
+# searched with MAP_FIT_MARGIN px of slack, so they only need to be roughly
+# right.  Every string here is set by matplotlib in DejaVu Sans, the same face
+# the script re-sets it in.
+MAP_TEXT_LABELS = (
+    # Panel titles.
+    ("Country Distribution", 0, (0.180, 0.575, 0.345, 0.635), (92, 110)),
+    ("Affiliation Distribution", 0, (0.678, 0.575, 0.855, 0.635), (92, 110)),
+    # Left panel: y-axis label and tick numbers.
+    ("Frequency", 90, (0.0097, 0.6866, 0.0204, 0.7900), (78, 100)),
+    ("40", 0, (0.0244, 0.6555, 0.0378, 0.6712), (78, 96)),
+    ("30", 0, (0.0248, 0.7002, 0.0378, 0.7160), (78, 96)),
+    ("20", 0, (0.0247, 0.7452, 0.0376, 0.7607), (78, 96)),
+    ("10", 0, (0.0252, 0.7900, 0.0378, 0.8056), (78, 96)),
+    ("0", 0, (0.0321, 0.8339, 0.0390, 0.8503), (78, 96)),
+    # Right panel.
+    ("Frequency", 90, (0.5052, 0.6866, 0.5158, 0.7900), (78, 100)),
+    ("100", 0, (0.5213, 0.6590, 0.5410, 0.6748), (78, 96)),
+    ("75", 0, (0.5284, 0.7035, 0.5410, 0.7189), (78, 96)),
+    ("50", 0, (0.5281, 0.7468, 0.5410, 0.7624), (78, 96)),
+    ("25", 0, (0.5281, 0.7910, 0.5408, 0.8066), (78, 96)),
+    ("0", 0, (0.5352, 0.8348, 0.5412, 0.8503), (78, 96)),
 )
 
-# Map ink that physically touches a glyph, so no amount of component analysis
-# can tell the two apart: the Antarctic coastline runs into the right-hand side
-# of the left panel's "0" tick label.  Pixels in these fractional boxes are
-# excluded from the ink search, which stops the coastline being outlined along
-# with the digit.  Nothing here contains text.
-MAP_INK_EXCLUSIONS = (
-    (0.03773, 0.8320, 0.0400, 0.8405),
+# The x-axis category labels underneath both panels.  These are set over the
+# white Antarctic band rather than over imagery, so a plain ink trace is enough
+# and there is no need to enumerate the country and affiliation names.
+X_LABEL_BAND = (0.000, 0.848, 1.000, 1.000)
+
+# Where to find the face the figure was set in.
+FONT_CANDIDATES = (
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    "/usr/share/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf",
+    "/Library/Fonts/DejaVuSans.ttf",
 )
 
-# A glyph is a dark connected component of roughly this size (source pixels at
-# the committed 7290x4113 resolution; the figure is ~1000 dpi, so a 62 px glyph
-# is about 4.5 pt on the page).  Map ink that strays into a band -- coastlines,
-# the dotted country borders, the axis rules -- falls outside these bounds and
-# is left alone.
+# Fitting a label: how far outside its box to search, how far each glyph may
+# then be nudged to snap onto its ink, and how good the final overlap must be.
+# The score is 1.0 for a perfect match and 0.0 when half the re-set glyph falls
+# on background; every label in the committed figure scores above 0.90, so the
+# floor only fires if the figure is re-exported in another face or at another
+# aspect ratio, rather than letting a misplaced halo through unnoticed.
+MAP_FIT_MARGIN = 50
+GLYPH_SNAP = 3
+MIN_FIT_SCORE = 0.85
+# A glyph in the x-axis band is a dark connected component of roughly this size
+# (source pixels at the committed 7290x4113 resolution; the figure is ~1000 dpi,
+# so a 62 px glyph is about 4.5 pt on the page).  The axis spine and the panel
+# frames are far wider and are left alone.
 INK_CUTOFF = 110  # luminance below which a pixel counts as glyph ink
 GLYPH_MIN_H, GLYPH_MAX_H = 12, 95
 GLYPH_MIN_W, GLYPH_MAX_W = 6, 130
-# Within a band the text is set in one or two sizes, so the median accepted
-# component is a good yardstick.  Anything much smaller is map ink (a dot from a
-# dashed border, a speck of coastline); anything much wider is a glyph that a
-# map feature happens to touch, and is trimmed back to the glyph (see
-# ``_trim_to_glyph``).
+# The band is set in one size, so the median accepted component is a good
+# yardstick; anything much shorter is a speck rather than a letter.
 MIN_REL_HEIGHT = 0.40
-TRIM_REL_WIDTH = 1.6
-TRIM_KEEP_FRAC = 0.35
 # The label text is pure black.  Only pixels darker than AA_LIGHT are treated as
-# (partial) ink, which keeps the ocean -- luminance about 150 where the titles
-# sit -- out of the coverage map entirely; without this the background itself
-# was picked up at low opacity and re-composited as a gray ring around the text.
+# (partial) ink, which keeps the background out of the coverage map; without
+# this the background itself was picked up at low opacity and re-composited as a
+# gray ring around the text.
 AA_LIGHT = 130
 AA_DARK = 20
 AA_MARGIN = 3  # px around a glyph core searched for its anti-aliased edge
@@ -111,39 +139,180 @@ AA_MARGIN = 3  # px around a glyph core searched for its anti-aliased edge
 STROKE_RADIUS = 9
 
 
-def _trim_to_glyph(mask, keep_frac: float, axes):
-    """Cut a thin appendage off a glyph that a map feature happens to touch.
+def _font_path() -> str:
+    for candidate in FONT_CANDIDATES:
+        if Path(candidate).exists():
+            return candidate
+    try:  # matplotlib ships the same face
+        import matplotlib
 
-    The Antarctic coastline runs straight through the left panel's ``0`` tick
-    label and on into the axis spine, so the ``0`` and the coastline are one
-    connected component.  A glyph is dense in the columns it occupies while a
-    passing line contributes only its own stroke width, so the span of columns
-    (or rows, whichever direction the component is over-long in) holding at
-    least ``keep_frac`` of the peak ink marks the glyph's extent.  The component
-    is cut back to that span -- the span rather than the individual dense
-    columns, so that the sparse interior of an "0" survives -- and the largest
-    surviving piece is kept.
+        mpl = Path(matplotlib.get_data_path()) / "fonts" / "ttf" / "DejaVuSans.ttf"
+        if mpl.exists():
+            return str(mpl)
+    except ImportError:
+        pass
+    raise SystemExit(
+        "DejaVuSans.ttf not found -- install fonts-dejavu-core (or matplotlib); "
+        "the Fig. 2 text is outlined from its own typography, not traced."
+    )
+
+
+def _render_text(text: str, size: int, angle: int, font_path: str):
+    """Set ``text`` as an anti-aliased coverage map, rotated by ``angle``."""
+    import numpy as np
+    from PIL import ImageDraw, ImageFont
+
+    font = ImageFont.truetype(font_path, size)
+    x0, y0, x1, y1 = font.getbbox(text)
+    pad = GLYPH_SNAP + 3  # room for the per-glyph snap below
+    canvas = Image.new("L", (x1 - x0 + 2 * pad, y1 - y0 + 2 * pad), 0)
+    ImageDraw.Draw(canvas).text((pad - x0, pad - y0), text, fill=255, font=font)
+    coverage = np.asarray(canvas).astype(np.float32) / 255.0
+    if angle:
+        coverage = np.ascontiguousarray(np.rot90(coverage, k=angle // 90))
+    return coverage
+
+
+def _place(coverage, ink, box, margin: int):
+    """Slide ``coverage`` over ``box`` and return its best (y, x) and score.
+
+    The score rewards a re-set pixel that lands on ink and penalises one that
+    lands on background, so it is maximal for the true position and size rather
+    than for whichever candidate simply covers the most ink.
+    """
+    import numpy as np
+    from scipy.signal import fftconvolve
+
+    h, w = ink.shape
+    y0, x0, y1, x1 = box
+    y0 = max(0, y0 - margin)
+    x0 = max(0, x0 - margin)
+    y1 = min(h, y1 + margin)
+    x1 = min(w, x1 + margin)
+    region = ink[y0:y1, x0:x1]
+    glyph = (coverage > 0.5).astype(np.float32)
+    if glyph.shape[0] > region.shape[0] or glyph.shape[1] > region.shape[1]:
+        return None, -1.0
+    overlap = fftconvolve(region, glyph[::-1, ::-1], mode="valid")
+    score = (2.0 * overlap - glyph.sum()) / glyph.sum()
+    flat = int(np.argmax(score))
+    dy, dx = np.unravel_index(flat, score.shape)
+    return (y0 + int(dy), x0 + int(dx)), float(score.flat[flat])
+
+
+def _snap_glyphs(coverage, origin, ink):
+    """Nudge each re-set glyph by a few px onto the ink it corresponds to.
+
+    A whole string is placed as one rigid block, so kerning differences between
+    matplotlib's layout and ours accumulate over a long label.  Each glyph is
+    therefore allowed a small independent shift.  Dots and accents are too small
+    to localise on their own -- a dot from a dashed country border sits within a
+    few px of the "i" of "Distribution" -- so they take the shift of the nearest
+    full-size glyph instead of searching for their own.
     """
     import numpy as np
     from scipy import ndimage
 
-    trimmed = mask.copy()
-    for axis in axes:
-        profile = trimmed.sum(axis=axis)
-        if not profile.max():
-            return mask
-        dense = np.flatnonzero(profile >= keep_frac * profile.max())
-        if not dense.size:
-            return mask
-        span = np.zeros(profile.shape, bool)
-        span[dense[0] : dense[-1] + 1] = True
-        trimmed &= span[None, :] if axis == 0 else span[:, None]
+    core = coverage > 0.5
+    labelled, _ = ndimage.label(core)
+    parts = ndimage.find_objects(labelled)
+    areas = np.array([float((labelled[sl] == i + 1).sum()) for i, sl in enumerate(parts)])
+    if not areas.size:
+        return coverage
+    full_size = areas >= 0.25 * float(np.median(areas))
 
-    pieces, count = ndimage.label(trimmed)
-    if count == 0:
-        return mask
-    sizes = ndimage.sum(trimmed, pieces, range(1, count + 1))
-    return pieces == (int(np.argmax(sizes)) + 1)
+    snapped = np.zeros_like(coverage)
+    shifts: list[tuple[float, float, int, int]] = []  # cy, cx, dy, dx
+    for i in np.argsort(-areas):  # biggest first, so dots can follow a letter
+        sl = parts[i]
+        glyph = labelled[sl] == i + 1
+        gy, gx = origin[0] + sl[0].start, origin[1] + sl[1].start
+        gh, gw = glyph.shape
+        if full_size[i]:
+            best, shift = -np.inf, (0, 0)
+            for dy in range(-GLYPH_SNAP, GLYPH_SNAP + 1):
+                for dx in range(-GLYPH_SNAP, GLYPH_SNAP + 1):
+                    patch = ink[gy + dy : gy + dy + gh, gx + dx : gx + dx + gw]
+                    if patch.shape != glyph.shape:
+                        continue
+                    hit = float((patch * glyph).sum())
+                    if 2.0 * hit - glyph.sum() > best:
+                        best, shift = 2.0 * hit - glyph.sum(), (dy, dx)
+            shifts.append((gy + gh / 2, gx + gw / 2, *shift))
+        else:
+            cy, cx = gy + gh / 2, gx + gw / 2
+            shift = min(
+                shifts, key=lambda s: (s[0] - cy) ** 2 + (s[1] - cx) ** 2, default=(0, 0, 0, 0)
+            )[2:]
+
+        ys = min(max(sl[0].start + shift[0], 0), coverage.shape[0] - gh)
+        xs = min(max(sl[1].start + shift[1], 0), coverage.shape[1] - gw)
+        patch = snapped[ys : ys + gh, xs : xs + gw]
+        np.maximum(patch, coverage[sl] * glyph, out=patch)
+    return snapped
+
+
+def _typeset_coverage(ink, shape, font_path: str):
+    """Coverage map of the labels drawn over the map, re-set from typography."""
+    import numpy as np
+
+    h, w = shape
+    coverage = np.zeros(shape, np.float32)
+    for text, angle, (fx0, fy0, fx1, fy1), (lo, hi) in MAP_TEXT_LABELS:
+        box = (int(fy0 * h), int(fx0 * w), int(fy1 * h), int(fx1 * w))
+        best = (-1.0, None, None)
+        for size in range(lo, hi):
+            rendered = _render_text(text, size, angle, font_path)
+            origin, score = _place(rendered, ink, box, MAP_FIT_MARGIN)
+            if score > best[0]:
+                best = (score, origin, rendered)
+        score, origin, rendered = best
+        if origin is None or score < MIN_FIT_SCORE:
+            raise SystemExit(
+                f"could not locate {text!r} in the figure (best overlap {score:.2f} "
+                f"< {MIN_FIT_SCORE}); check MAP_TEXT_LABELS against the source image"
+            )
+        rendered = _snap_glyphs(rendered, origin, ink)
+        gh, gw = rendered.shape
+        patch = coverage[origin[0] : origin[0] + gh, origin[1] : origin[1] + gw]
+        np.maximum(patch, rendered, out=patch)
+    return coverage
+
+
+def _traced_glyphs(lum, band):
+    """Glyph mask for a band of text that sits on a plain background."""
+    import numpy as np
+    from scipy import ndimage
+
+    h, w = lum.shape
+    x0, y0, x1, y1 = band
+    sl_y = slice(int(y0 * h), int(y1 * h))
+    sl_x = slice(int(x0 * w), int(x1 * w))
+    band_lum = lum[sl_y, sl_x]
+    labelled, _ = ndimage.label(band_lum < INK_CUTOFF)
+
+    candidates = []
+    for idx, sl in enumerate(ndimage.find_objects(labelled), start=1):
+        if sl is None:
+            continue
+        gh = sl[0].stop - sl[0].start
+        gw = sl[1].stop - sl[1].start
+        if GLYPH_MIN_H <= gh <= GLYPH_MAX_H and GLYPH_MIN_W <= gw <= GLYPH_MAX_W:
+            candidates.append((idx, sl, gh))
+
+    glyphs = np.zeros((h, w), bool)
+    if not candidates:
+        return glyphs, 0
+    median_h = float(np.median([c[2] for c in candidates]))
+    band_glyphs = np.zeros_like(band_lum, bool)
+    kept = 0
+    for idx, sl, gh in candidates:
+        if gh < MIN_REL_HEIGHT * median_h:
+            continue  # a speck, not a glyph
+        band_glyphs[sl] |= labelled[sl] == idx
+        kept += 1
+    glyphs[sl_y, sl_x] = band_glyphs
+    return glyphs, kept
 
 
 def fix_world_map(src: Path, dst: Path) -> None:
@@ -154,67 +323,35 @@ def fix_world_map(src: Path, dst: Path) -> None:
     w, h = img.size
     rgb = np.asarray(img).astype(np.float32)
     lum = np.asarray(img.convert("L")).astype(np.float32)
+    ink = (lum < INK_CUTOFF).astype(np.float32)
 
-    # 1. Locate the glyphs: dark connected components of glyph-like size that
-    #    lie inside one of the label bands.  Each band is judged on its own so
-    #    the size yardstick reflects the text set in it.
-    searchable = np.ones((h, w), bool)
-    for x0, y0, x1, y1 in MAP_INK_EXCLUSIONS:
-        searchable[int(y0 * h) : int(y1 * h), int(x0 * w) : int(x1 * w)] = False
+    # 1. The labels drawn over the map are re-set from their own typography and
+    #    fitted to the image, so the halo follows the letterform even where a
+    #    coastline or a country border runs through the character.
+    coverage = _typeset_coverage(ink, (h, w), _font_path())
 
-    glyphs = np.zeros((h, w), bool)
-    kept = 0
-    for x0, y0, x1, y1 in MAP_TEXT_BANDS:
-        sl_y = slice(int(y0 * h), int(y1 * h))
-        sl_x = slice(int(x0 * w), int(x1 * w))
-        band_lum = lum[sl_y, sl_x]
-        labelled, _ = ndimage.label((band_lum < INK_CUTOFF) & searchable[sl_y, sl_x])
-
-        candidates = []
-        for idx, sl in enumerate(ndimage.find_objects(labelled), start=1):
-            if sl is None:
-                continue
-            gh = sl[0].stop - sl[0].start
-            gw = sl[1].stop - sl[1].start
-            if GLYPH_MIN_H <= gh <= GLYPH_MAX_H and GLYPH_MIN_W <= gw <= GLYPH_MAX_W:
-                candidates.append((idx, sl, gh, gw))
-        if not candidates:
-            continue
-
-        median_h = float(np.median([c[2] for c in candidates]))
-        median_w = float(np.median([c[3] for c in candidates]))
-        band_glyphs = np.zeros_like(band_lum, bool)
-        for idx, sl, gh, gw in candidates:
-            if gh < MIN_REL_HEIGHT * median_h:
-                continue  # a speck of map ink, not a glyph
-            component = labelled[sl] == idx
-            axes = []
-            if gw > TRIM_REL_WIDTH * median_w:
-                axes.append(0)  # drop sparse columns
-            if gh > TRIM_REL_WIDTH * median_h:
-                axes.append(1)  # drop sparse rows
-            if axes:
-                component = _trim_to_glyph(component, TRIM_KEEP_FRAC, axes)
-            band_glyphs[sl] |= component
-            kept += 1
-        glyphs[sl_y, sl_x] |= band_glyphs
-
-    # 2. Ink coverage.  Only the accepted glyphs and their own anti-aliased
-    #    edges contribute -- map ink that merely passes nearby does not, so it
-    #    is neither re-inked nor given an outline of its own.
-    near = ndimage.binary_dilation(glyphs, structure=_disk(AA_MARGIN)) & searchable
-    alpha = np.clip((AA_LIGHT - lum) / (AA_LIGHT - AA_DARK), 0.0, 1.0) * near
+    # 2. The x-axis category labels sit on the white Antarctic band; trace them,
+    #    and take their coverage from the image so the original anti-aliasing is
+    #    preserved.
+    traced, kept = _traced_glyphs(lum, X_LABEL_BAND)
+    near = ndimage.binary_dilation(traced, structure=_disk(AA_MARGIN))
+    np.maximum(
+        coverage,
+        np.clip((AA_LIGHT - lum) / (AA_LIGHT - AA_DARK), 0.0, 1.0) * near,
+        out=coverage,
+    )
 
     # 3. Grow the coverage into a halo, paint it opaque white -- no feathering,
     #    so the outline never reads as gray -- and lay the black text back over
     #    it at its own coverage.
-    halo = ndimage.binary_dilation(alpha > 0.15, structure=_disk(STROKE_RADIUS))
-    a = alpha[..., None]
+    halo = ndimage.binary_dilation(coverage > 0.15, structure=_disk(STROKE_RADIUS))
+    a = coverage[..., None]
     out = np.where(halo[..., None], 255.0, rgb) * (1.0 - a)
 
     Image.fromarray(np.clip(out, 0, 255).astype("uint8")).save(dst, optimize=True)
     print(
-        f"wrote {dst.relative_to(REPO_ROOT)} ({w}x{h}); {kept} glyphs stroked, "
+        f"wrote {dst.relative_to(REPO_ROOT)} ({w}x{h}); "
+        f"{len(MAP_TEXT_LABELS)} labels re-set, {kept} traced glyphs, "
         f"{100 * float(halo.mean()):.2f}% of pixels touched"
     )
 
