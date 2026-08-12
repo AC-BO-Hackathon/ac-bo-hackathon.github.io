@@ -5,11 +5,13 @@ result is reproducible:
 
 1. ``world_map.png`` (Fig. 2) -- "the black text which falls above the map can be
    difficult to read".  The two inset histograms are drawn on top of the world
-   map, so their category tick labels and panel titles sit directly on the map
-   imagery.  We composite a semi-opaque white plate behind the tick-label band
-   and behind each panel title, which restores contrast without regenerating the
-   plot (the underlying survey data are not redistributable at participant
-   granularity).
+   map, so their axis labels and panel titles sit directly on the map imagery.
+   We add a thin white stroke around those black glyphs: the glyph runs are found
+   as connected components inside the label bands, the ink coverage is grown by a
+   few pixels to make a halo, the halo is painted white, and the original ink is
+   re-composited on top.  The map underneath is otherwise untouched, and the plot
+   is not regenerated (the underlying survey data are not redistributable at
+   participant granularity).
 
 2. ``gathertown.png`` (Fig. 4) -- participant name labels in the plenary-room
    panel are redacted.  Participants were not asked to consent to publication of
@@ -40,7 +42,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIG_DIR = REPO_ROOT / "latex" / "figures"
@@ -50,50 +52,100 @@ FIG_DIR = REPO_ROOT / "latex" / "figures"
 # Fig. 2 -- world map readability
 # --------------------------------------------------------------------------
 
-# Fractional (x0, y0, x1, y1) boxes, expressed relative to the image size so the
-# script keeps working if the figure is re-exported at a different resolution.
-MAP_PLATES = (
-    # Tick-label band underneath both inset axes (country names + affiliation
-    # names), spanning the full width below the axis lines.
-    (0.000, 0.845, 1.000, 1.000),
-    # "Country Distribution" panel title.
-    (0.181, 0.583, 0.343, 0.628),
-    # "Affiliation Distribution" panel title.
-    (0.678, 0.583, 0.840, 0.628),
+# Fractional (x0, y0, x1, y1) label bands, expressed relative to the image size
+# so the script keeps working if the figure is re-exported at a different
+# resolution.  Each band brackets text that is drawn over the map; nothing
+# outside these bands is touched.
+MAP_TEXT_BANDS = (
+    # "Country Distribution" / "Affiliation Distribution" panel titles.
+    (0.185, 0.583, 0.339, 0.629),
+    (0.683, 0.583, 0.844, 0.629),
+    # y-axis tick numbers + rotated "Frequency" label, left of each panel.
+    (0.000, 0.644, 0.046, 0.853),
+    (0.506, 0.644, 0.549, 0.853),
+    # x-axis category labels underneath both panels.
+    (0.000, 0.848, 1.000, 1.000),
 )
 
-PLATE_ALPHA = 235  # out of 255; keeps a hint of the map visible behind the text
-# Luminance ramp used to keep the original ink on top of the inserted plate.
+# A glyph is a dark connected component of roughly this size (source pixels at
+# the committed 7290x4113 resolution; the figure is ~1000 dpi, so a 62 px glyph
+# is about 4.5 pt on the page).  Map ink that strays into a band -- coastlines,
+# the dotted country borders, the axis rules -- falls outside these bounds and
+# is left alone.
+INK_CUTOFF = 110  # luminance below which a pixel counts as glyph ink
+GLYPH_MIN_H, GLYPH_MAX_H = 12, 95
+GLYPH_MIN_W, GLYPH_MAX_W = 6, 130
+# Luminance ramp converting the flattened raster back into an ink-coverage map,
+# so the anti-aliased glyph edges survive the re-composite.
 INK_DARK = 90
-INK_LIGHT = 170
+INK_LIGHT = 175
+# Halo half-width in source pixels.  About 15% of the glyph height: enough to
+# separate the ink from the imagery at print size, small enough that the counters
+# of "0"/"o"/"e" stay open and the outline does not read as a filled plate.
+STROKE_RADIUS = 9
 
 
 def fix_world_map(src: Path, dst: Path) -> None:
-    img = Image.open(src).convert("RGBA")
+    import numpy as np
+    from scipy import ndimage
+
+    img = Image.open(src).convert("RGB")
     w, h = img.size
+    rgb = np.asarray(img).astype(np.float32)
+    lum = np.asarray(img.convert("L")).astype(np.float32)
 
-    plate = Image.new("RGBA", img.size, (255, 255, 255, 0))
-    draw = ImageDraw.Draw(plate)
-    for x0, y0, x1, y1 in MAP_PLATES:
-        draw.rectangle(
-            [x0 * w, y0 * h, x1 * w, y1 * h], fill=(255, 255, 255, PLATE_ALPHA)
-        )
+    # 1. Locate the glyphs: dark connected components of glyph-like size that
+    #    lie inside one of the label bands.
+    bands = np.zeros((h, w), bool)
+    for x0, y0, x1, y1 in MAP_TEXT_BANDS:
+        bands[int(y0 * h) : int(y1 * h), int(x0 * w) : int(x1 * w)] = True
 
-    # Soften the plate edges so the inserts do not read as hard-edged patches.
-    plate = plate.filter(ImageFilter.GaussianBlur(radius=max(2, w // 900)))
-    plated = Image.alpha_composite(img, plate)
+    dark = (lum < INK_CUTOFF) & bands
+    labelled, _ = ndimage.label(dark)
+    glyphs = np.zeros((h, w), bool)
+    kept = 0
+    for idx, sl in enumerate(ndimage.find_objects(labelled), start=1):
+        if sl is None:
+            continue
+        gh = sl[0].stop - sl[0].start
+        gw = sl[1].stop - sl[1].start
+        if GLYPH_MIN_H <= gh <= GLYPH_MAX_H and GLYPH_MIN_W <= gw <= GLYPH_MAX_W:
+            glyphs[sl] |= labelled[sl] == idx
+            kept += 1
 
-    # The plate must sit *behind* the glyphs, but we only have a flattened
-    # raster.  Recover the effect by keeping the original (dark) ink wherever
-    # the source is dark and using the plated version everywhere else; the
-    # ramp preserves the anti-aliased glyph edges.
-    lum = img.convert("L")
-    ink = lum.point(
-        lambda v: 255 if v < INK_DARK else (0 if v > INK_LIGHT else int(255 * (INK_LIGHT - v) / (INK_LIGHT - INK_DARK)))
+    # 2. Ink coverage, restricted to a neighbourhood of the accepted glyphs so
+    #    the anti-aliased edges are included but unrelated map ink is not.
+    zone = ndimage.binary_dilation(
+        glyphs, structure=_disk(STROKE_RADIUS + 3)
     )
-    out = Image.composite(img, plated, ink)
-    out.convert("RGB").save(dst, optimize=True)
-    print(f"wrote {dst.relative_to(REPO_ROOT)} ({out.size[0]}x{out.size[1]})")
+    alpha = np.clip((INK_LIGHT - lum) / (INK_LIGHT - INK_DARK), 0.0, 1.0) * zone
+
+    # 3. Grow the coverage into a halo and paint it white, then put the original
+    #    ink back on top.  The halo is opaque out to STROKE_RADIUS and feathered
+    #    over the last pixel so its outer edge does not read as a hard cut.
+    halo = ndimage.binary_dilation(
+        alpha > 0.35, structure=_disk(STROKE_RADIUS)
+    ).astype(np.float32)
+    halo = ndimage.gaussian_filter(halo, sigma=1.0)[..., None]
+    a = alpha[..., None]
+    ink = np.median(rgb[alpha > 0.95], axis=0) if (alpha > 0.95).any() else np.zeros(3)
+
+    backdrop = rgb * (1.0 - halo) + 255.0 * halo
+    out = ink * a + backdrop * (1.0 - a)
+
+    Image.fromarray(np.clip(out, 0, 255).astype("uint8")).save(dst, optimize=True)
+    print(
+        f"wrote {dst.relative_to(REPO_ROOT)} ({w}x{h}); {kept} glyphs stroked, "
+        f"{100 * float((halo[..., 0] > 0.02).mean()):.2f}% of pixels touched"
+    )
+
+
+def _disk(radius: int):
+    import numpy as np
+
+    span = np.arange(-radius, radius + 1)
+    yy, xx = np.meshgrid(span, span, indexing="ij")
+    return (yy**2 + xx**2) <= radius**2
 
 
 # --------------------------------------------------------------------------

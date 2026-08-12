@@ -293,10 +293,11 @@ explicitly not an independent or objective evaluation of technical merit.
 
 > 6. Figure 2: The black text which falls above the map can be difficult to read.
 
-Fixed. The inset histograms are drawn over the map, so their category labels and panel titles sat
-directly on the map imagery. A light backing plate has been inserted behind the tick-label band and
-behind each panel title, restoring contrast; the caption notes this. The transformation is applied by
-a script archived with the manuscript source.
+Fixed. The inset histograms are drawn over the map, so their axis labels and panel titles sat
+directly on the map imagery. A thin white stroke has been added around those glyphs -- the frequency
+numbers to the left of each panel, the panel titles above them, and the category labels below --
+restoring contrast against the imagery while leaving the map itself visible; the caption notes this.
+The transformation is applied by a script archived with the manuscript source.
 
 > 7. Table 1 spans two pages but contains no entries on the second page.
 
