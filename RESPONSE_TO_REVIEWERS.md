@@ -96,7 +96,7 @@ that LLM-based surrogates and priors do not yet consistently beat strong classic
 > would strengthen the resource value of the paper.
 
 Added as **Cross-Project Synthesis → Classification of project outputs**, using exactly the five
-categories you propose (Table IV: application demonstration 24, preliminary concept 8, benchmark
+categories you propose (Table IV: application demonstration 22, preliminary concept 10, benchmark
 dataset/problem 6, tutorial/educational 4, mature software 3). Code availability and licensing are
 reported in the accompanying text and in Table V (license distribution across the 40 distinct linked
 repositories, queried programmatically via the GitHub API): 25 of the 36 accessible repositories
@@ -235,10 +235,17 @@ Thank you. The specific items are addressed below.
 These projects were not withheld; their omission was an artifact of the summarization pipeline. The
 summaries were generated from the closing-video submissions, and these six teams did not submit a
 recorded video, so the pipeline produced no entry for them and this was not caught before submission.
-All six now appear in **Projects' Key Findings**, written manually from the teams' project pages and
-code repositories, with that provenance stated at the end of each summary. The introductory paragraph
-has been rewritten to describe the pipeline and to state explicitly how the six no-video projects
-were handled. All 45 projects are now present in both the main text and Table 1.
+All six now appear in **Projects' Key Findings**, written manually from the teams' project pages
+together with every public artifact each team left behind — code repositories, notebooks with stored
+outputs, result figures, and in one case the showcase poster — with that provenance stated at the end
+of each summary. Three of the six (14, 23, 34) published working code, and their summaries report the
+methods and results we were able to verify directly from it; for the other three (19, 29, 42) no code
+was ever published, and those summaries state that no results are available. We also note in the text
+that a missing video does not indicate an abandoned project: the two-minute video was a post-event
+submission step, judging took place live at the closing showcase, and the first- and second-place
+projects are among these six. The introductory paragraph has been rewritten to describe the pipeline
+and to state explicitly how the six no-video projects were handled. All 45 projects are now present
+in both the main text and Table 1.
 
 > 1a. For example, a reader would likely want to know more about the first- and second-place winners
 > (projects 23 and 34).
