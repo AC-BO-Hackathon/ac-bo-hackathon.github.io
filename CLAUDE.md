@@ -1,3 +1,8 @@
+## Writing style
+
+- NEVER use em dashes (`—`) or en dashes (`–`)
+- Do not sound pretentious, and do not sound like AI slop
+
 ## Coding Agent
 
 - In your comment replies, you may be tempted to use #<numeral> style text, such as when you're saying "the number 1 best option is ...". If you're referring to an issue or pull request **in the same repository as your session**, leave it as, e.g., "#1", since this auto-formats as an issue or PR link. Otherwise, state "No. 1" or "number 1" so that you don't get a spurious hyperlink to an irrelevant issue or PR.
