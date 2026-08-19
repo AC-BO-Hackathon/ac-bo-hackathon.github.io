@@ -1,0 +1,83 @@
+{
+ "method": "For each of the 126 manuscript co-authors, arXiv API au: query for submissions on/after 2024-03-25; each unique paper's full-text HTML (arxiv.org/html/) fetched and grepped for \"hackathon\".",
+ "papers_found": 400,
+ "fulltext_retrieved": 374,
+ "hackathon_mentions": {
+  "2505.03049v2": {
+   "title": "34 Examples of LLM Applications in Materials Science and Chemistry: Towards Automation, Assistants, Agents, and Accelerated Scientific Discovery",
+   "date": "2025-05-05",
+   "coauthors_matched": [
+    "Alexander Al-Feghali",
+    "Ben Blaiszik",
+    "Dieter Plessers",
+    "Magdalena Lederbauer",
+    "Mehrad Ansari",
+    "Philippe Schwaller"
+   ],
+   "snippets": [
+    "streamline research workflows. To explore the frontier of LLM capabilities across the research lifecycle, we review applications of LLMs through 34 total projects developed during the second annual Large Language Model Hackathon for Applications in Materials Science and Chemistry, a global hybrid event. These projects spanned seven key research areas: (1) molecular and material property prediction",
+    "lass=\"ltx_ref\">24</a>, <a href=\"#bib.bib25\" title=\"\" class=\"ltx_ref\">25</a>, <a href=\"#bib.bib26\" title=\"\" class=\"ltx_ref\">26</a>]</cite>. Towards this goal, we believe that accessing the wisdom of the crowd via science hackathons provides a powerful, and dynamic framework for fostering collaboration building, knowledge exchange, innovation, and incentivizing the rapid problem-solving and explorat"
+   ]
+  },
+  "2411.15221v2": {
+   "title": "Reflections from the 2024 Large Language Model (LLM) Hackathon for Applications in Materials Science and Chemistry",
+   "date": "2024-11-20",
+   "coauthors_matched": [
+    "Alexander Al-Feghali",
+    "Andres Bran",
+    "Ankur Gupta",
+    "Anna Borisova",
+    "Ben Blaiszik",
+    "Dandan Tang",
+    "Dieter Plessers",
+    "Giuseppe Fisicaro",
+    "Jaehee Park",
+    "Jiale Shi",
+    "Kevin Shen",
+    "Magdalena Lederbauer",
+    "Mehrad Ansari",
+    "Philippe Schwaller",
+    "Qianxiang Ai",
+    "Ramsey Issa",
+    "Stanley Lo",
+    "Suraj Sudhakar",
+    "Taylor Sparks",
+    "Zartashia Afzal"
+   ],
+   "snippets": [
+    "entry_subsection\"><a href=\"#S8.SS1\" title=\"In 8 How Low Can You Go? Leveraging Small LLMs for Material Design \u2023 Appendix: Individual Project Reports \u2023 Submissions and Reflections from the 2024 Large Language Model (LLM) Hackathon for Applications in Materials Science and Chemistry\" class=\"ltx_ref\"><span class=\"ltx_text ltx_ref_title\"><span class=\"ltx_tag ltx_tag_ref\">8.1 </span>Motivation - Levera",
+    "#S12.SS2\" title=\"In 12 Materials Agent: An LLM-Based Agent with Tool-Calling Capabilities for Cheminformatics \u2023 Appendix: Individual Project Reports \u2023 Submissions and Reflections from the 2024 Large Language Model (LLM) Hackathon for Applications in Materials Science and Chemistry\" class=\"ltx_ref\"><span class=\"ltx_text ltx_ref_title\"><span class=\"ltx_tag ltx_tag_ref\">12.2 </span>Equipping LLMs wit"
+   ]
+  },
+  "2605.03205v1": {
+   "title": "From Knowledge to Action: Outcomes of the 2025 Large Language Model (LLM) Hackathon for Applications in Materials Science and Chemistry",
+   "date": "2026-05-04",
+   "coauthors_matched": [
+    "Ben Blaiszik",
+    "Bojana Rankovi\u0107",
+    "Giuseppe Fisicaro",
+    "Jaehee Park",
+    "Kevin Shen",
+    "Magdalena Lederbauer",
+    "Michail Mitsakis",
+    "Philippe Schwaller",
+    "Taylor Sparks"
+   ],
+   "snippets": [
+    "</cite> demonstrated the potential of LLM applications in wide-ranging areas of materials science and chemistry, while also revealing remaining limitations and open challenges. Compared to those earlier events, the 2025 hackathon saw a significant shift from simpler tools towards integrated, multi-agent systems that orchestrate research workflows, reflecting the maturation of agentic frameworks, r",
+    "tag ltx_tag_figure\"><span id=\"Sx1.F1.5\" class=\"ltx_text\" style=\"font-size:90%;\">Figure 1</span>: </span><span id=\"Sx1.F1.6\" class=\"ltx_text\" style=\"font-size:90%;\">Venn diagram showing the classification of 88 submitted hackathon projects from the third LLM Hackathon for Applications in Materials Science and Chemistry along with their sub-classes: Knowledge Infrastructure (<span id=\"Sx1.F1.6.1\" cl"
+   ]
+  },
+  "2410.09290v1": {
+   "title": "Ranking over Regression for Bayesian Optimization and Molecule Selection",
+   "date": "2024-10-11",
+   "coauthors_matched": [
+    "Samantha Corapi",
+    "Stanley Lo"
+   ],
+   "snippets": [
+    "stitute for Artificial Intelligence. S.L. acknowledges the support from the Government of Ontario through the Ontario Graduate Scholarship. This project was also part of the Acceleration Consortium Bayesian optimization hackathon. A.A.-G. acknowledges the generous support of Anders G. Fr\u00f8seth, the CIFAR, and the Canada 150 Research Chair program. A.A.-G. is a founder of Kebotix, Inc., a company sp"
+   ]
+  }
+ }
+}
