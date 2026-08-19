@@ -1,0 +1,129 @@
+Question: Focused literature review of Andrew I. Cooper's group (University of Liverpool) on combining large language models (LLMs) with Bayesian optimization (BO) for scientific discovery, 2024-2026. Two anchor papers: (a) Cisse, Evangelopoulos, Gusev, and Cooper, 'Language-Based Bayesian Optimization Research Assistant (BORA)', IJCAI 2025 (arXiv:2501.16224); and (b) Cisse, Cooper, Zhu, Evangelopoulos, and Cooper, 'Can we automate scientific reasoning in closed-loop experiments using large language models?', Digital Discovery, 2026, DOI 10.1039/D5DD00520E, which benchmarks reasoning models (e.g., o3, o4-mini, gpt-5, gemini-2.5-flash) as optimizers on a physics-based petanque simulation and a photocatalytic hydrogen-evolution problem and inspects their reasoning chains. For each anchor paper: summarize the method, the benchmark problems (including the petanque problem and the chemistry-specific tasks), the main quantitative findings on LLM/BO hybrids versus BO-only baselines, and what the reasoning-chain or commentary analysis revealed about how the LLMs 'think' during optimization. Then list follow-up, companion, or closely related works that cite or build on these two papers, with FULL citations (authors, title, venue, year, DOI) and code repository URLs where available.
+
+# Focused literature review: Cooper-group LLM–BO research, 2024–2026
+
+## Scope and evidence limitation
+
+The retrieved full text and supplementary material support a detailed assessment of **BORA**. The bibliographic record for the 2026 *Digital Discovery* paper and its ChemRxiv preprint was identifiable, but its full text was not retrievable through the available literature index. Consequently, I report exact numerical and reasoning-analysis details for that paper only where independently supported; I do not infer missing values from abstracts or descriptions. This limitation is especially important because the requested model-by-model results and reasoning-chain findings appear to reside in figures, tables, or supplementary material unavailable here.
+
+| Paper/year | Optimizer architecture | Benchmark suite | Quantitative evidence available | Reasoning/commentary finding | Code/data link |
+|---|---|---|---|---|---|
+| Cissé, Evangelopoulos, Gusev, Cooper, **Language-Based Bayesian Optimization Research Assistant (BORA)**, 2025 | Hybrid BO+LLM. LLM: **GPT-4o-mini** (not fine-tuned). BO core: **Gaussian process with Matérn kernel + Expected Improvement**. Three actions: **a1** vanilla BO; **a2** LLM comments + proposes point(s); **a3** LLM comments + selects 2 of 5 BO candidates. Adaptive plateau/trust policy controls when to invoke LLMs. (cisse2025languagebasedbayesianoptimization pages 6-7, cisse2025languagebasedbayesianoptimization pages 4-6, cisse2025languagebasedbayesianoptimization pages 3-4) | Synthetic: **Branin (2D), Levy (10D), Ackley (15D)**. Real/scientific: **Solar Energy Production (4D), Pétanque Game (7D), Sugar Beet Production (8D), Hydrogen Production (10D)**; also a constrained discrete chemical-mixture task tied to Burger et al. implementation is described in the supplement/context. (cisse2025languagebasedbayesianoptimization pages 6-7, cisse2025languagebasedbayesianoptimization pages 4-6) | Across six tasks, BORA reported a **47% reduction in cumulative regret vs ColaBO** on one highlighted experiment; sign test vs best competitors gave **p=0.02 vs HypBO** and **p=0.20 vs ColaBO**, while still outscoring ColaBO in **5/6 tasks**. In **Pétanque**, early LLM hypotheses gave a **+35 score gain** over baselines. Against an **LLM-only** optimizer, BORA achieved up to **67% improvement on Hydrogen Production** and **31% on Ackley**. Protocol: budget **105** evaluations, **10** repeated trials. (cisse2025languagebasedbayesianoptimization pages 6-7, cisse2025languagebasedbayesianoptimization pages 9-12, cisse2025languagebasedbayesianoptimization pages 7-8) | The LLM is cast as a research assistant/live commentator producing structured JSON “Comments” with **insights, hypotheses, rationale, confidence, and test point(s)**. Analysis in the paper/supplement says LLM-only optimization is competitive early via inductive bias but later **stagnates** because it lacks BO’s uncertainty-driven exploration/exploitation balance; BORA’s strength is dynamic hypothesis revision from accumulating data. The authors also note a limitation: **stochastic reasoning can diverge across identical prompts**. (cisse2025languagebasedbayesianoptimization pages 2-3, cisse2025languagebasedbayesianoptimization pages 9-12, cisse2025languagebasedbayesianoptimization pages 7-8, cisse2025languagebasedbayesianoptimization pages 18-24) | Code repository listed in paper context: **https://anonymous.4open.science/r/bora-the-explorer**. DOI: **10.48550/arXiv.2501.16224**. (cisse2025languagebasedbayesianoptimization pages 6-7) |
+| Cissé, Cooper, Zhu, Evangelopoulos, Cooper, **Can we automate scientific reasoning in closed-loop experiments using large language models?**, 2026 | Benchmarks **reasoning models as optimizers** in closed-loop experiments; user-supplied description names models including **o3, o4-mini, gpt-5, gemini-2.5-flash**. Exact internal optimizer protocol/architecture details were **not retrievable from indexed full text** in the available tool environment, so they should not be overstated here. | Two named benchmarks from the user-supplied paper description: a **physics-based Pétanque simulation** and a **photocatalytic hydrogen-evolution** optimization problem. Exact variable definitions, acquisition policies, budgets, and full benchmark protocol were **not retrievable from indexed full text**. | Publication is identified as **Digital Discovery (2026), DOI 10.1039/D5DD00520E**; a related preprint is identified as **ChemRxiv DOI 10.26434/chemrxiv.10001632/v2**. Beyond the user-supplied summary that the paper **benchmarks reasoning models as optimizers and inspects their reasoning chains**, **exact numerical comparisons versus BO-only baselines/hybrids were not retrievable from indexed full text**, so no additional numbers are reported here. | From the user-supplied description, the paper explicitly **inspects reasoning chains** to study how models “think” during optimization on Pétanque and photocatalytic hydrogen evolution. However, the **indexed full text was unavailable**, so any finer-grained claims about chain content, error modes, or comparative reasoning styles across o3/o4-mini/gpt-5/gemini-2.5-flash would be unsupported here. | DOI: **10.1039/D5DD00520E**. Preprint DOI: **10.26434/chemrxiv.10001632/v2**. **Code URL not retrievable; none should be invented.** |
+
+
+*Table: This table compactly compares the two Cooper-group anchor papers on LLMs plus Bayesian optimization or optimization-like closed-loop reasoning. It highlights what is directly supported by indexed evidence for BORA and clearly labels where the 2026 paper's exact details were not retrievable from available full text.*
+
+## 1. BORA: dynamically combining linguistic hypotheses with probabilistic search
+
+**Full citation.** Abdoulatif Cissé, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper, “Language-Based Bayesian Optimization Research Assistant (BORA),” *Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI 2025)*, 2025; preprint arXiv:2501.16224, DOI **10.48550/arXiv.2501.16224**. The retrieved manuscript’s code link is **https://anonymous.4open.science/r/bora-the-explorer**. (cisse2025languagebasedbayesianoptimization pages 6-7)
+
+### Method
+
+BORA is not an LLM used as a replacement surrogate. It retains a conventional BO loop—a Gaussian process with a Matérn kernel and Expected Improvement—and selectively admits proposals or judgments from an unfine-tuned GPT-4o-mini agent. All observations, whether selected by BO or the LLM, update the same GP. (cisse2025languagebasedbayesianoptimization pages 3-4, cisse2025languagebasedbayesianoptimization pages 6-7)
+
+The controller chooses among three actions:
+
+1. **a1, vanilla BO:** evaluate the acquisition-maximizing point.
+2. **a2, LLM proposal:** ask the LLM to interpret the accumulated data and earlier comments, formulate/update a hypothesis, and propose one or more test points.
+3. **a3, LLM-filtered BO:** generate five acquisition-function candidates and ask the LLM to select the two most scientifically promising candidates. (cisse2025languagebasedbayesianoptimization pages 3-4)
+
+An adaptive heuristic uses GP mean and maximum uncertainty, plateau detection, and a rolling “trust” score to decide when an LLM intervention is warranted. Thus, language-based intervention is concentrated around stalled or uncertain portions of a search rather than invoked at every iteration. An experiment card supplies variable names, bounds, scientific context, constraints, and objective information. The LLM also warm-starts the run with diverse hypotheses and points. (cisse2025languagebasedbayesianoptimization pages 16-18, cisse2025languagebasedbayesianoptimization pages 4-6, cisse2025languagebasedbayesianoptimization pages 3-4)
+
+### Benchmark problems
+
+The synthetic suite comprises **Branin (2D), Levy (10D), and Ackley (15D)**. The scientific/simulation suite comprises **solar-energy production (4D), a physics-based pétanque game (7D), sugar-beet production (8D), and photocatalytic hydrogen production (10D)**. The hydrogen task uses the constrained, discrete chemical-mixture setting derived from the Liverpool mobile-robotic-chemist work: discrete chemical inputs are tuned subject to a total-volume constraint of no more than 5 mL. (cisse2025languagebasedbayesianoptimization pages 4-6, cisse2025languagebasedbayesianoptimization pages 6-7)
+
+The pétanque problem supplies an interpretable mechanics domain in which trajectory variables can be related linguistically to the final score. Sugar beet and solar energy test whether an LLM can use descriptive domain context outside chemistry, while hydrogen production tests the highest-dimensional scientific problem and compares dynamic LLM hypotheses with static expert priors. (cisse2025languagebasedbayesianoptimization pages 4-6, cisse2025languagebasedbayesianoptimization pages 7-8)
+
+### Comparators and protocol
+
+The comparators were random search, vanilla BayesOpt, single-region TuRBO, ColaBO with one static user prior, HypBO with multiple static promising regions, and the LLM-assisted evolutionary algorithm LAEA. GPT-4o-mini generated the nominal “human” inputs for ColaBO and HypBO to enable repeated trials; for hydrogen production, HypBO used the prospective “What They Knew” hypothesis rather than hindsight. Runs used a maximum of 105 evaluations and ten random seeds, with five initial samples except for LAEA, which used 15. Performance was measured using best objective value and cumulative regret. (cisse2025languagebasedbayesianoptimization pages 6-7)
+
+### Main quantitative findings
+
+* BORA significantly outperformed the comparison methods on the higher-dimensional Levy and Ackley functions. Its initialization often recognized mathematically salient points such as the center, edges, or `[0,…,0]`; this was especially favorable for symmetric Levy but less automatically favorable for asymmetrically bounded Ackley. (cisse2025languagebasedbayesianoptimization pages 6-7)
+* Across the six principal experiments shown in the comparison, BORA beat ColaBO on **five of six**. The sign test on mean cumulative regret found BORA superior to HypBO after Bonferroni correction (**p=0.02**), but not significantly superior to ColaBO (**p=0.20**). A highlighted experiment showed a **47% cumulative-regret reduction relative to ColaBO**. (cisse2025languagebasedbayesianoptimization pages 6-7, cisse2025languagebasedbayesianoptimization pages 7-8)
+* In 7D pétanque, diverse trajectory-based initial hypotheses produced an early score advantage of approximately **35 points** over the baselines. (cisse2025languagebasedbayesianoptimization pages 7-8)
+* In ablations against an **LLM-only** optimizer using the same prompts and 105-evaluation budget, the LLM was competitive early but stagnated. BORA eventually achieved improvements of up to **67% on hydrogen production** and **31% on Ackley**, measured from the maximum objective values discovered. (cisse2025languagebasedbayesianoptimization pages 9-12)
+
+These numbers do not establish that an LLM is intrinsically a better scientific expert. They show that **dynamic hypothesis revision plus GP uncertainty modeling** can outperform either static expert priors or linguistic inference alone. The authors explicitly caution against interpreting the results as “LLMs are smarter than domain experts.” (cisse2025languagebasedbayesianoptimization pages 7-8)
+
+### What the commentary reveals about “thinking”
+
+BORA’s commentary is a designed, auditable interface rather than unrestricted prose. The LLM returns a structured `Comment` object containing observations about progress, named hypotheses, rationales, confidence estimates, and concrete test points. At the end, it produces a hypothesis-evolution table, summary, limitations, and proposed follow-up experiments. (cisse2025languagebasedbayesianoptimization pages 2-3, cisse2025languagebasedbayesianoptimization pages 18-24)
+
+The trajectory analysis suggests three recurring behaviors:
+
+* **Useful inductive bias at initialization.** The LLM maps semantic or mathematical context to salient candidate regions, explaining its strong early performance.
+* **Reflection and hypothesis revision.** In sugar beet and hydrogen production, it uses newly observed outcomes to abandon or refine earlier explanations and can reactivate exploration after a plateau. The trust controller correspondingly increases or decreases reliance on it. (cisse2025languagebasedbayesianoptimization pages 6-7, cisse2025languagebasedbayesianoptimization pages 7-8)
+* **Weak uncertainty discipline without BO.** LLM-only search quickly plateaus in high dimensions. The paper attributes this to the absence of calibrated posterior uncertainty and a principled exploration–exploitation mechanism. BO causes sharp uncertainty reduction; LLM proposals are more exploratory and context-led. Their alternation, rather than either component alone, drives sustained gains. (cisse2025languagebasedbayesianoptimization pages 9-12, cisse2025languagebasedbayesianoptimization pages 6-7)
+
+A central limitation is **reasoning stochasticity**: identical prompts can yield substantially different hypotheses and explanations. Confidence fields are self-reported and user-facing, not calibrated probabilities. Hence the commentary provides interpretability and scientific ideas, but not a proof that the textual rationale caused a good proposal. (cisse2025languagebasedbayesianoptimization pages 7-8, cisse2025languagebasedbayesianoptimization pages 18-24)
+
+## 2. Closed-loop reasoning-model benchmark (2026)
+
+**Full citation.** Abdoulatif Cissé, Max E. Cooper, Mengjia Zhu, Xenophon Evangelopoulos, and Andrew I. Cooper, “Can we automate scientific reasoning in closed-loop experiments using large language models?”, *Digital Discovery*, 2026, DOI **10.1039/D5DD00520E**. Preprint: *ChemRxiv*, DOI **10.26434/chemrxiv.10001632/v2**.
+
+### Conceptual advance over BORA
+
+Where BORA embeds one economical LLM inside a GP-based controller, the 2026 study asks a more diagnostic question: can modern reasoning models themselves act as sequential experimental optimizers, and what do their explicit reasoning traces reveal? The named systems include o3, o4-mini, GPT-5, and Gemini-2.5-Flash. The design uses two complementary closed loops:
+
+* a **physics-based pétanque simulation**, where mechanistic reasoning about launch conditions and trajectories can be checked against a simulator; and
+* a **photocatalytic hydrogen-evolution problem**, where suggestions must respect chemistry-specific variables, constraints, and empirical interactions.
+
+This progression turns BORA’s user commentary into an object of study: rather than merely showing explanations, the later paper compares reasoning models and inspects how their hypotheses and strategies evolve.
+
+### Quantitative and reasoning-chain results: retrieval boundary
+
+The indexed source available in this run did not expose the article’s tables, figures, supplementary information, model-wise objective values, budgets, BO-only curves, or inspected reasoning chains. I therefore cannot responsibly provide exact rankings, effect sizes, or quotations for o3, o4-mini, GPT-5, and Gemini-2.5-Flash, nor quantify hybrid-versus-BO-only performance for this anchor. Any such numbers would be unsupported by the retrieved evidence.
+
+The defensible high-level contrast is that BORA’s evidence establishes the value of a **controlled hybrid**—LLM inductive bias plus GP uncertainty—whereas the 2026 paper broadens the evaluation to frontier reasoning models and analyzes their optimizer behavior directly. The key scientific issue is whether fluent mechanistic narratives track effective search decisions, or whether models can produce plausible post-hoc explanations while sampling inefficiently. The BORA ablation already motivates that distinction: credible early hypotheses do not by themselves sustain high-dimensional optimization. (cisse2025languagebasedbayesianoptimization pages 9-12)
+
+## 3. Follow-up, companion, and closely related works
+
+### Confirmed work citing BORA
+
+1. **Zhuo Yang, Lingli Ge, Dong Han, Tianfan Fu, and Yuqiang Li.** “Reasoning BO: Enhancing Bayesian Optimization with Long-Context Reasoning Power of LLMs.” *arXiv*, 2025. DOI **10.48550/arXiv.2505.12833**. This paper explicitly cites BORA and extends the broad concept with long-context reasoning, multiple agents, knowledge graphs, online hypothesis accumulation, and reinforcement learning. The retrieved record reports, for example, 60.7% yield versus 25.2% for traditional BO on direct arylation. **Code repository:** not identified in the retrieved text. (yang2025reasoningboenhancing pages 9-11)
+
+### Direct Liverpool precursor/companion
+
+2. **Abdoulatif Cissé, Xenophon Evangelopoulos, Sam Carruthers, Vladimir V. Gusev, and Andrew I. Cooper.** “HypBO: Accelerating Black-Box Scientific Experiments Using Experts’ Hypotheses.” *Proceedings of the Thirty-Third International Joint Conference on Artificial Intelligence (IJCAI-24)*, pp. 3881–3889, 2024. DOI: **not present in the retrieved primary citation**. **Code repository:** not identified in the retrieved text. HypBO is the direct methodological precursor: it injects static expert-defined promising regions into BO. BORA’s principal conceptual move is to replace fixed hypotheses with dynamically generated and revised LLM hypotheses. (cisse2025languagebasedbayesianoptimization pages 8-9, cisse2025languagebasedbayesianoptimization pages 7-8)
+
+3. **Abdoulatif Cissé, Max E. Cooper, Mengjia Zhu, Xenophon Evangelopoulos, and Andrew I. Cooper.** “Can we automate scientific reasoning in closed-loop experiments using large language models?” *ChemRxiv*, 2026, DOI **10.26434/chemrxiv.10001632/v2**; journal version in *Digital Discovery*, DOI **10.1039/D5DD00520E**. This is the most direct follow-up to BORA because it reuses the pétanque/hydrogen-discovery setting while shifting emphasis from orchestration to comparative reasoning-model behavior. **Code repository:** not retrievable.
+
+### Closely related, but not established here as descendants of both anchors
+
+4. **Yiming Zhang, Jun Jin Choong, Kaushalya Madhawa, and Keisuke Ozawa.** “AutoLead: An LLM-Guided Bayesian Optimization Framework for Multi-Objective Lead Optimization.” *bioRxiv*, 2025. DOI **10.1101/2025.08.19.671029**. It combines LLM chemical reasoning with multi-objective BO for molecular lead optimization. **Code repository:** not identified in the retrieved record. This is methodologically close; the available evidence did not establish a direct citation to either anchor.
+
+5. **Bojana Ranković and Philippe Schwaller.** “GOLLuM: Gaussian Process Optimized LLMs—Reframing LLM Finetuning through Bayesian Optimization.” *arXiv*, 2025. DOI **10.48550/arXiv.2504.06265**. It couples trainable LLM-derived deep kernels to GPs and reports improved sample efficiency over static embeddings across chemistry benchmarks. **Code repository:** not identified in the retrieved record. It is related through representational LLM–GP integration, but differs from BORA’s natural-language hypothesis controller.
+
+6. **Ryogo Niwa, Shigeo Yoshida, Yuki Koyama, and Yoshitaka Ushiku.** “Cooperative Design Optimization through Natural Language Interaction.” *Proceedings of the 38th Annual ACM Symposium on User Interface Software and Technology*, 2025, pp. 1–25. DOI **10.1145/3746059.3747789**. This work uses natural-language interaction to guide BO and is especially close to BORA’s human-facing commentary objective. **Code repository:** not identified in the retrieved record. Direct citation to either anchor was not established.
+
+## Overall assessment
+
+The Cooper-group program advances through three stages: **static expert hypotheses (HypBO) → dynamically revised LLM hypotheses inside BO (BORA) → direct benchmarking and inspection of frontier reasoning models in scientific closed loops**. The strongest quantitative evidence retrieved is for the middle stage. It shows that language models are most valuable as intermittent generators and interpreters of hypotheses, while GP uncertainty remains essential for sustained, sample-efficient search. The qualitative commentary supports this interpretation: LLMs recognize salient structures, create mechanistic narratives, and revise ideas from data, but their proposals are stochastic and—without BO—can stagnate despite plausible explanations. (cisse2025languagebasedbayesianoptimization pages 3-4, cisse2025languagebasedbayesianoptimization pages 9-12, cisse2025languagebasedbayesianoptimization pages 7-8)
+
+Accordingly, the literature does not yet justify replacing BO with textual reasoning. It supports a more limited and useful conclusion: LLMs can supply contextual priors, hypotheses, and scientific explanations, while BO supplies uncertainty calibration and disciplined exploration. The unresolved question highlighted by the 2026 work is whether newer reasoning models materially narrow that algorithmic gap, and whether their visible reasoning chains reliably diagnose why optimization succeeds or fails.
+
+References
+
+1. (cisse2025languagebasedbayesianoptimization pages 6-7): Abdoulatif Ciss'e, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper. Language-based bayesian optimization research assistant (bora). ArXiv, Jan 2501. URL: https://doi.org/10.48550/arxiv.2501.16224, doi:10.48550/arxiv.2501.16224. This article has 16 citations.
+
+2. (cisse2025languagebasedbayesianoptimization pages 4-6): Abdoulatif Ciss'e, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper. Language-based bayesian optimization research assistant (bora). ArXiv, Jan 2501. URL: https://doi.org/10.48550/arxiv.2501.16224, doi:10.48550/arxiv.2501.16224. This article has 16 citations.
+
+3. (cisse2025languagebasedbayesianoptimization pages 3-4): Abdoulatif Ciss'e, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper. Language-based bayesian optimization research assistant (bora). ArXiv, Jan 2501. URL: https://doi.org/10.48550/arxiv.2501.16224, doi:10.48550/arxiv.2501.16224. This article has 16 citations.
+
+4. (cisse2025languagebasedbayesianoptimization pages 9-12): Abdoulatif Ciss'e, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper. Language-based bayesian optimization research assistant (bora). ArXiv, Jan 2501. URL: https://doi.org/10.48550/arxiv.2501.16224, doi:10.48550/arxiv.2501.16224. This article has 16 citations.
+
+5. (cisse2025languagebasedbayesianoptimization pages 7-8): Abdoulatif Ciss'e, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper. Language-based bayesian optimization research assistant (bora). ArXiv, Jan 2501. URL: https://doi.org/10.48550/arxiv.2501.16224, doi:10.48550/arxiv.2501.16224. This article has 16 citations.
+
+6. (cisse2025languagebasedbayesianoptimization pages 2-3): Abdoulatif Ciss'e, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper. Language-based bayesian optimization research assistant (bora). ArXiv, Jan 2501. URL: https://doi.org/10.48550/arxiv.2501.16224, doi:10.48550/arxiv.2501.16224. This article has 16 citations.
+
+7. (cisse2025languagebasedbayesianoptimization pages 18-24): Abdoulatif Ciss'e, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper. Language-based bayesian optimization research assistant (bora). ArXiv, Jan 2501. URL: https://doi.org/10.48550/arxiv.2501.16224, doi:10.48550/arxiv.2501.16224. This article has 16 citations.
+
+8. (cisse2025languagebasedbayesianoptimization pages 16-18): Abdoulatif Ciss'e, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper. Language-based bayesian optimization research assistant (bora). ArXiv, Jan 2501. URL: https://doi.org/10.48550/arxiv.2501.16224, doi:10.48550/arxiv.2501.16224. This article has 16 citations.
+
+9. (yang2025reasoningboenhancing pages 9-11): Zhuo Yang, Lingli Ge, Dong Han, Tianfan Fu, and Yuqiang Li. Reasoning bo: enhancing bayesian optimization with long-context reasoning power of llms. ArXiv, May 2025. URL: https://doi.org/10.48550/arxiv.2505.12833, doi:10.48550/arxiv.2505.12833. This article has 8 citations.
+
+10. (cisse2025languagebasedbayesianoptimization pages 8-9): Abdoulatif Ciss'e, Xenophon Evangelopoulos, Vladimir V. Gusev, and Andrew I. Cooper. Language-based bayesian optimization research assistant (bora). ArXiv, Jan 2501. URL: https://doi.org/10.48550/arxiv.2501.16224, doi:10.48550/arxiv.2501.16224. This article has 16 citations.
