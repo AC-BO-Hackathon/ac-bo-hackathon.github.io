@@ -1,3 +1,8 @@
+## Writing style
+
+- NEVER use em dashes (`—`) or en dashes (`–`)
+- Do not sound pretentious, and do not sound like AI slop
+
 ## Coding Agent
 
 - In your comment replies, you may be tempted to use #<numeral> style text, such as when you're saying "the number 1 best option is ...". If you're referring to an issue or pull request **in the same repository as your session**, leave it as, e.g., "#1", since this auto-formats as an issue or PR link. Otherwise, state "No. 1" or "number 1" so that you don't get a spurious hyperlink to an irrelevant issue or PR.
@@ -49,7 +54,7 @@ Compile with `latexmk -pdf -f -shell-escape -interaction=nonstopmode main.tex`. 
 
 ## Manuscript revision (Digital Discovery)
 
-- Reviewer replies live in `RESPONSE_TO_REVIEWERS.md`, addressed to the referees (not to the maintainer), quoting their text with `>` and interspersing responses. Point at manuscript sections rather than restating the changes.
+- Reviewer replies live in `RESPONSE_TO_REVIEWERS.md`, addressed to the referees (not to the maintainer), quoting their text with `>` and interspersing responses. Replies are terse (roughly 100 characters): no "thank you", no "Agreed", no dashes or arrows; write "Fixed"/"Addressed"/"Added as" plus a manuscript section pointer, and "Noted." where the referee only flagged circumstances. Referee quotes stay verbatim, including their own dashes.
 - The latexdiff baseline is recorded in `latex/SUBMITTED_BASELINE.txt`; regenerate the marked-up PDF with `scripts/make_latexdiff.sh`. That script flattens the `\input{|python3 ...}` pipes in both trees first — latexdiff cannot see through them, and without flattening the diff silently reports no change to the project listing.
 - Figures 2, 4, and 5 are **generated**, not hand-edited: `scripts/fix_manuscript_figures.py` derives `world_map_readable.png`, `gathertown_redacted.png`, and `posters_redacted.png` from the committed originals (a white stroke around the map-inset labels, and participant-name redaction). Re-run the script rather than editing the PNGs, and keep the originals in place as its inputs.
 - The per-project summaries rendered into the manuscript come from `_projects/json_summaries/`, **not** `project_video_summaries/`. The latter is the raw pipeline output and carries `"status": "failed"` records for the six projects with no video submission (14, 19, 23, 29, 34, 42); those six were missing from the submitted manuscript because nothing was ever copied across for them.

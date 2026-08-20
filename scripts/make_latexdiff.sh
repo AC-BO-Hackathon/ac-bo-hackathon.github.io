@@ -33,19 +33,67 @@ mkdir -p "$OLD_TREE"
 echo "==> baseline: $BASELINE ($(git log -1 --format='%h %ad %s' --date=short "$BASELINE"))"
 git archive "$BASELINE" | tar -x -C "$OLD_TREE"
 
-# Flatten \input{|python3 <script>} pipes into literal text.
+# Flatten \input{|python3 <script>} pipes into literal text.  For the baseline
+# tree, additionally relocate float environments that the revision moved (the
+# figure block and the rankings table) to the positions they occupy in the
+# revision.  latexdiff has no concept of a move: left in place, a moved float
+# renders as its caption struck through mid-body at the old location plus an
+# all-new float at the new one, which misleads reviewers into thinking the
+# caption text sat in the body.  With the baseline floats pre-relocated, the
+# diff pairs each float with its counterpart and marks caption edits inside
+# the caption itself.
 flatten() {
-    local tree="$1" out="$2"
-    ( cd "$tree" && python3 - "$out" ) <<'PY'
+    local tree="$1" out="$2" is_old="${3:-0}"
+    ( cd "$tree" && python3 - "$out" "$is_old" ) <<'PY'
 import re
 import subprocess
 import sys
 from pathlib import Path
 
 out = Path(sys.argv[1])
+is_old = sys.argv[2] == "1"
 src = Path("main.tex").read_text(encoding="utf-8")
 
 PIPE = re.compile(r"\\input\{\|python3\s+([^}]+)\}")
+
+# Floats moved by the revision, in the order they appear at the destination.
+# Each is inserted directly after the (unique) anchor sentence, so the list is
+# processed in reverse to preserve the order.  Anchors are plain sentences that
+# are identical in the submitted and revised manuscripts.
+RELOCATIONS = [
+    ("tab:winners", "Collectively, 35 judges cast 319 votes."),
+    ("tab:project_topics", "Collectively, 35 judges cast 319 votes."),
+    ("fig:map", "Collectively, 35 judges cast 319 votes."),
+    ("fig:preparation", "Collectively, 35 judges cast 319 votes."),
+    ("fig:gathertown", "Collectively, 35 judges cast 319 votes."),
+    ("fig:poster", "Collectively, 35 judges cast 319 votes."),
+]
+
+FLOAT_ENV = re.compile(
+    r"^\\begin\{(figure\*?|table\*?)\}.*?^\\end\{\1\}[ \t]*\n?",
+    re.MULTILINE | re.DOTALL,
+)
+
+
+def relocate_floats(text):
+    moved = 0
+    for label, anchor in reversed(RELOCATIONS):
+        block = None
+        for m in FLOAT_ENV.finditer(text):
+            if f"\\label{{{label}}}" in m.group(0):
+                block = m.group(0)
+                break
+        if block is None or text.count(anchor) != 1:
+            print(f"warning: cannot relocate {label}", file=sys.stderr)
+            continue
+        text = text.replace(block, "", 1)
+        i = text.index(anchor)
+        j = text.index("\n", i) + 1
+        if not block.endswith("\n"):
+            block += "\n"
+        text = text[:j] + "\n" + block + text[j:]
+        moved += 1
+    return text, moved
 
 # The per-project headings used to be \subsection*{\href{video}{Project N: Name}}
 # and are now \subsection*{Project N: Name}: the heading *text* is unchanged,
@@ -70,13 +118,19 @@ def expand(match):
 
 flat = PIPE.sub(expand, src)
 flat, unwrapped = HREF_HEADING.subn(r"\\subsection*{\1}", flat)
+moved = 0
+if is_old:
+    flat, moved = relocate_floats(flat)
 out.write_text(flat, encoding="utf-8")
-print(f"flattened -> {out} ({unwrapped} \\subsection* href wrappers unwrapped)")
+print(
+    f"flattened -> {out} ({unwrapped} \\subsection* href wrappers unwrapped, "
+    f"{moved} floats relocated)"
+)
 PY
 }
 
-flatten "$OLD_TREE" "$BUILD/old-main.tex"
-flatten "$REPO_ROOT" "$BUILD/new-main.tex"
+flatten "$OLD_TREE" "$BUILD/old-main.tex" 1
+flatten "$REPO_ROOT" "$BUILD/new-main.tex" 0
 
 echo "==> running latexdiff"
 latexdiff --encoding=utf8 --append-safecmd="gls,Gls,cref,Cref,zenodolink,orcidlink" \

@@ -2,6 +2,6 @@
     "project_number": 19,
     "project_name": "Quantum Bayesian Optimization for Automatic Chemical Design",
     "video_url": "",
-    "summary": "This project proposed a quantum-computing route to BO for molecular design. Starting from the data-driven continuous representation of molecules used in automatic chemical design, the team outlined a Quantum Bayesian Optimization framework in which quantum Gaussian-process regression\\cite{rapp_quantum_2024} and quantum parallelism take the place of their classical counterparts, with the aim of accelerating convergence when searching chemical space for new functional compounds. The submission remained at the proposal stage: no repository was linked from the project page, and no code, notebook or data associated with the project has been published, so no results are available and none are reported here. (No recorded video was submitted for this project; this summary was prepared from the team's project page, which is the only public artifact of the project.)",
+    "summary": "This project proposed a quantum-computing route to BO for molecular design, with quantum Gaussian-process regression\\cite{rapp_quantum_2024} in place of the classical surrogate. The submission was never carried out.",
     "status": "manual"
 }
