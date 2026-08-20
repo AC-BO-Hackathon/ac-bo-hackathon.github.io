@@ -216,6 +216,40 @@
 
 \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 
+% Float placement: the defaults leave large gaps around the full-width figures
+% and tables.  Two things cause that.  (1) The default top/float-page fractions
+% are conservative enough that only one full-width float is accepted per page,
+% so a run of figures spreads out over several mostly-empty pages.  (2) On a
+% float page LaTeX separates floats with \@fpsep, whose default 8pt plus 2fil
+% is infinitely stretchable, so two figures on one page get pushed to opposite
+% ends of it.  Relaxing the fractions and fixing \@fpsep to a rigid length
+% packs the floats together from the top of the page.
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.6}
+\renewcommand{\dbltopfraction}{0.95}
+\renewcommand{\dblfloatpagefraction}{0.6}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}
+\setcounter{dbltopnumber}{3}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{14pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\setlength{\@dblfptop}{0pt}
+\setlength{\@dblfpsep}{14pt}
+\setlength{\@dblfpbot}{0pt plus 1fil}
+\makeatother
+
+% Improve PDF/A text accessibility: emit correct ToUnicode mappings so that
+% f-ligatures (ff, fi, ffi) and accented glyphs (e.g. in names such as
+% Griffiths, Lala, Ozkan, Sosic, Watchorn) copy and extract correctly rather
+% than appearing dropped in the generated PDF.
+\input glyphtounicode
+\pdfgentounicode=1
+
 \begin{document}
 
 \title{Bayesian Optimization Hackathon for Chemistry and Materials}
@@ -264,16 +298,6 @@ The goal of the AC BO Hackathon was to leverage the expertise of a diverse, glob
 % % don't remove this linebreak 
 
 
-\begin{figure*}
-    \centering
-    % \captionsetup{justification=centering}
-    \includegraphics[width=0.95\linewidth]{latex/figures/world_map.png}
-    \caption{Demographic distributions of the hackathon participants and their affiliations. The hackathon supported 139 participants across 69 academic, industry, and government organizations located in 59 cities, 19 countries, and 4 continents. \label{fig:map} }
-\end{figure*}
-
-
-
-
 % \begin{table*}[]
 % \caption{List of projects and project types, with links to corresponding website project pages, repositories, videos, and social media posts.} \label{tab:projects} \setlength{\extrarowheight}{0.4em} \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1cm} X >{\centering\arraybackslash}X} \toprule \# & Project Name & Links \\ \midrule \href{https://example.com}{\#1} & Project A & \href{https://github.com/example}{\faGithub} \, \href{https://youtube.com}{\faVideo} \, \href{https://twitter.com}{\faTwitter} \tabularnewline \href{https://example.com}{\#2} & Project B & \href{https://github.com/example}{\faGithub} \, \href{https://youtube.com}{\faVideo} \, \href{https://linkedin.com}{\faLinkedin} \tabularnewline \href{https://example.com}{\#3} & Project C & \href{https://github.com/example}{\faGithub} \, \href{https://youtube.com}{\faVideo} \, \href{https://twitter.com}{\faTwitter} \tabularnewline \bottomrule \end{tabularx} 
 % \end{table*} 
@@ -286,49 +310,119 @@ The goal of the AC BO Hackathon was to leverage the expertise of a diverse, glob
 
 This hackathon was in large part inspired by \citet{jablonka_14_2023} and is one of several materials-focused hackathons in the past \cite{mulholland_hackathon_2015, sparks_insights_2024}. % l.ferguson_conference_2019
 
-Participants were provided with various resources to prepare for the hackathon – this included GitHub classroom assignments with automated feedback, application- and theory-focused videos and tutorials, Python refresher materials, a list of tools to consider using during the hackathon, project submission instructions, and authorship criteria (\cref{fig:preparation}).
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.98\linewidth]{latex/figures/preparation_blurred.png}
-    \caption{A snapshot of \href{https://ac-bo-hackathon.github.io/resources/}{resources listed on the hackathon webpage} such as hackathon orientation, intro to \gls{bo}, and a Python refresher assignment. These resources prepared participants to maximize their time during the two-day synchronous portion of the hackathon and helped level the playing field for participants with varied backgrounds and skill levels. Image is blurred per preprint server policy.}
-    \label{fig:preparation}
-\end{figure*}
+Participants were provided with various resources to prepare for the hackathon: GitHub classroom assignments with automated feedback, application- and theory-focused videos and tutorials, Python refresher materials, a list of tools to consider using during the hackathon, project submission instructions, and authorship criteria (\cref{fig:preparation}).
 
 One of the unique aspects of this event is that it was hosted in Gather Town, a sort of union between traditional video conferencing software and retro arcade-style avatars and virtual spaces (\cref{fig:gathertown}). Participants create a custom avatar and maneuver in a two-dimensional space. The videos and audio of other participants appear and become audible when nearby, and fade out when far away, simulating an in-person experience. At the beginning of the hackathon, all participants gathered to listen to keynotes in realtime, which were broadcasted via YouTube live and embedded into the Gather Town space. The videos were then \href{https://ac-bo-hackathon.github.io/videos-slides/}{made available on the hackathon website}, which collectively garnered approximately 1600 views within two months. After the keynotes, teams were assigned tables in breakout rooms, each with a whiteboard. Individual tables were assigned as "private spaces" which isolated the shared audio and video within each space. This had a number of advantages for collaboration within and across teams.
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.95\linewidth]{latex/figures/gathertown.png}
-    \caption{Gather town \href{https://ac-bo-hackathon.github.io/videos-slides/}{keynote} room (left), custom avatars (top-right), and an example of a breakout room for teams (bottom-right). Keynotes were broadcasted in realtime to participants via an embedded YouTube livestream. Use of Gather Town helped level the playing field for teams who were in physically separate locations and made it easier for facilitators and other teams to have more natural "check-ins" with other projects.}
-    \label{fig:gathertown}
-\end{figure*}
-
-
 The hackathon concluded with a project showcase accompanied by crowdsourced judging within a "poster room" (\cref{fig:poster}).
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.95\linewidth]{latex/figures/posters.png}
-    \caption{The synchronous portion of the hackathon concluded with a poster session and community judging. One participant noted that "it almost felt like a real poster session."}
-    \label{fig:poster}
-\end{figure*}
-
-Community judging occurred via \href{https://github.com/anishathalye/gavel}{Gavel}, an automated pairwise comparison judging system. Use of this system helped to improve fairness, scalability, and accuracy by having judges compare projects relative to each other rather than assigning subjective numerical scores (for example, "rate your pain on a scale from 1 to 10, where 10 is the worst possible pain you can imagine"). The approach of pairwise judging reduces bias, allows for handling large competitions efficiently, and produces high-quality rankings using statistical models with dynamic assignments to judges to maximize information gain. It has been successfully used at HackMIT and other events to streamline judging and enhance transparency and credibility.
+Community judging occurred via \href{https://github.com/anishathalye/gavel}{Gavel}, an automated pairwise comparison judging system. Use of this system helped to improve fairness, scalability, and accuracy by having judges compare projects relative to each other rather than assigning subjective numerical scores (for example, "rate your pain on a scale from 1 to 10, where 10 is the worst possible pain you can imagine"). Rather than scoring against a numeric rubric, judges answered a single holistic question for each assigned pair, effectively "which of these two projects is better?". The approach of pairwise judging reduces bias, allows for handling large competitions efficiently, and produces high-quality rankings using statistical models with dynamic assignments to judges to maximize information gain. It has been successfully used at HackMIT and other events to streamline judging and enhance transparency and credibility. See \cref{tab:winners} for rankings of the top 10 projects and the awarded prizes.
 
 The corresponding Gavel web app was hosted on Heroku according to directions in the Gavel repository. Individualized links were distributed to judges via email using Gavel's SendGrid integration. Collectively, 35 judges cast 319 votes.
 
+% The ranked-winners table is declared here so that it is typeset near the
+% community-judging discussion that references it.  The asterisk footnote that
+% used to sit under the table has been folded into the caption, which already
+% had to explain the per-person/per-team split.
+\begin{table*}[tp]
+\caption{Ranked projects with team names and prize distribution. The first prize value is the amount awarded to each team member and the value in parentheses is the maximum total per team: to avoid incentivizing single-person teams and very large teams, both per-person and per-team limits were imposed (e.g., teams of 4 or more would have the max per-team amount divided equally rather than receive the max per-person amount).}
+\label{tab:winners}
+\setlength{\extrarowheight}{0.6em}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.0cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{3cm} X >{\centering\arraybackslash}p{3cm}}
+\toprule
+\textbf{Rank} & \textbf{Proj. \#} & \textbf{Team Name} & \textbf{Project Name} & \textbf{Prize (CAD)} \\ \midrule
+1st  & \#23 & Noisy Nerds                & Reliable Surrogate Models of Noisy Data                                                   & 300 (1000 max)          \tabularnewline
+2nd  & \#34 & BOMS Prob                  & Streamlining Material Discovery - Bayesian Optimization in Thermal Fluid Mixtures          & 150 (500 max)           \tabularnewline
+3rd  & \#7  & Surface Science Syndicate  & BayBE One More Time - Exploring Corrosion Inhibitors for Materials Design                  & 75 (250 max)            \tabularnewline
+4th  & \#5  & KLM                        & Comparing Bayesian Optimization Methods \ldots Against Simulated "Human" Decision-making & 40 (125 max)            \tabularnewline
+5th  & \#8  & Molecular Representation   & BO for Drug Discovery - What is the role of molecular representation?                      & 40 (125 max)            \tabularnewline
+6th  & \#9  & PME No Hikari              & Optimizing The CO2 Adsorption Capacity of Metal-Organic Frameworks Using Thompson Sampling  & 40 (125 max)            \tabularnewline
+7th  & \#11 & BlenDS                     & BlendDS - An intuitive specification of the design space for blends of components          & 40 (125 max)            \tabularnewline
+8th  & \#30 & SERO Opt                   & Active learning for voltammetry waveform design                                            & 40 (125 max)            \tabularnewline
+9th  & \#43 & General Optimizers         & Bayesian Optimization for Generality                                                      & 40 (125 max)            \tabularnewline
+10th & \#3  & Sparks Group               & Take Your Time - Improving Optimization Performance Through Greater Investment in ACQF Optimizer Runtime & 40 (125 max)           \tabularnewline
+\bottomrule
+\end{tabularx}
+\end{table*}
 
 
-% \clearpage
+% The topics table is declared next to the winners table so that the two
+% share a float page instead of each stranding half a page of white space.
+\begin{table*}[]
+\caption{Project Topics for the Hackathon, with the number of submissions whose project page records each topic. Five project pages did not record a topic. See \href{https://ac-bo-hackathon.github.io/submission/}{the submission page} for more details.}
+\label{tab:project_topics}
+\setlength{\extrarowheight}{0.4em}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{0.5cm} p{4.5cm} X >{\centering\arraybackslash}p{1.8cm}}
+\toprule
+ & \textbf{Topic} & \textbf{Description} & \textbf{Projects} \\ \midrule
 
-\begin{longtable*}{>{\centering\arraybackslash}p{1.5cm} @{\hspace{0.4cm}} >{\raggedright\arraybackslash}p{11cm} @{\hspace{1.5cm}} >{\raggedright\arraybackslash}p{2.5cm}}
+1 & \textbf{Apply Algorithms} & Choose an algorithm and apply it to a \href{https://huggingface.co/collections/AccelerationConsortium/optimization-benchmarks-66a44daf10de1a0335f28826}{hackathon benchmark task} & 5 \\
+
+2 & \textbf{Develop Benchmarks} & Develop a new benchmark and add it to a suite of benchmarks & 2 \\
+
+3 & \textbf{Create Tutorials} & Create "gentle introduction" tutorials for \href{https://ac-microcourses.readthedocs.io/en/latest/courses/data-science/overview.html}{advanced optimization topics} & 4 \\
+
+4 & \textbf{Propose Tasks} & Propose materials tasks that \textit{can} and \textit{should} be tackled with \gls{bo} & 9 \\
+
+5 & \textbf{General} & Other projects related to \gls{bo} for the physical sciences & 20 \\
+
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+% The four full-width figures are declared consecutively here, after the last
+% paragraph that refers to any of them, so that LaTeX emits them as a
+% contiguous run of float pages rather than scattering one per page through
+% the running text.  The \clearpage below flushes them before the project
+% listing starts, so the listing sits beneath the whole figure block.
+\begin{figure*}[tp]
+    \centering
+    % \captionsetup{justification=centering}
+    \includegraphics[width=0.95\linewidth]{latex/figures/world_map_readable.png}
+    \caption{Demographic distributions of the hackathon participants and their affiliations. The hackathon supported 139 participants across 69 academic, industry, and government organizations located in 59 cities, 19 countries, and 4 continents. \label{fig:map} }
+\end{figure*}
+
+\begin{figure*}[tp]
+    \centering
+    \includegraphics[width=0.98\linewidth]{latex/figures/preparation_blurred.png}
+    \caption{A snapshot of \href{https://ac-bo-hackathon.github.io/resources/}{resources listed on the hackathon webpage} such as hackathon orientation, intro to \gls{bo}, and a Python refresher assignment. These resources prepared participants to maximize their time during the two-day synchronous portion of the hackathon and helped level the playing field for participants with varied backgrounds and skill levels. Portions of the screenshot have been blurred to protect potentially identifying information.}
+    \label{fig:preparation}
+\end{figure*}
+
+\begin{figure*}[tp]
+    \centering
+    \includegraphics[width=0.95\linewidth]{latex/figures/gathertown_redacted.png}
+    \caption{Gather town \href{https://ac-bo-hackathon.github.io/videos-slides/}{keynote} room (left), custom avatars (top-right), and an example of a breakout room for teams (bottom-right). Keynotes were broadcasted in realtime to participants via an embedded YouTube livestream. Use of Gather Town helped level the playing field for teams who were in physically separate locations and made it easier for facilitators and other teams to have more natural "check-ins" with other projects. Some participant display names have been pixelated to protect potentially identifying information.}
+    \label{fig:gathertown}
+\end{figure*}
+
+\begin{figure*}[tp]
+    \centering
+    \includegraphics[width=0.95\linewidth]{latex/figures/posters_redacted.png}
+    \caption{The synchronous portion of the hackathon concluded with a poster session and community judging. One participant noted that "it almost felt like a real poster session." Participant display names have been pixelated to protect potentially identifying information.}
+    \label{fig:poster}
+\end{figure*}
+
+\clearpage
+
+% Set in \footnotesize so that the 45 entries pack onto two pages that both
+% carry entries: at the default size the table spilled onto a further page that
+% carried only the closing rule.  The caption/label live in \endfirsthead (not
+% \endhead) so that they are typeset once rather than repeated -- repeating them
+% also made \label{tab:projects} multiply defined.
+\begingroup
+\footnotesize
+% The project-number column is set flush left (not centred): centring makes the
+% one- and two-digit entries sit at different horizontal offsets, so the column
+% of numbers reads as ragged.  Flush left aligns every entry on its left edge.
+\begin{longtable*}{>{\raggedright\arraybackslash}p{1.4cm} @{\hspace{0.4cm}} >{\raggedright\arraybackslash}p{10.5cm} @{\hspace{1.2cm}} >{\raggedright\arraybackslash}p{2.5cm}}
 \caption{List of projects with links to GitHub, Social Media, and Video. Project pages on the hackathon website are available at \url{https://ac-bo-hackathon.github.io/projects/}.} \label{tab:projects} \\
-% \toprule
-% \textbf{Proj. \#} & \textbf{Project Name} & \textbf{Links} \\
-% \midrule
-% \endfirsthead
+\toprule
+\textbf{Proj. \#} & \textbf{Project Name} & \textbf{Links} \\
+\midrule
+\endfirsthead
 
+\multicolumn{3}{l}{\textit{Table \thetable{}, continued.}} \\
 \toprule
 \textbf{Proj. \#} & \textbf{Project Name} & \textbf{Links} \\
 \midrule
@@ -344,30 +438,8 @@ The corresponding Gavel web app was hosted on Heroku according to directions in 
 \input{|python3 python_scripts/process_spreadsheet.py}
 
 \end{longtable*}
+\endgroup
 
-
-
-
-\begin{table*}[]
-\caption{Ranked Projects with Team Names and Prize Distribution. To avoid incentivizing single-person teams and very large teams, both per-person and per-team limits were imposed (e.g., teams of 4 or more would have the max per-team amount divided equally rather than receive the max per-person amount).}
-\label{tab:winners}
-\setlength{\extrarowheight}{0.8em}
-\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.0cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{3cm} X >{\centering\arraybackslash}p{3cm}}
-\toprule
-\textbf{Rank} & \textbf{Proj. \#} & \textbf{Team Name} & \textbf{Project Name} & \textbf{Prize* (CAD)} \\ \midrule
-1st  & \#23 & Noisy Nerds                & Reliable Surrogate Models of Noisy Data                                                   & 300 (1000 max)          \tabularnewline
-2nd  & \#34 & BOMS Prob                  & Streamlining Material Discovery - Bayesian Optimization in Thermal Fluid Mixtures          & 150 (500 max)           \tabularnewline
-3rd  & \#7  & Surface Science Syndicate  & BayBE One More Time - Exploring Corrosion Inhibitors for Materials Design                  & 75 (250 max)            \tabularnewline
-4th  & \#5  & KLM                        & Comparing Bayesian Optimization Methods \ldots Against Simulated "Human" Decision-making & 40 (125 max)            \tabularnewline
-5th  & \#8  & Molecular Representation   & BO for Drug Discovery - What is the role of molecular representation?                      & 40 (125 max)            \tabularnewline
-6th  & \#9  & PME No Hikari              & Optimizing The CO2 Adsorption Capacity of Metal-Organic Frameworks Using Thompson Sampling  & 40 (125 max)            \tabularnewline
-7th  & \#11 & BlenDS                     & BlendDS - An intuitive specification of the design space for blends of components          & 40 (125 max)            \tabularnewline
-8th  & \#30 & SERO Opt                   & Active learning for voltammetry waveform design                                            & 40 (125 max)            \tabularnewline
-9th  & \#43 & General Optimizers         & Bayesian Optimization for Generality                                                      & 40 (125 max)            \tabularnewline
-10th & \#3  & Sparks Group               & Take Your Time - Measuring Optimization Performance as a Function of ACQF Optimizer Runtime & 40 (125 max)           \tabularnewline
-\bottomrule
-\end{tabularx}
-\end{table*}
 
 
 
@@ -380,41 +452,96 @@ The corresponding Gavel web app was hosted on Heroku according to directions in 
 
 
 
-\begin{table*}[]
-\caption{Project Topics for the Hackathon. See \href{https://ac-bo-hackathon.github.io/submission/}{the submission page} for more details.}
-\label{tab:project_topics}
-\setlength{\extrarowheight}{0.4em}
-\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{0.5cm} p{4.5cm} X}
-\toprule
- & \textbf{Topic} & \textbf{Description} \\ \midrule
-
-1 & \textbf{Apply Algorithms} & Choose an algorithm and apply it to a \href{https://huggingface.co/collections/AccelerationConsortium/optimization-benchmarks-66a44daf10de1a0335f28826}{hackathon benchmark task} \\
-
-2 & \textbf{Develop Benchmarks} & Develop a new benchmark and add it to a suite of benchmarks \\
-
-3 & \textbf{Create Tutorials} & Create "gentle introduction" tutorials for \href{https://ac-microcourses.readthedocs.io/en/latest/courses/data-science/overview.html}{advanced optimization topics} \\
-
-4 & \textbf{Propose Tasks} & Propose materials tasks that \textit{can} and \textit{should} be tackled with \gls{bo} \\
-
-5 & \textbf{General} & Other projects related to \gls{bo} for the physical sciences \\
-
-\bottomrule
-\end{tabularx}
-\end{table*}
 
 % \clearpage
 
 \section{Projects' Key Findings}
 
-This section provides a comprehensive summary and highlights the key findings from all project submissions.
-To streamline the evaluation process, all YouTube video submissions were transcribed and analyzed using an AI agent powered by Anthropics’s \emph{claude-3-5-sonnet-20240620} with a temperature of 0.3, ensuring consistent and accurate processing.
-Each transcript was then manually edited to ensure a high-quality manuscript compilation.
-This automated approach enhances efficiency while maintaining a structured and objective assessment of the submissions.
+This section provides a summary of the key findings from all 45 project submissions.
+To streamline the process, the speech transcript of each YouTube video submission was retrieved and condensed into a draft summary by an AI agent powered by Anthropic's \emph{claude-3-5-sonnet-20240620} language model with a temperature of 0.3, applied uniformly across submissions.
+Each draft was then reviewed and edited by the organizers to correct errors and ensure a faithful description; the per-project summaries are archived alongside the manuscript source.
+Six projects (14, 19, 23, 29, 34, and 42) had no recorded video submission to transcribe; their summaries were instead prepared from the corresponding project pages and each team's public artifacts, as noted at the end of each such summary.
 
 
 \input{|python3 python_scripts/process_summaries.py}
 
-\clearpage
+\section{Cross-Project Synthesis}
+\label{sec:synthesis}
+
+The per-project summaries above document \emph{what} each team attempted; here we step back to synthesize patterns across the 45 submissions. Given that the synchronous hackathon spanned two days, many of these projects did not undergo the same rigor and fleshing out as what might be expected of a peer-reviewed manuscript. However, we report qualitative trends and examples.
+
+We classified each submission by its \emph{primary} deliverable into one of five categories: mature software, benchmark dataset/problem, tutorial or educational resource, application demonstration, and preliminary concept (\cref{tab:classification}). The distribution is dominated by application demonstrations ($22$ of $45$), with comparatively few released, reusable software tools ($3$). The label ``mature software'' denotes a usable, released tool or a contribution to an established library such as \textsc{gauche}~\cite{griffiths_gauche_2024}.
+
+This deliverable-based grouping cuts across the five special topics under which projects were submitted (\cref{tab:project_topics}): of the 45 project pages, 20 record the open-ended general topic, 9 propose real-world tasks, 5 apply algorithms to benchmark tasks, 4 create tutorials, 2 develop benchmarks, and 5 record no topic. How many submissions landed in the general category surprised the organizers, who would not have known in advance how best to segment the topics; a special topic such as ``large language models applied to Bayesian optimization'' would likely have been among the largest had it been offered, given the LLM prevalence noted below.
+
+\begin{table}[tbp]
+\centering
+\caption{Classification of the 45 project outputs by primary deliverable. Shares are rounded to whole percentages. Per-project category assignments are listed in the \gls{esi}.}
+\label{tab:classification}
+\begin{tabular}{l c c}
+\toprule
+\textbf{Primary output category} & \textbf{Count} & \textbf{Share} \\
+\midrule
+Application demonstration & 22 & 49\% \\
+Preliminary concept & 10 & 22\% \\
+Benchmark dataset/problem & 6 & 13\% \\
+Tutorial/educational & 4 & 9\% \\
+Mature software & 3 & 7\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We also assessed code availability and licensing. Of the 45 projects, 42 link to a public code repository; \cref{tab:licenses} tallies license status per project. Explicit licenses are overwhelmingly permissive (20 MIT, 4 Apache-2.0), 12 projects provide no license file, and 4 link to repositories that were private or removed when checked. Dependency specifications were frequently incomplete, so most outputs are reusable starting points rather than finished tools~\cite{nolte_what_2020}. The license tabulation script is archived with the manuscript source.
+
+\begin{table}[tbp]
+\centering
+\caption{License status of the code repositories linked from \cref{tab:projects}, tallied per project so that all 45 projects are accounted for; projects sharing a repository share its license. The CC0-1.0 repository carries its dedication in a form the GitHub API does not auto-classify. ``No license file'' indicates a public repository lacking a license; ``inaccessible'' indicates a private or removed repository.}
+\label{tab:licenses}
+\begin{tabular}{l c}
+\toprule
+\textbf{License} & \textbf{Projects} \\
+\midrule
+MIT & 20 \\
+Apache-2.0 & 4 \\
+GPL-3.0 & 1 \\
+CC0-1.0 & 1 \\
+No license file & 12 \\
+Inaccessible (private/removed) & 4 \\
+No public repository (proposal stage) & 3 \\
+\midrule
+\textbf{Total} & \textbf{45} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Methodologically, a common template emerged: frame a chemistry or materials task as sequential optimization of an expensive objective with a Gaussian-process surrogate and an acquisition function, most often built on \textsc{BoTorch}/Ax, sometimes through domain wrappers such as \textsc{BayBE}~\cite{fitzner_baybe_2022} or \textsc{gauche}~\cite{griffiths_gauche_2024}. Teams differed most in input representation, in whether they compared against simple baselines such as random search, and in whether they targeted real experimental data or retrospective benchmarks. Participants ranged from students to senior researchers across academia, industry, and government, and mixed-expertise teams pairing domain scientists with BO practitioners appeared to be an asset~\cite{valentine_hacktive_2025, busby_building_2015}. Roughly one in six projects (6 of 45 under a strict definition, 8 under a broader one) incorporated large language models, mirroring dedicated LLM-for-chemistry hackathons~\cite{jablonka_14_2023, zimmermann_reflections_2024} and motivating the outlook in \cref{sec:future}.
+
+\section{Lessons Learned}
+\label{sec:lessons}
+
+\subsection{Organizational lessons}
+\label{sec:org-lessons}
+
+Several organizational choices worked well and would be retained. Extensive pre-event preparation (orientation materials, an introduction to BO, curated tooling, and a Python refresher delivered through GitHub Classroom with automated feedback) helped level a wide range of backgrounds (\cref{fig:preparation}). A persistent virtual venue (Gather Town) sustained informal interaction and mentor access in a fully online setting, and a transparent pairwise-comparison judging system (Gavel) scaled expert evaluation across many projects with modest per-judge effort (35 judges cast 319 votes). Archiving every output to GitHub and consolidating them in a single Zenodo record produced a durable, citable community resource, and several outputs have persisted past the event, including contributions folded into the maintained \textsc{gauche} library and a community-curated resource list (project 43)~\cite{zimmermann_reflections_2024}. These choices align with best practices identified across scientific hackathons: strong onboarding, structured mentoring, and disciplined post-event archiving~\cite{stoltzfus_community_2017, busby_building_2015, valentine_hacktive_2025}.
+
+Other aspects proved more difficult. Some teams that registered before the event did not converge into active projects, and six teams recorded no closing video, which made their outputs harder to capture; pre-event team formation and mentor engagement are reportedly among the most fragile parts of virtual hackathons~\cite{diemar_report_2025}. The missing videos did not track project quality: the first- and second-place projects were among the six without one. The compressed two-day window limited validation depth, and the reproducibility of participant code varied widely (\cref{sec:synthesis}). In hindsight, we would (i) begin team formation earlier with structured virtual meet-and-greets one to two weeks in advance; (ii) provide explicit reproducibility and licensing checklists (pinned dependencies, a runnable notebook, and an appropriate license) to raise the floor on code quality; (iii) request a short recorded or written summary from every team so that all outputs are captured uniformly; (iv) communicate evaluation expectations to participants more explicitly; and (v) run a follow-up survey of participants, since without one we cannot report whether the event changed how participants use BO in their own research. Judging used holistic pairwise comparison rather than a numeric rubric (see Hackathon Details and Setup for the judging question); the submission and authorship requirements that framed evaluation are documented on the hackathon website and archived in the Zenodo record.
+
+\subsection{Scientific lessons: strengths and limitations of Bayesian optimization}
+\label{sec:sci-lessons}
+
+Taken together, the projects illustrate both the appeal and the practical pitfalls of BO in chemistry and materials, in line with the broader literature. On the strengths side, teams repeatedly exploited BO's sample efficiency in low-data regimes, recovering strong candidates within a handful of iterations relative to design-of-experiments or random baselines~\cite{frazier_tutorial_2018, shahriari_taking_2016}. The submissions collectively demonstrated BO's flexibility, handling continuous, categorical, mixed, molecular, multi-objective, multi-fidelity, contextual, batched, and cost-aware problems, including successful prototypes of multi-objective search and preference-based, human-in-the-loop workflows~\cite{lin_preference_2022}. Specialized kernels and representations (e.g., for molecules) further extended BO to structured inputs~\cite{griffiths_gauche_2024}.
+
+The projects also surfaced well-known limitations. Default BO was not always superior to simple baselines: two teams reported little advantage over random search on their tasks (projects 33 and 1), and while these two-day comparisons were not run at benchmark rigor, they underscore the value of always including a simple baseline~\cite{liang_benchmarking_2021}. Results were sensitive to molecular representation, featurization, and kernel choice; warm-start data quality, observation noise, and high-dimensional search spaces were recurring pain points, for which noise-robust and heteroscedastic-aware methods are relevant remedies~\cite{aldeghi_golem_2021, altamirano_robust_2023}. Acquisition-function optimization itself mattered: one of the top-ranked projects (project 3) showed that investing more computation in the acquisition optimizer changed observed performance, connecting to ongoing work on scalable and high-dimensional acquisition strategies~\cite{ament_sustainable_2023, maus_local_2023}. Finally, retrospective benchmark gains do not guarantee wet-laboratory success, and reproducing comparisons across studies remains difficult~\cite{liang_benchmarking_2021}. Where teams integrated LLMs, the models lowered access barriers and helped specify spaces or retrieve priors, but they added another uncertain component that can degrade on complex objectives and requires validation against non-LLM baselines~\cite{kristiadi_sober_2024}.
+
+On the recurring question of which framework works best for a given noise regime, these projects support only a narrow observation: in project 23, modeling the observation noise in the surrogate became more valuable as the noise grew. More broadly, deployment-oriented libraries such as \textsc{BayBE} and \textsc{BoFire} target the experimental setting specifically~\cite{fitzner_baybe_2022, durholt_bofire_2024}; a general ranking of frameworks by noise regime is beyond what a two-day event can establish.
+
+\section{Future Opportunities}
+\label{sec:future}
+
+Building on the hackathon outputs and the trends above, we highlight several promising directions for BO in chemistry and materials discovery. \emph{Autonomous and self-driving laboratories} are a natural home for BO, closing the loop between algorithmic suggestion and automated experimentation~\cite{tom_self-driving_2024, abolhasani_rise_2023}. \emph{Multi-fidelity optimization} that fuses cheap simulations or proxy measurements with expensive experiments can substantially reduce cost, provided its assumptions are handled carefully~\cite{sabanza-gil_best_2025, judge_applying_2024}. \emph{Uncertainty-aware experimental planning} and active learning under design constraints can make campaigns more sample-efficient and trustworthy~\cite{low_evolution_2024}.
+
+The large share of hackathon projects that already incorporated language models points to \emph{foundation-model- and LLM-assisted BO} as a particularly active frontier for design-space specification, prior construction, and warm-starting; reported evidence on whether LLM-based surrogates and priors outperform strong classical baselines is mixed, and benchmarking such hybrids fairly (separating genuine generalization from memorized results) is itself an open problem~\cite{kristiadi_sober_2024, rankovic_gollum_2025}. Other opportunities include \emph{preference-based and human-in-the-loop BO} for subjective or hard-to-quantify objectives~\cite{adachi_looping_2024, deneault_preferential_2025}; \emph{multi-objective materials design} with scalable hypervolume-based acquisitions~\cite{ament_sustainable_2023}; \emph{robust BO under noisy experimental data}~\cite{aldeghi_golem_2021, altamirano_robust_2023}; \emph{community benchmark development} to enable reproducible, apples-to-apples comparisons~\cite{liang_benchmarking_2021, felton_summit_2021}; and \emph{domain-specific, deployment-ready BO tools} for synthesis and processing optimization that meet experimentalists where they work, including a growing set of graphical and web-based BO interfaces that remove coding barriers~\cite{durholt_bofire_2024, fitzner_baybe_2022, ishii_boxvia_2022, torres_multi-objective_2022, tamura_nims-os_2023}. Collectively, these directions echo the broader perspective that Bayesian methods are becoming a core component of the autonomous materials-discovery toolkit~\cite{arroyave_perspective_2022}.
+
 
 \section*{Data Availability}
 
@@ -429,7 +556,7 @@ There are no conflicts of interest to declare.
 We express a huge thanks to Kevin Jablonka and Ben Blaiszik (latter a co-author of this paper) and others did phenomenal work paving the way with the LLMs for Chemistry and Materials Hackathon (2023). Much of the setup and many of the patterns of the Bayesian optimization hackathon was either directly replicated based off of or inspired by the LLM hackathon.
 
 This work was undertaken thanks in part to funding provided to the University of Toronto’s Acceleration Consortium from the Canada First Research Excellence Fund (CFREF-2022-00042). We kindly acknowledge Tiago L. P. Galvão for providing Al alloy data from the CORDATA database. Can Özkan acknowledges the VIPCOAT project (Virtual Open Innovation Platform for Active Protective Coatings Guided by Modelling and Optimisation) funded by the Horizon 2020 research and innovation programme of the European Union by grant agreement no. 952903. Ankur Kumar Gupta acknowledges support by the U.S. Department of Energy, Office of Science, Basic Energy Sciences, Materials Sciences and Engineering Division under Contract No. DE-AC02-05CH11231, FWP No. DAC-LBL-Long.
-Andy S. Anker acknowledges support by Novo Nordisk Foundation grant NNF23OC0081359. Alexander Wieczorek acknowledges funding from the Strategic Focus Area–Advanced Manufacturing (SFA–AM) through the project Advancing manufacturability of hybrid organic–inorganic semiconductors for large area optoelectronics (AMYS).
+Andy S. Anker acknowledges support by Novo Nordisk Foundation grant NNF23OC0081359. Alexander Wieczorek acknowledges funding from the Strategic Focus Area Advanced Manufacturing (SFA-AM) through the project Advancing manufacturability of hybrid organic-inorganic semiconductors for large area optoelectronics (AMYS).
 
 Finally, we express thanks to all participants in the hackathon. The hackathon was only possible and meaningful due to the time dedicated by many in the projects themselves.
 

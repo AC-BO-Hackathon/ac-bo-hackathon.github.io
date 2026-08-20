@@ -98,10 +98,10 @@ def gen_summary(input_dir):
     # Generate sections
     for project_number, project_name, summary, video_url in entries:
         title = f"Project {project_number}: {project_name}"
-        if video_url:
-            section_title = f"\\subsection*{{\\href{{{video_url}}}{{{title}}}}}"
-        else:
-            section_title = f"\\subsection*{{{title}}}"
+        # Project-title headings are intentionally plain text (not hyperlinks):
+        # the video/GitHub/social links are already provided in the projects
+        # table, and hidden hyperlinks are inaccessible on printed copies.
+        section_title = f"\\subsection*{{{title}}}"
 
         section = f"{section_title}\n\n{summary}\n"
         sections.append(section)
