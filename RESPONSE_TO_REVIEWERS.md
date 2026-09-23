@@ -2,7 +2,8 @@
 
 **Manuscript:** DD-ART-06-2026-000353, *Bayesian Optimization Hackathon for Chemistry and Materials*
 
-Referee comments are quoted below, with replies interspersed.
+Referee comments are quoted below, with replies interspersed. Section, paragraph, and page numbers
+refer to the revised manuscript.
 
 ---
 
@@ -25,7 +26,9 @@ Noted.
 > project scoping, judging, mentoring, and post-event archiving? What did not work well? What would
 > the organizers change in a future event?
 
-Added as Lessons Learned, Organizational lessons.
+Added as Lessons Learned, Organizational lessons (Section V.A, page 19): what worked and would be
+retained in the first paragraph; what proved difficult and the five changes we would make in the
+second.
 
 > Second, the authors should synthesize the scientific lessons from the project outcomes. [...] I
 > encourage the authors to add a section summarizing the observed pros and cons of BO across the
@@ -35,7 +38,8 @@ Added as Lessons Learned, Organizational lessons.
 > selection, acquisition-function optimization, computational overhead, and reproducibility of
 > benchmark comparisons.
 
-Added as Lessons Learned, Scientific lessons: strengths and limitations of Bayesian optimization.
+Added as Lessons Learned, Scientific lessons (Section V.B, pages 19 and 20): strengths in the first
+paragraph, limitations in the second.
 
 > Third, the authors should add a forward-looking section on future opportunities for Bayesian
 > optimization in materials discovery. [...] Possible topics include BO for autonomous laboratories,
@@ -43,7 +47,8 @@ Added as Lessons Learned, Scientific lessons: strengths and limitations of Bayes
 > preference-based BO, multi-objective materials design, robust BO under noisy experimental data,
 > benchmark development, and domain-specific BO tools for synthesis and processing optimization.
 
-Added as Future Opportunities, which covers each direction listed.
+Added as Future Opportunities (Section VI, page 20); its two paragraphs cover each direction
+listed.
 
 > I also recommend that the authors provide a more systematic evaluation of the 45 project outputs.
 > It would be helpful to classify projects into categories such as mature software, benchmark
@@ -51,15 +56,16 @@ Added as Future Opportunities, which covers each direction listed.
 > availability, licensing, documentation, reproducibility, dependency status, and maintenance plans
 > would strengthen the resource value of the paper.
 
-Added as Cross-Project Synthesis: classification in Table IV, per-project license status in Table V,
-per-project assignments in the ESI.
+Added as Cross-Project Synthesis (Section IV, pages 18 and 19): the classification in Table IV
+(page 18), discussed in the section's second paragraph; per-project license status in Table V (page
+19), discussed in the fourth paragraph; per-project category assignments in the ESI.
 
 > Overall, I find the manuscript valuable as a community-resource and open-science contribution. [...]
 > I recommend major revision to add a stronger synthesis of organizational lessons, scientific
 > lessons from the BO applications, limitations revealed by the project outcomes, and future
 > opportunities for Bayesian optimization in chemistry and materials.
 
-Addressed by the three new sections above.
+Addressed by the three new sections above (Sections IV, V, and VI, pages 18 to 20).
 
 ---
 
@@ -77,24 +83,26 @@ Noted.
 > beyond summary listings of the project titles and the description of the individual projects. For
 > example, were there commonalities/differences in the way different teams approach their problems?
 
-Added as Cross-Project Synthesis; see the manuscript.
+Added as Cross-Project Synthesis (Section IV, page 18). Commonalities and differences in how teams
+approached their problems are in the fifth paragraph.
 
 > Does the level of prior expertise impact the outcomes?
 
-Cross-Project Synthesis notes the mix of participant backgrounds; outcomes were not measured by
-expertise.
+The mix of participant backgrounds is noted in the fifth paragraph of Cross-Project Synthesis
+(Section IV, page 18); outcomes were not measured by expertise.
 
 > Are there follow up studies to see whether participants are applying BO methods in their own
 > research? What was the ultimate gain from the hackaton? increased awareness? increased
 > understanding of the methods? more interactions across many groups?
 
-No follow-up survey was run. Persistence of outputs and a commitment to survey participants at
-future events are stated in Lessons Learned, Organizational lessons.
+No follow-up survey was run. Persistence of outputs is stated in the first paragraph of Lessons
+Learned, Organizational lessons, and the commitment to survey participants at future events in the
+second (Section V.A, page 19).
 
 > While I would not expect the authors to address all the items presented above, it would be very
 > useful to have a reflective component to the paper and at least some discussion on lessons learned.
 
-Added as Lessons Learned.
+Added as Lessons Learned (Section V, pages 19 and 20).
 
 ---
 
@@ -110,25 +118,27 @@ Noted.
 > project attempted to do / did, this reviewer finds the listing of projects to end a bit abruptly.
 > It would be nice if some takeaways from the hackathon are produced at the end:
 
-The manuscript no longer ends with the project listing: Cross-Project Synthesis, Lessons Learned,
-and Future Opportunities follow it.
+The manuscript no longer ends with the project listing: Cross-Project Synthesis (Section IV, page
+18), Lessons Learned (Section V, pages 19 and 20), and Future Opportunities (Section VI, page 20)
+follow it.
 
 > 1. are there agreed upon frameworks that work better for specific tasks (i.e. with noisy data or
 > less noisy data)?
 
-The projects support only a narrow observation here; see the end of Lessons Learned, Scientific
-lessons.
+The projects support only a narrow observation here; see the last paragraph of Lessons Learned,
+Scientific lessons (Section V.B, page 20).
 
 > 2. Are BO tools going to be easily deployable in experimental data settings (the hackathon seems to
 > imply that it will!).
 
-Addressed in Lessons Learned, Scientific lessons and in Future Opportunities, which now also cites
-graphical and web-based BO interfaces.
+Addressed in the last paragraph of Lessons Learned, Scientific lessons (Section V.B, page 20) and
+in the second paragraph of Future Opportunities (Section VI, page 20), which cites graphical and
+web-based BO interfaces.
 
 > 3. Where is it useful to use Bayesian Optimization vs. where did end users find little utility?
 
-Project-anchored examples are in Lessons Learned, Scientific lessons; without a participant survey
-we do not generalize beyond them.
+Project-anchored examples are in the first two paragraphs of Lessons Learned, Scientific lessons
+(Section V.B, page 19); without a participant survey we do not generalize beyond them.
 
 > However, this reviewer also commends the fantastic effort in making everyone's data and code
 > publicly available.
@@ -154,20 +164,22 @@ The items are addressed below.
 
 Not withheld: these six teams did not submit the closing video the summarization pipeline ran on.
 Their summaries were written from the teams' project pages and public project outputs and added back
-for completeness; see the opening of Projects' Key Findings. All 45 projects now appear in the text
-and in Table III.
+for completeness; see the opening paragraph of Projects' Key Findings (Section III, page 8). All 45
+projects now appear in the text (pages 8 to 18) and in Table III (pages 7 and 8).
 
 > 1a. For example, a reader would likely want to know more about the first- and second-place winners
 > (projects 23 and 34).
 
-Projects 23 and 34 now have full summaries in Projects' Key Findings, each noting its award.
+Projects 23 and 34 now have full summaries in Projects' Key Findings (pages 13 and 15), each
+noting its award.
 
 > 2. Many of the code repositories do not provide adequate module requirement. (Projects 2–8, 10–16,
 > 18, 20, 22–24, 26, 28, 33, & 38–41.) As this work is spotlighting contributions rather than
 > presenting code as part of its research workflow, the Journal requirements for code repository
 > metadata may not apply.
 
-Noted. The aggregate finding is reported in Cross-Project Synthesis.
+Noted. The aggregate finding is reported in the fourth paragraph of Cross-Project Synthesis
+(Section IV, page 18).
 
 > 3. There are some projects for which the dataset used is not clear. (Projects 6, 19–21, 29, 30, 31,
 > 36, 37, 40, 42, & 45; project 15 provides the dataset, but it is buried within the code
@@ -178,41 +190,42 @@ Noted.
 > 4. Can the rubric used for evaluating projects be included in the supplemental materials?
 
 There was no numeric rubric: judges answered Gavel's holistic pairwise question, effectively "which
-of these two projects is better?". This is now stated in Hackathon Details and Setup.
+of these two projects is better?". This is now stated in the fifth paragraph of Hackathon Details
+and Setup (Section II, page 3).
 
 > 5. The workflow for transcribing and analyzing the projects is not reproducible at its current
 > level of detail. Furthermore, the claim that this approach provides a structured and objective
 > assessment of the submissions is not supported by any evidence or reference to prior works.
 
-Addressed: see the rewritten opening of Projects' Key Findings. The objective-assessment claim has
-been withdrawn.
+Addressed: see the rewritten opening paragraph of Projects' Key Findings (Section III, page 8). The
+objective-assessment claim has been withdrawn.
 
 ### Tables and figures
 
 > 6. Figure 2: The black text which falls above the map can be difficult to read.
 
-Fixed: a thin white outline now surrounds the histogram labels and titles. See Figure 2.
+Fixed: a thin white outline now surrounds the histogram labels and titles. See Figure 2 (page 5).
 
 > 7. Table 1 spans two pages but contains no entries on the second page.
 
-Fixed: the project table (now Table III) breaks cleanly with entries on every page.
+Fixed: the project table (now Table III, pages 7 and 8) breaks cleanly with entries on every page.
 
 > 9. Figure 3: The caption contains a statement on preprint server policies which should be updated to
 > adhere to Digital Discovery's polices.
 
-Fixed: the caption now states the actual reason for the blurring. See Figure 3.
+Fixed: the caption now states the actual reason for the blurring. See Figure 3 (page 5).
 
 > 11. Table 2: The "Prize" header is marked for a footnote that is not present.
 
 Fixed: the explanation is folded into the caption and the header carries no marker. The rankings
-table is now referenced from the community-judging paragraph in Hackathon Details and Setup and
-appears as Table I.
+table is now referenced from the community-judging paragraph in Hackathon Details and Setup
+(Section II, fifth paragraph, page 3) and appears as Table I (page 4).
 
 > 13. Figures 4 & 5: Were participants informed that their names and commentary may be made public
 > prior to joining the event?
 
 Participant display names are pixelated throughout the keynote room panel in Figure 4, and likewise
-in Figure 5.
+in Figure 5 (both on page 6); each caption states this.
 
 ### Minor comments
 
@@ -220,14 +233,15 @@ in Figure 5.
 > transparent hyperlink standards and is inaccessible on paper copies. In addition, these hyperlinks
 > are redundant with the links already provided in Table 1.
 
-Changed to plain text; the links remain in Table III.
+Changed to plain text throughout the summary headings (Section III, pages 8 to 18); the links
+remain in Table III (pages 7 and 8).
 
 > 13a. Project 40 has been migrated from the github listed on its project page to the repo listed in
 > the Zenodo metadata file.
 > 13b. Projects 33 and 34 do not have github links on their project pages despite having links in the
 > Zenodo metadata file.
 
-Fixed on the project pages and in Table III.
+Fixed on the project pages and in Table III (pages 7 and 8).
 
 > 13. Typographical errors in the Acknowledgement section, around the header for Project 3, and in the
 > Author Contributions section. ("Ryan-Rhys Gri ths", "Jakub LÆla", "Can zkan", "Adrian o†i¢",
@@ -235,7 +249,7 @@ Fixed on the project pages and in Table III.
 > "ff", etc.).
 
 Fixed: the compiled PDF now embeds glyph-to-Unicode mappings, so these names extract and copy
-correctly.
+correctly (Acknowledgements, page 20; the Project 3 heading, page 8).
 
 ### Data reviewer checklist
 
