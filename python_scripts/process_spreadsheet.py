@@ -28,12 +28,24 @@ csv_path = os.path.join(root_dir, "AC-bo-hackathon-2024.csv")
 table_content = ""
 unique_projects = set()
 
+def project_sort_key(row):
+    """Sort by numeric project number so the table is always ordered 1..N."""
+    try:
+        return (0, int(str(row.get("Project num", "")).strip()))
+    except (TypeError, ValueError):
+        return (1, str(row.get("Project num", "")))
+
+
 try:
     with open(csv_path, mode="r", encoding="utf-8") as file:
         reader = csv.DictReader(file)
+        rows = list(reader)
 
-        # Iterate over each row in the CSV
-        for row in reader:
+    # Sort by project number so appended rows appear in numeric order
+    rows.sort(key=project_sort_key)
+
+    # Iterate over each row in the CSV
+    for row in rows:
             project_name = row["Project Name"]
             if project_name in unique_projects:
                 continue  # Skip this row if the project name repeats

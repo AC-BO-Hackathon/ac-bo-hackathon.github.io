@@ -17,7 +17,7 @@ contributors:
   - Mohammad Zargartalebi (University of Toronto)
   - Hanie Rezaei (University of Toronto)
 
-# github: AC-BO-Hackathon/<BOMS-Probs>
+github: sartaajkhan/BOMS-ProBs
 # youtube_video: <your-video-id>
 
 ---

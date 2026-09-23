@@ -1,0 +1,7 @@
+{
+    "project_number": 19,
+    "project_name": "Quantum Bayesian Optimization for Automatic Chemical Design",
+    "video_url": "",
+    "summary": "This project proposed a quantum-computing route to BO for molecular design, with quantum Gaussian-process regression\\cite{rapp_quantum_2024} in place of the classical surrogate. The submission was never carried out.",
+    "status": "manual"
+}

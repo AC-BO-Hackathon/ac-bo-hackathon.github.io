@@ -1,0 +1,41 @@
+% Addendum page for the Electronic Supplementary Information (ESI).
+% Referee 1 asked for a systematic classification of the 45 project outputs;
+% the counts appear in the main text (Table IV) and the per-project category
+% assignments live here, as requested during revision.  The master ESI
+% document ("AC-BO Hackathon 2024, All Projects") is maintained outside this
+% repository; append this page to it at submission time.
+%
+% Compile with: pdflatex latex/esi_classification.tex
+\documentclass[11pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\pagestyle{empty}
+
+\begin{document}
+
+\section*{ESI Table S1: Per-project classification by primary deliverable}
+
+Each of the 45 AC-BO Hackathon 2024 submissions was classified by its primary
+deliverable; the counts and shares are reported in the main text. Categories
+are assigned by each project's principal artifact, and secondary
+characteristics are not double-counted.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{>{\raggedright\arraybackslash}p{5cm} c >{\raggedright\arraybackslash}p{7.2cm}}
+\toprule
+\textbf{Primary output category} & \textbf{Count} & \textbf{Project numbers} \\
+\midrule
+Application demonstration & 22 & 6, 7, 8, 9, 13, 14, 16, 17, 18, 21, 22, 25, 26, 27, 30, 32, 34, 37, 38, 39, 40, 44 \\
+Preliminary concept & 10 & 2, 3, 15, 19, 20, 23, 29, 36, 41, 42 \\
+Benchmark dataset/problem & 6 & 1, 5, 24, 28, 33, 45 \\
+Tutorial/educational & 4 & 10, 12, 31, 43 \\
+Mature software & 3 & 4, 11, 35 \\
+\midrule
+\textbf{Total} & \textbf{45} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}
