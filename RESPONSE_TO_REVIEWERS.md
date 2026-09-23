@@ -17,7 +17,7 @@ refer to the revised manuscript.
 >
 > A particular strength of the manuscript is the open-resource aspect. [...]
 
-Noted.
+Thank you!
 
 > However, I think the manuscript would be significantly strengthened by adding more synthesis rather
 > than only listing individual project summaries. First, the authors should summarize the
@@ -26,9 +26,7 @@ Noted.
 > project scoping, judging, mentoring, and post-event archiving? What did not work well? What would
 > the organizers change in a future event?
 
-Added as Lessons Learned, Organizational lessons (Section V.A, page 19), drawing in part on a
-recorded interview with the lead organizer, cited there: what worked and would be retained, then
-what proved difficult and the six changes we would make.
+Added as Lessons Learned, Organizational lessons (Section V.A, page 19)
 
 > Second, the authors should synthesize the scientific lessons from the project outcomes. [...] I
 > encourage the authors to add a section summarizing the observed pros and cons of BO across the
@@ -38,8 +36,7 @@ what proved difficult and the six changes we would make.
 > selection, acquisition-function optimization, computational overhead, and reproducibility of
 > benchmark comparisons.
 
-Added as Lessons Learned, Scientific lessons (Section V.B, pages 19 and 20): strengths in the first
-paragraph, limitations in the second.
+Added as Lessons Learned, Scientific lessons (Section V.B, pages 19 and 20) covering both identified strengths and limitations.
 
 > Third, the authors should add a forward-looking section on future opportunities for Bayesian
 > optimization in materials discovery. [...] Possible topics include BO for autonomous laboratories,
@@ -77,27 +74,25 @@ Addressed by the three new sections above (Sections IV, V, and VI, pages 18 to 2
 > for evaluating the teams to select the best ones are also state-of-the-art and are worthy of
 > dissemination.
 
-Noted.
+Thank you!
 
 > My only recommendation is for the authors to present a meta-analysis of the different projects,
 > beyond summary listings of the project titles and the description of the individual projects. For
 > example, were there commonalities/differences in the way different teams approach their problems?
 
 Added as Cross-Project Synthesis (Section IV, page 18). Commonalities and differences in how teams
-approached their problems are in the fifth paragraph.
+approached their problems are towards the end.
 
 > Does the level of prior expertise impact the outcomes?
 
-The mix of participant backgrounds is noted in the fifth paragraph of Cross-Project Synthesis
-(Section IV, page 18); outcomes were not measured by expertise.
+We did not explore this; however, the mix of participant backgrounds is noted in the fifth paragraph of Cross-Project Synthesis
+(Section IV, page 18).
 
 > Are there follow up studies to see whether participants are applying BO methods in their own
 > research? What was the ultimate gain from the hackaton? increased awareness? increased
 > understanding of the methods? more interactions across many groups?
 
-No follow-up survey was run. Persistence of outputs is stated in the second paragraph of Lessons
-Learned, Organizational lessons, and the commitment to survey participants at future events in the
-third (Section V.A, page 19).
+This was very interesting for us. We looked at this and found a number of examples. These are now described in "Post-hackathon Outcomes".
 
 > While I would not expect the authors to address all the items presented above, it would be very
 > useful to have a reflective component to the paper and at least some discussion on lessons learned.
@@ -112,7 +107,7 @@ Added as Lessons Learned (Section V, pages 19 and 20).
 > AC-BO Hackathon in 2024. [...] This article is interestingly documented. In fact, I really enjoyed
 > it as a reader, because it gives many use cases (with code!) where BO may be useful.
 
-Noted.
+Thank you!
 
 > Although the article discusses each project individually and gives a good notion of what each
 > project attempted to do / did, this reviewer finds the listing of projects to end a bit abruptly.
@@ -125,7 +120,7 @@ follow it.
 > 1. are there agreed upon frameworks that work better for specific tasks (i.e. with noisy data or
 > less noisy data)?
 
-The projects support only a narrow observation here; see the last paragraph of Lessons Learned,
+The projects support only a narrow observation here; see Lessons Learned,
 Scientific lessons (Section V.B, page 20).
 
 > 2. Are BO tools going to be easily deployable in experimental data settings (the hackathon seems to
@@ -138,12 +133,12 @@ web-based BO interfaces.
 > 3. Where is it useful to use Bayesian Optimization vs. where did end users find little utility?
 
 Project-anchored examples are in the first two paragraphs of Lessons Learned, Scientific lessons
-(Section V.B, pages 19 and 20); without a participant survey we do not generalize beyond them.
+(Section V.B, pages 19 and 20); without a participant survey we do not generalize beyond them, but we also added a note stating that we would like to do a survey for similar events in the future.
 
 > However, this reviewer also commends the fantastic effort in making everyone's data and code
 > publicly available.
 
-Noted.
+Thank you!
 
 ---
 
@@ -185,7 +180,7 @@ Noted. The aggregate finding is reported in the fourth paragraph of Cross-Projec
 > 36, 37, 40, 42, & 45; project 15 provides the dataset, but it is buried within the code
 > repository.)
 
-Noted.
+In future work section, we mentioned some plans for future events where clearer dataset documentation and accessibility would be emphasized to ensure reproducibility and transparency.
 
 > 4. Can the rubric used for evaluating projects be included in the supplemental materials?
 
@@ -224,7 +219,7 @@ table is now referenced from the community-judging paragraph in Hackathon Detail
 > 13. Figures 4 & 5: Were participants informed that their names and commentary may be made public
 > prior to joining the event?
 
-Participant display names are pixelated throughout the keynote room panel in Figure 4, and likewise
+Participant display names are now pixelated throughout the keynote room panel in Figure 4, and likewise
 in Figure 5 (both on page 6); each caption states this.
 
 ### Minor comments
