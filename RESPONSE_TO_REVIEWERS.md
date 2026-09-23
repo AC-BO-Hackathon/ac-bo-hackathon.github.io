@@ -26,7 +26,7 @@ Noted.
 > project scoping, judging, mentoring, and post-event archiving? What did not work well? What would
 > the organizers change in a future event?
 
-Added as Lessons Learned, Organizational lessons (Section V.A, page 19), drawing in part on a
+Added as Lessons Learned, Organizational lessons (Section V.A, pages 19 and 20), drawing in part on a
 recorded interview with the lead organizer, cited there: what worked and would be retained, then
 what proved difficult and the six changes we would make.
 
@@ -38,7 +38,7 @@ what proved difficult and the six changes we would make.
 > selection, acquisition-function optimization, computational overhead, and reproducibility of
 > benchmark comparisons.
 
-Added as Lessons Learned, Scientific lessons (Section V.B, pages 19 and 20): strengths in the first
+Added as Lessons Learned, Scientific lessons (Section V.B, page 20): strengths in the first
 paragraph, limitations in the second.
 
 > Third, the authors should add a forward-looking section on future opportunities for Bayesian
@@ -47,7 +47,7 @@ paragraph, limitations in the second.
 > preference-based BO, multi-objective materials design, robust BO under noisy experimental data,
 > benchmark development, and domain-specific BO tools for synthesis and processing optimization.
 
-Added as Future Opportunities (Section VI, page 20); its two paragraphs cover each direction
+Added as Future Opportunities (Section VI, pages 20 and 21); its two paragraphs cover each direction
 listed.
 
 > I also recommend that the authors provide a more systematic evaluation of the 45 project outputs.
@@ -57,7 +57,7 @@ listed.
 > would strengthen the resource value of the paper.
 
 Added as Cross-Project Synthesis (Section IV, pages 18 and 19): the classification in Table IV
-(page 18), discussed in the section's second paragraph; per-project license status in Table V (page
+(page 19), discussed in the section's second paragraph; per-project license status in Table V (page
 19), discussed in the fourth paragraph; per-project category assignments in the ESI.
 
 > Overall, I find the manuscript valuable as a community-resource and open-science contribution. [...]
@@ -65,7 +65,7 @@ Added as Cross-Project Synthesis (Section IV, pages 18 and 19): the classificati
 > lessons from the BO applications, limitations revealed by the project outcomes, and future
 > opportunities for Bayesian optimization in chemistry and materials.
 
-Addressed by the three new sections above (Sections IV, V, and VI, pages 18 to 20).
+Addressed by the three new sections above (Sections IV, V, and VI, pages 18 to 21).
 
 ---
 
@@ -84,12 +84,12 @@ Noted.
 > example, were there commonalities/differences in the way different teams approach their problems?
 
 Added as Cross-Project Synthesis (Section IV, page 18). Commonalities and differences in how teams
-approached their problems are in the fifth paragraph.
+approached their problems are in the sixth paragraph (page 19).
 
 > Does the level of prior expertise impact the outcomes?
 
-The mix of participant backgrounds is noted in the fifth paragraph of Cross-Project Synthesis
-(Section IV, page 18); outcomes were not measured by expertise.
+The mix of participant backgrounds is noted in the sixth paragraph of Cross-Project Synthesis
+(Section IV, page 19); outcomes were not measured by expertise.
 
 > Are there follow up studies to see whether participants are applying BO methods in their own
 > research? What was the ultimate gain from the hackaton? increased awareness? increased
@@ -97,7 +97,7 @@ The mix of participant backgrounds is noted in the fifth paragraph of Cross-Proj
 
 No follow-up survey was run. Persistence of outputs is stated in the second paragraph of Lessons
 Learned, Organizational lessons, and the commitment to survey participants at future events in the
-third (Section V.A, page 19).
+third (Section V.A, pages 19 and 20).
 
 > While I would not expect the authors to address all the items presented above, it would be very
 > useful to have a reflective component to the paper and at least some discussion on lessons learned.
@@ -119,8 +119,8 @@ Noted.
 > It would be nice if some takeaways from the hackathon are produced at the end:
 
 The manuscript no longer ends with the project listing: Cross-Project Synthesis (Section IV, page
-18), Lessons Learned (Section V, pages 19 and 20), and Future Opportunities (Section VI, page 20)
-follow it.
+18), Lessons Learned (Section V, pages 19 and 20), and Future Opportunities (Section VI, pages 20
+and 21) follow it.
 
 > 1. are there agreed upon frameworks that work better for specific tasks (i.e. with noisy data or
 > less noisy data)?
@@ -132,13 +132,13 @@ Scientific lessons (Section V.B, page 20).
 > imply that it will!).
 
 Addressed in the last paragraph of Lessons Learned, Scientific lessons (Section V.B, page 20) and
-in the second paragraph of Future Opportunities (Section VI, page 20), which cites graphical and
+in the second paragraph of Future Opportunities (Section VI, page 21), which cites graphical and
 web-based BO interfaces.
 
 > 3. Where is it useful to use Bayesian Optimization vs. where did end users find little utility?
 
 Project-anchored examples are in the first two paragraphs of Lessons Learned, Scientific lessons
-(Section V.B, pages 19 and 20); without a participant survey we do not generalize beyond them.
+(Section V.B, page 20); without a participant survey we do not generalize beyond them.
 
 > However, this reviewer also commends the fantastic effort in making everyone's data and code
 > publicly available.
@@ -170,7 +170,7 @@ projects now appear in the text (pages 8 to 18) and in Table III (pages 7 and 8)
 > 1a. For example, a reader would likely want to know more about the first- and second-place winners
 > (projects 23 and 34).
 
-Projects 23 and 34 now have full summaries in Projects' Key Findings (pages 13 and 15), each
+Projects 23 and 34 now have full summaries in Projects' Key Findings (pages 13 and 16), each
 noting its award.
 
 > 2. Many of the code repositories do not provide adequate module requirement. (Projects 2–8, 10–16,
@@ -179,13 +179,20 @@ noting its award.
 > metadata may not apply.
 
 Noted. The aggregate finding is reported in the fourth paragraph of Cross-Project Synthesis
-(Section IV, page 18).
+(Section IV, page 19).
 
 > 3. There are some projects for which the dataset used is not clear. (Projects 6, 19–21, 29, 30, 31,
 > 36, 37, 40, 42, & 45; project 15 provides the dataset, but it is buried within the code
 > repository.)
 
-Noted.
+Addressed: each flagged summary now names its dataset with a citation, or states that objective
+values came from simulation, synthetic test functions, or in-house measurements, and that the
+proposal-stage submissions (19, 29, and 42) used no data (Section III, pages 9 to 18). A
+data-provenance paragraph was added to Cross-Project Synthesis (Section IV, fifth paragraph,
+page 19). Project 15's source, the direct arylation benchmark of Shields et al. fetched at run
+time from the EDBO+ repository, is now cited from the summary itself. The project 37 summary's
+transcription error "Hornel" is corrected to the Hone et al. kinetics underlying its Summit
+simulation.
 
 > 4. Can the rubric used for evaluating projects be included in the supplemental materials?
 
@@ -249,7 +256,7 @@ Fixed on the project pages and in Table III (pages 7 and 8).
 > "ff", etc.).
 
 Fixed: the compiled PDF now embeds glyph-to-Unicode mappings, so these names extract and copy
-correctly (Acknowledgements, page 20; the Project 3 heading, page 8).
+correctly (Acknowledgements, page 21; the Project 3 heading, page 8).
 
 ### Data reviewer checklist
 

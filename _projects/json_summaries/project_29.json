@@ -2,6 +2,6 @@
     "project_number": 29,
     "project_name": "A Bayesian Approach to Predict Solubility Parameters",
     "video_url": "",
-    "summary": "This project proposed modeling Hansen solubility parameters with Gaussian-process regression on chemical descriptors and sigma profiles, comparing molecular kernels from the GAUCHE framework\\cite{griffiths_gauche_2024} against an existing Bayesian treatment used as benchmark and dataset\\cite{sanchez-lengeling_bayesian_2018}. The submission stayed at the proposal stage: no code or results were published.",
+    "summary": "This project proposed modeling Hansen solubility parameters with Gaussian-process regression on chemical descriptors and sigma profiles, comparing molecular kernels from the GAUCHE framework\\cite{griffiths_gauche_2024} against an existing Bayesian treatment whose published solubility-parameter compilation was to serve as both benchmark and dataset\\cite{sanchez-lengeling_bayesian_2018}. The submission stayed at the proposal stage: no dataset was ultimately used and no code or results were published.",
     "status": "manual"
 }
