@@ -44,7 +44,7 @@ Added as Lessons Learned, Scientific lessons (Section V.B, pages 19 and 20) cove
 > preference-based BO, multi-objective materials design, robust BO under noisy experimental data,
 > benchmark development, and domain-specific BO tools for synthesis and processing optimization.
 
-Added as Future Opportunities (Section VI, page 20); its two paragraphs cover each direction
+Added as Future Opportunities (Section VII, page 20); its two paragraphs cover each direction
 listed.
 
 > I also recommend that the authors provide a more systematic evaluation of the 45 project outputs.
@@ -62,7 +62,8 @@ Added as Cross-Project Synthesis (Section IV, pages 18 and 19): the classificati
 > lessons from the BO applications, limitations revealed by the project outcomes, and future
 > opportunities for Bayesian optimization in chemistry and materials.
 
-Addressed by the three new sections above (Sections IV, V, and VI, pages 18 to 20).
+Addressed by the new sections (Sections IV to VII, pages 18 to 20): Cross-Project Synthesis,
+Lessons Learned, Post-hackathon Outcomes, and Future Opportunities.
 
 ---
 
@@ -92,7 +93,7 @@ We did not explore this; however, the mix of participant backgrounds is noted in
 > research? What was the ultimate gain from the hackaton? increased awareness? increased
 > understanding of the methods? more interactions across many groups?
 
-This was very interesting for us. We looked at this and found a number of examples. These are now described in "Post-hackathon Outcomes".
+This was very interesting for us. We looked at this and found a number of examples. These are now described in Post-hackathon Outcomes (Section VI, page 20).
 
 > While I would not expect the authors to address all the items presented above, it would be very
 > useful to have a reflective component to the paper and at least some discussion on lessons learned.
@@ -114,8 +115,8 @@ Thank you!
 > It would be nice if some takeaways from the hackathon are produced at the end:
 
 The manuscript no longer ends with the project listing: Cross-Project Synthesis (Section IV, page
-18), Lessons Learned (Section V, pages 19 and 20), and Future Opportunities (Section VI, page 20)
-follow it.
+18), Lessons Learned (Section V, pages 19 and 20), Post-hackathon Outcomes (Section VI, page 20),
+and Future Opportunities (Section VII, page 20) follow it.
 
 > 1. are there agreed upon frameworks that work better for specific tasks (i.e. with noisy data or
 > less noisy data)?
@@ -127,7 +128,7 @@ Scientific lessons (Section V.B, page 20).
 > imply that it will!).
 
 Addressed in the last paragraph of Lessons Learned, Scientific lessons (Section V.B, page 20) and
-in the second paragraph of Future Opportunities (Section VI, page 20), which cites graphical and
+in the second paragraph of Future Opportunities (Section VII, page 20), which cites graphical and
 web-based BO interfaces.
 
 > 3. Where is it useful to use Bayesian Optimization vs. where did end users find little utility?
@@ -244,7 +245,7 @@ Fixed on the project pages and in Table III (pages 7 and 8).
 > "ff", etc.).
 
 Fixed: the compiled PDF now embeds glyph-to-Unicode mappings, so these names extract and copy
-correctly (Acknowledgements, page 20; the Project 3 heading, page 8).
+correctly (Acknowledgements, page 21; the Project 3 heading, page 8).
 
 ### Data reviewer checklist
 
