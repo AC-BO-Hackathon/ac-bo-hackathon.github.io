@@ -26,9 +26,9 @@ Noted.
 > project scoping, judging, mentoring, and post-event archiving? What did not work well? What would
 > the organizers change in a future event?
 
-Added as Lessons Learned, Organizational lessons (Section V.A, page 19): what worked and would be
-retained in the first paragraph; what proved difficult and the five changes we would make in the
-second.
+Added as Lessons Learned, Organizational lessons (Section V.A, page 19), drawing in part on a
+recorded interview with the lead organizer, cited there: what worked and would be retained, then
+what proved difficult and the six changes we would make.
 
 > Second, the authors should synthesize the scientific lessons from the project outcomes. [...] I
 > encourage the authors to add a section summarizing the observed pros and cons of BO across the
@@ -95,9 +95,9 @@ The mix of participant backgrounds is noted in the fifth paragraph of Cross-Proj
 > research? What was the ultimate gain from the hackaton? increased awareness? increased
 > understanding of the methods? more interactions across many groups?
 
-No follow-up survey was run. Persistence of outputs is stated in the first paragraph of Lessons
+No follow-up survey was run. Persistence of outputs is stated in the second paragraph of Lessons
 Learned, Organizational lessons, and the commitment to survey participants at future events in the
-second (Section V.A, page 19).
+third (Section V.A, page 19).
 
 > While I would not expect the authors to address all the items presented above, it would be very
 > useful to have a reflective component to the paper and at least some discussion on lessons learned.
@@ -138,7 +138,7 @@ web-based BO interfaces.
 > 3. Where is it useful to use Bayesian Optimization vs. where did end users find little utility?
 
 Project-anchored examples are in the first two paragraphs of Lessons Learned, Scientific lessons
-(Section V.B, page 19); without a participant survey we do not generalize beyond them.
+(Section V.B, pages 19 and 20); without a participant survey we do not generalize beyond them.
 
 > However, this reviewer also commends the fantastic effort in making everyone's data and code
 > publicly available.
