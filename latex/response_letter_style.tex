@@ -1,0 +1,55 @@
+% Styling for the reviewer-response letter PDF, loaded by scripts/make_response_letter.sh
+% via pandoc -H. Goal: render the letter like a standard markdown preview, in particular
+% the blockquoted referee text: muted gray type behind a light gray left bar, so quotes
+% separate from replies at a glance. Colors follow the GitHub light-theme palette.
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{titlesec}
+
+\definecolor{mutedtext}{HTML}{59636E}
+\definecolor{bordergray}{HTML}{D1D9E0}
+\definecolor{linkblue}{HTML}{0969DA}
+
+% Blockquotes (referee text): 3pt gray bar, muted gray type; mdframed splits the frame
+% across pages, so long referee comments break cleanly.
+\renewenvironment{quote}{%
+  \begin{mdframed}[
+    topline=false,bottomline=false,rightline=false,
+    linewidth=3pt,linecolor=bordergray,
+    innerleftmargin=10pt,innerrightmargin=0pt,
+    innertopmargin=3pt,innerbottommargin=3pt,
+    leftmargin=1pt,rightmargin=0pt,
+    skipabove=0.5\baselineskip,skipbelow=0.5\baselineskip
+  ]\color{mutedtext}%
+}{\end{mdframed}}
+
+% Headings as a markdown preview draws them: sans serif, with a thin gray underline on
+% the letter title (h1 -> \section) and the per-referee headings (h2 -> \subsection).
+% Heading text and underline are set together in one \parbox so a page break can never
+% separate them (an after-code \titlerule can be orphaned onto the next page).
+\newcommand{\ruledtitle}[2]{%
+  \parbox[t]{\linewidth}{\raggedright #2\par\nobreak\vspace{2pt}%
+    \nointerlineskip{\color{bordergray}\rule{\linewidth}{#1}}}}
+\newcommand{\sectiontitle}[1]{\ruledtitle{1.2pt}{#1}}
+\newcommand{\subsectiontitle}[1]{\ruledtitle{1pt}{#1}}
+\titleformat{\section}
+  {\LARGE\bfseries\sffamily}{\thesection}{1em}{\sectiontitle}
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.8\baselineskip}
+\titleformat{\subsection}
+  {\Large\bfseries\sffamily}{\thesubsection}{1em}{\subsectiontitle}
+\titlespacing*{\subsection}{0pt}{1.3\baselineskip}{0.7\baselineskip}
+\titleformat{\subsubsection}
+  {\large\bfseries\sffamily\raggedright}{\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{1.1\baselineskip}{0.4\baselineskip}
+
+% Never leave a heading alone at the bottom of a page: require room for the heading
+% plus a few lines of what follows, else break early. (The mdframed quote that usually
+% follows a heading introduces a breakpoint the sectioning penalties do not cover.)
+\usepackage{needspace}
+\let\plainsubsection\subsection
+\renewcommand{\subsection}{\needspace{5\baselineskip}\plainsubsection}
+\let\plainsubsubsection\subsubsection
+\renewcommand{\subsubsection}{\needspace{4\baselineskip}\plainsubsubsection}
+
+% Deferred: pandoc loads hyperref after the header includes
+\AtBeginDocument{\hypersetup{colorlinks=true,linkcolor=linkblue,urlcolor=linkblue,citecolor=linkblue}}
