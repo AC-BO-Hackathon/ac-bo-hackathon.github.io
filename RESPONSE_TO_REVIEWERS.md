@@ -2,11 +2,6 @@
 
 **Manuscript:** DD-ART-06-2026-000353, *Bayesian Optimization Hackathon for Chemistry and Materials*
 
-Referee comments are quoted below, with replies interspersed. Section, paragraph, and page numbers
-refer to the revised manuscript.
-
----
-
 ## Referee 1
 
 > The manuscript reports the organization and outputs of the AC-BO Hackathon 2024, a two-day virtual
