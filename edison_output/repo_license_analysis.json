@@ -1,0 +1,357 @@
+{
+  "n_repo_links": 40,
+  "license_distribution": {
+    "MIT": 19,
+    "NONE": 11,
+    "INACCESSIBLE": 4,
+    "Apache-2.0": 4,
+    "GPL-3.0": 1,
+    "NOASSERTION": 1
+  },
+  "repositories": [
+    {
+      "archived": false,
+      "full_name": "A-Ijishakin/Multi-Objective-BO",
+      "language": "Python",
+      "license": "MIT",
+      "pushed_at": "2024-09-11T09:30:22Z",
+      "queried": "A-Ijishakin/Multi-Objective-BO",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/BOPE-GPT",
+      "language": "Jupyter Notebook",
+      "license": "GPL-3.0",
+      "pushed_at": "2024-12-08T17:56:18Z",
+      "queried": "AC-BO-Hackathon/BOPE-GPT",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/Chihuahuas",
+      "language": "Jupyter Notebook",
+      "license": "NONE",
+      "pushed_at": "2024-04-02T19:44:41Z",
+      "queried": "AC-BO-Hackathon/Chihuahuas",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/general-project-KLM",
+      "language": "Jupyter Notebook",
+      "license": "NONE",
+      "pushed_at": "2024-03-29T04:40:28Z",
+      "queried": "AC-BO-Hackathon/general-project-KLM",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-26-multiple-context-bo",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-07-04T13:32:30Z",
+      "queried": "AC-BO-Hackathon/project-26-multiple-context-bo",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-AiChemMcGill",
+      "language": "Jupyter Notebook",
+      "license": "NONE",
+      "pushed_at": "2025-01-20T21:58:01Z",
+      "queried": "AC-BO-Hackathon/project-AiChemMcGill",
+      "accessible": true
+    },
+    {
+      "queried": "AC-BO-Hackathon/project-The_OSU_ChemEs",
+      "accessible": false,
+      "error": "gh: Not Found (HTTP 404)"
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-localGPs_for_COF",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-04-02T13:30:28Z",
+      "queried": "AC-BO-Hackathon/project-localGPs_for_COF",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-mobo-qm9",
+      "language": "Python",
+      "license": "NONE",
+      "pushed_at": "2024-03-29T03:37:27Z",
+      "queried": "AC-BO-Hackathon/project-mobo-qm9",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-noisy-nerds",
+      "language": "Jupyter Notebook",
+      "license": "NONE",
+      "pushed_at": "2024-04-12T20:58:17Z",
+      "queried": "AC-BO-Hackathon/project-noisy-nerds",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-optimystics",
+      "language": "Python",
+      "license": "NONE",
+      "pushed_at": "2024-03-29T03:37:27Z",
+      "queried": "AC-BO-Hackathon/project-optimystics",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-pitt",
+      "language": "Python",
+      "license": "NONE",
+      "pushed_at": "2024-03-29T03:37:25Z",
+      "queried": "AC-BO-Hackathon/project-pitt",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-simplegpt-bo",
+      "language": "Python",
+      "license": "MIT",
+      "pushed_at": "2024-04-03T01:11:07Z",
+      "queried": "AC-BO-Hackathon/project-simplegpt-bo",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-surface-science-syndicate",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-09-29T19:52:42Z",
+      "queried": "AC-BO-Hackathon/project-surface-science-syndicate",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project-zeolite-synthesis-bayesian-optimisation",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-03-29T03:37:27Z",
+      "queried": "AC-BO-Hackathon/project-zeolite-synthesis-bayesian-optimisation",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AC-BO-Hackathon/project_acquisition_functions",
+      "language": "Python",
+      "license": "Apache-2.0",
+      "pushed_at": "2024-03-29T14:51:22Z",
+      "queried": "AC-BO-Hackathon/project_acquisition_functions",
+      "accessible": true
+    },
+    {
+      "queried": "AC-BO-Hackathon/real-world-pme-no-hikari",
+      "accessible": false,
+      "error": "gh: Not Found (HTTP 404)"
+    },
+    {
+      "archived": false,
+      "full_name": "AndrewFalkowski/TakeYourTime",
+      "language": "Jupyter Notebook",
+      "license": "NONE",
+      "pushed_at": "2024-05-02T23:19:39Z",
+      "queried": "AndrewFalkowski/TakeYourTime",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "AndySAnker/ScattBO",
+      "language": "Jupyter Notebook",
+      "license": "Apache-2.0",
+      "pushed_at": "2024-11-26T17:13:12Z",
+      "queried": "AndySAnker/ScattBO",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "TSAndrews/EmbeddedKnowledgeBO",
+      "language": "Python",
+      "license": "MIT",
+      "pushed_at": "2024-03-29T11:13:48Z",
+      "queried": "TSAndrews/EmbeddedKnowledgeBO",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "alxfgh/BO-De-Novo-Drug-Design-Docking",
+      "language": "Python",
+      "license": "MIT",
+      "pushed_at": "2024-03-29T02:39:05Z",
+      "queried": "alxfgh/BO-De-Novo-Drug-Design-Docking",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "bznan/Multi_agents_BO",
+      "language": "Python",
+      "license": "NONE",
+      "pushed_at": "2024-03-29T13:59:18Z",
+      "queried": "bznan/Multi_agents_BO",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "csmova/AC_BO_Hackathon2024",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-03-28T15:29:37Z",
+      "queried": "csmova/AC_BO_Hackathon2024",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "danieleongari/blends",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-04-18T12:01:22Z",
+      "queried": "danieleongari/blends",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "eltonpan/bayes-warmup",
+      "language": "Python",
+      "license": "MIT",
+      "pushed_at": "2024-04-06T21:21:34Z",
+      "queried": "eltonpan/bayes-warmup",
+      "accessible": true
+    },
+    {
+      "queried": "felix-s-k/general-optimizers",
+      "accessible": false,
+      "error": "gh: Not Found (HTTP 404)"
+    },
+    {
+      "archived": false,
+      "full_name": "FrankWanger/ACBO-Feat",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-04-12T09:19:47Z",
+      "queried": "frankwanger/ACBO-Feat",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "gkwt/rank-bo",
+      "language": "Python",
+      "license": "MIT",
+      "pushed_at": "2024-05-22T02:55:21Z",
+      "queried": "gkwt/rank-bo",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "jakobzeitler/interpretable-BO",
+      "language": "Jupyter Notebook",
+      "license": "NONE",
+      "pushed_at": "2024-03-28T18:47:09Z",
+      "queried": "jakobzeitler/interpretable-BO",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "jakobzeitler/sustainable-concrete",
+      "language": "Jupyter Notebook",
+      "license": "Apache-2.0",
+      "pushed_at": "2024-09-10T15:04:10Z",
+      "queried": "jakobzeitler/sustainable-concrete",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "jean72human/LRBMFO",
+      "language": "Jupyter Notebook",
+      "license": "Apache-2.0",
+      "pushed_at": "2024-03-28T15:42:07Z",
+      "queried": "jean72human/LRBMFO",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "leojklarner/gauche",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-10-11T18:14:52Z",
+      "queried": "leojklarner/gauche",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "materials-data-facility/awesome-bayesian-optimization",
+      "language": null,
+      "license": "NOASSERTION",
+      "pushed_at": "2024-04-02T19:17:20Z",
+      "queried": "materials-data-facility/awesome-bayesian-optimization",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "mehradans92/BO-PU",
+      "language": "Jupyter Notebook",
+      "license": "NONE",
+      "pushed_at": "2024-03-28T01:05:29Z",
+      "queried": "mehradans92/BO-PU",
+      "accessible": true
+    },
+    {
+      "queried": "sangttruong/nonmyopia",
+      "accessible": false,
+      "error": "gh: Not Found (HTTP 404)"
+    },
+    {
+      "archived": false,
+      "full_name": "sartaajkhan/BOMS-ProBs",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2025-06-30T22:57:36Z",
+      "queried": "sartaajkhan/BOMS-ProBs",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "schwallergroup/rambo-I",
+      "language": "Python",
+      "license": "MIT",
+      "pushed_at": "2024-03-29T13:15:30Z",
+      "queried": "schwallergroup/rambo-I",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "shijiale0609/BO-EMD-Materials",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-03-28T02:34:24Z",
+      "queried": "shijiale0609/BO-EMD-Materials",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "spgarcica/symbolic_test",
+      "language": "Julia",
+      "license": "MIT",
+      "pushed_at": "2024-03-29T13:49:55Z",
+      "queried": "spgarcica/symbolic_test",
+      "accessible": true
+    },
+    {
+      "archived": false,
+      "full_name": "stair-lab/bo4ag",
+      "language": "Jupyter Notebook",
+      "license": "MIT",
+      "pushed_at": "2024-05-07T22:03:30Z",
+      "queried": "stair-lab/bo4ag",
+      "accessible": true
+    }
+  ]
+}

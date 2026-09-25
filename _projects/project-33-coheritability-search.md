@@ -11,7 +11,7 @@ contributors:
 #  - Contributor 1 (Institution 1)
 #  - Contributor 2 (Institution 2)
 
-# github: AC-BO-Hackathon/<your-repo-name>
+github: stair-lab/bo4ag
 # youtube_video: <your-video-id>
 
 ---
