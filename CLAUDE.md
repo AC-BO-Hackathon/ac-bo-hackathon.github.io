@@ -11,6 +11,33 @@
 - If you mention files in your comment reply, add direct hyperlinks based on the shortened (7-character) commit hash
 - IMPORTANT: Never echo/grep/print environment secrets. These should never be exposed in your terminal history or other outputs
 
+### The GitHub token dies at minute 60 (push early, re-mint to continue)
+
+The GitHub App token a session starts with (`GITHUB_TOKEN`/`GH_TOKEN` in the
+session environment, and embedded in the origin remote URL) expires exactly 60
+minutes after the Run Claude Code step starts. The session keeps running, but
+`git push` fails, `gh` fails, and the MCP tool that updates the progress
+comment fails, all with 401, so from the outside the session goes silent while
+finished work stops landing.
+
+- Push and update the tracking comment early and often. Treat minute 50 as the
+  deadline for anything that must reach GitHub, in case recovery fails.
+- At the first 401 from a push or `gh` call (or proactively around minute 55),
+  run `python scripts/refresh_github_app_token.py`. It re-runs the action's
+  own OIDC exchange, saves a fresh one-hour token to `/tmp/.ghtok` (mode
+  0600), and re-points the origin remote at it, so plain `git push` works
+  again. Validated live on a 125 minute session that re-minted hourly.
+- `gh` keeps reading the dead token from the environment, so prefix each call:
+  `GH_TOKEN=$(cat /tmp/.ghtok) gh ...`. Separately, `DEFAULT_WORKFLOW_TOKEN`
+  is a distinct token that lasts the whole job and works for reads at any age.
+- The MCP comment tool cannot be re-keyed mid-session. After a re-mint, update
+  the tracking comment over REST instead: write the body to a file and run
+  `GH_TOKEN=$(cat /tmp/.ghtok) gh api -X PATCH
+  repos/$GITHUB_REPOSITORY/issues/comments/<comment-id> -F body=@that-file`.
+- A re-minted token also lives one hour, so re-run the script each hour it is
+  needed. Never echo, log, or commit a token value; the script prints only
+  statuses and lengths.
+
 ## Edison Scientific
 
 When waiting on an Edison task in GitHub Actions, NEVER run the polling script in the background (run_in_background, nohup, &, or the Monitor tool) — the runner is destroyed the moment you post your final comment, killing background processes; Monitor counts as background and dies the same way. Also be aware that the agent harness BLOCKS the shell `sleep` builtin in foreground Bash calls (the error message suggests Monitor — do NOT follow that suggestion, it recreates the background-death failure; this killed several past sessions). The pattern that works: put the wait INSIDE a single blocking Python call — Python-side `time.sleep` is not blocked — and run it as ONE foreground Bash call with an explicit long timeout (max 3600000 ms). Run exactly this (adjust only the task-id path):
