@@ -121,8 +121,9 @@ jobs:
             fi
           }
 
-          model=$(resolve_model "$model_part")
-          model=${model:-$PRIMARY_MODEL}
+          # A bare @claude has no model part: resolve PRIMARY_MODEL too, so
+          # "claude-opus" reaches the CLI as the alias "opus".
+          model=$(resolve_model "${model_part:-$PRIMARY_MODEL}")
           fallback=$(resolve_model "$FALLBACK_MODEL")
 
           case "$effort" in
