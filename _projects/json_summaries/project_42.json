@@ -1,0 +1,7 @@
+{
+    "project_number": 42,
+    "project_name": "Bayesian Optimization and Design of Experiments for Pharmaceutical Formulation (BODoE)",
+    "video_url": "",
+    "summary": "This industry-led project proposed coupling BO-driven design of experiments with an automated laboratory for the formulation of pharmaceutical drug compounds as multi-component mixtures, defining the data schemas and interfaces linking laboratory devices, property-prediction services such as COSMO-SAC\\cite{mqs_cosmo_2024}, and the optimization loop. The submission stayed at the proposal stage: no code or results were published.",
+    "status": "manual"
+}

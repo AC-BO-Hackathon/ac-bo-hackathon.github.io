@@ -1,0 +1,370 @@
+Automated transcript of "Interview 2: Introduction to Hackathon!"
+Featured speaker: Sterling G. Baird (Acceleration Consortium, University of Toronto)
+Interviewers: Yu (Richard) Liu and Utkarsh Pratiush (Kalinin group, University of Tennessee, Knoxville)
+Recorded in preparation for the 2024 hackathon on machine learning for electron and scanning probe microscopy (Mic-hackathon 2024).
+Source: https://kaliningroup.github.io/mic-hackathon/videos-slides/ (Google Drive file 1DGL2D4QJ0cyxAP2s00OMcP8VqBNwckfY, 27 min)
+Transcription: faster-whisper, model small.en, 2026-09-23. Not hand-corrected; recognition errors are present (for example, "hackathon" is sometimes rendered "hexome"). Timestamps are seconds from the start.
+
+[    0.0] Welcome to the introduction interview for the Machining and AI for Microscopic Hexome.
+[    5.9] This hexome will be from December 16th to 17th, at the University of Tennessee, Knoxville.
+[   12.6] Through this conversation interview, we hope that you will learn more about this hexome
+[   17.2] and why it's interesting and relevant for you.
+[   20.9] First, please allow me to introduce everyone in this interview.
+[   25.5] Dr. Sterling Bred, who is currently the Director of Training and Programs at the Acceleration
+[   31.3] Consortium at the University of Toronto.
+[   34.3] He is an expert in developing and managing training facilities for automators, labs, for
+[   40.2] chemistry and material science applications.
+[   43.5] Sterling is a hero in promoting the applications of machine learning and AI tools in the automated
+[   49.6] experiments community.
+[   51.1] For example, he has many YouTube videos and GitHub tutorials at all levels for people to
+[   57.4] get started with machine learning-based automated experiments.
+[   62.2] Another example is that he organized the large-diagonal hexome last year and Bayesian optimization
+[   68.9] for chemistry and material this year, which has been a phenomenal success in the community.
+[   76.7] I'm Richard Liu, currently a postdoctoral working professor at the University of Tennessee,
+[   83.4] Knoxville.
+[   84.4] Before joining the clinical group, I finished my PhD at Howard University studying quantum
+[   89.7] materials.
+[   90.7] Now, I'm leading the development of automated experiments based on scanning proper microscopes
+[   96.4] in the clinical group.
+[   99.7] Lukas Pratyush is a graduate student in the clinical group.
+[  105.0] Before joining the group, he has been working for three years in the machine learning and
+[  109.5] AI industry.
+[  110.5] Currently, he is leading the development of automated experiments based on the scanning
+[  116.8] transmission electron microscope.
+[  119.4] Both Lukas Pratyush and I are helping Professor Sergey Kalini organize this hexome, and you
+[  124.3] can find more information from the QI code on the top right of this video.
+[  132.0] So Sterling, what is a hexome?
+[  135.0] Can you please give us a general description of a hexome, and what motivated you to organize
+[  140.3] one?
+[  141.3] Absolutely.
+[  142.3] And thanks so much for having me.
+[  145.0] I'm really excited to hear more and see what happens with the microscopy hackathon coming
+[  150.6] up.
+[  151.6] So you mentioned, what is a hackathon?
+[  154.1] I think this is best framed by the hackathon queen, Michelle Duke.
+[  160.4] She says a hackathon is a short competition where people work together in teams to solve
+[  166.1] problems and challenges by coming up with solutions and ideas.
+[  170.8] So fairly simple, I would say, in that venue.
+[  175.0] In terms of what motivated me to organize one to begin with, one of the acceleration
+[  179.8] consortium's industry partners, Merck, KDA, had some interest in bringing together the
+[  187.4] community a little bit more.
+[  188.8] They had their own tool, and they were looking to have some kind of event there.
+[  192.8] So that was kind of the impetus for me.
+[  194.6] And then I kind of ran wild with that, you know, really templating things off of Ben
+[  202.2] Blazek's and Kevin Jablanca's large language model hackathon from the previous year,
+[  208.0] and then adding kind of some of my own spins and extra flavors there.
+[  216.0] Thank you for your excellent explanation of hackathon.
+[  219.5] The next topic of discussion is what the audiences should expect out of this hackathon.
+[  225.5] So our goal is to show the participant how modern microscopy can benefit from the advancement
+[  233.2] of machine learning and AI.
+[  235.8] We will have examples of building autonomous workflows ranging from identifying the tasks
+[  242.6] and problems in the microscopy research.
+[  245.9] We will be collecting machine learning models and methods to quantify the performance of
+[  250.3] these models.
+[  251.3] For each task and problem, the participant will have the opportunity to build machine
+[  257.0] learning-based solutions with collaboration with their teammates.
+[  263.2] Yeah, I'll comment on a few things and let me know if I'm missing something.
+[  267.6] Feel free to probe me and poke me for some more things.
+[  272.8] So in one sense, when I was first thinking about, okay, what's going to be the scope
+[  279.4] of this hackathon, what's that going to look like, topic structure, I agonized over this
+[  286.0] question of like scope and projects and things like that.
+[  292.0] And the more I studied resources about successful hackathons, in particular, they're like these
+[  297.5] GitHub tips and tricks to running hackathons, and that's where I got a lot of this information
+[  302.5] was by looking at best practices and other hackathons and resources.
+[  308.4] What I found and converged on is, in general, you should lean towards more open-ended hackathons
+[  317.8] that as you restrict the problem more and more, you also restrict some of the creativity
+[  324.0] and different ideas and brainstorming that can come in.
+[  327.7] Now, there's a place for both, but that's where instead of saying, okay, this is a benchmarking
+[  335.0] hackathon competition on this one specific problem versus, okay, within the general topic
+[  342.7] of Bayesian optimization for chemistry and materials, which is just broad enough and
+[  349.2] just specific enough to constrain things, then what that, I think, was a nice balance
+[  357.2] or kind of trade-off there, and I think you saw that, we saw that with the original large
+[  362.1] language model hackathon, and that that had a lot of success there.
+[  366.9] So I think there's kind of that in terms of project scopes.
+[  370.2] At the same time, what I did was put special topics out there, so you could have, there
+[  378.4] were five categories that you could submit a project within, and so one was focused on
+[  384.8] using algorithms on existing benchmarks, another one was developing new benchmarks.
+[  390.0] We had one that was proposing real-world tasks, and then development of new algorithms, things
+[  399.4] like that, and then kind of this general category, and what I found actually was that a large
+[  404.7] fraction of the teams had submissions in the general category, which was totally fine and
+[  410.7] actually kind of cool to see, you know, people are coming up with their own ideas, they're
+[  415.6] figuring out what they...
+[  416.6] Yeah, I guess we have been talking about why the hackathon is more interesting than the
+[  422.4] recorded video.
+[  423.4] For example, we already have the recorded tutorials, for example, if you want to learn the machine
+[  428.8] learning or AI.
+[  431.2] I guess the one major advantage of hackathon is that, I mean, it's well-organized, and
+[  439.7] also it's a hands-on opportunity, right?
+[  443.0] I mean, for myself, one major barrier for myself to start jumping to a new machine learning
+[  452.6] or AI thing is that it's just hard to imagine where to start, right?
+[  459.4] Like in the hackathon, I guess, because we have already have the well-organized materials,
+[  464.6] like the audience or participants can just follow the structure, like step-by-step and
+[  470.5] interactivity, right?
+[  471.5] Yeah, yeah, that makes a lot of sense.
+[  474.9] I think some psychology comes into play, you know, with the hackathon, you know, usually
+[  482.1] it's announced with, you know, hopefully a few months in advance in the Bay Shopsization
+[  487.5] Hackathon timeframe, it was about six weeks from when, you know, said, okay, we're going
+[  494.6] to do a hackathon, and the hackathon actually happened.
+[  497.3] It's a very short timeline there, but this idea of preparation and kind of getting ready
+[  503.6] for it, and then I think almost most importantly, people blocking out their schedules for those
+[  509.5] days say, okay, I'm dedicating this time here, and you have multiple people doing that
+[  514.6] on these teams, that's really where kind of these real-time collaborations and connections
+[  520.5] come in.
+[  521.5] I'd say one of the main benefits from, you know, you go to conferences with these people,
+[  526.5] and oftentimes they'll put on their email, like, I'm traveling, like, why not here for
+[  531.1] me?
+[  532.1] Because they're really focused in and have that dedicated time for the conference.
+[  538.7] That's a really good point, yeah.
+[  540.3] I guess the other thing that, I mean, like, in the hackathon, we are just presenting, like,
+[  547.6] the content is built based on, you know, like, the application of the state-of-the-art, like,
+[  553.7] research questions compared to tutorials, which are, you know, normally based on the previous
+[  559.6] knowledge.
+[  560.6] Yeah.
+[  561.6] That makes a lot of sense.
+[  565.2] Mm-hmm.
+[  566.2] I've thought a lot about this.
+[  570.7] I'm not perfect at it.
+[  571.9] I'm still trying to figure out a good balance of things there.
+[  577.4] With the Bayesian Optimization Hackathon, yeah, there was really this question of, you know,
+[  582.6] who's the audience?
+[  583.6] Who can benefit most from it?
+[  585.0] How do we make sure that, you know, if we have more advanced topics, that that's not
+[  589.8] leaving the, you know, the people who are newer to the space, you know, kind of in
+[  594.6] the dust.
+[  595.6] They'll just have to try to, you know, get up to speed while also keeping things interesting
+[  601.5] and trying to push forward, you know, like, real research problems, state-of-the-art.
+[  606.5] And so that's where, in terms of the resources that I prepared, there were ones related to
+[  615.4] Python.
+[  618.0] Programming was a given for a lot of the projects, not everyone, not all the projects.
+[  623.9] And so that's where this, like, proposing a real-world task.
+[  628.6] That one was really important, I think, to allow people without a programming background
+[  634.2] who also maybe weren't particularly interested in using that for the hackathon could make
+[  641.1] some really meaningful contributions in that aspect of what are the real challenges to
+[  646.0] tackle in chemistry and material science.
+[  649.4] On the other sense, I used GitHub Classroom for both, like, project repositories, as well
+[  659.0] as some intro material for Python and Bayesian optimization.
+[  663.2] And so what that allowed is for people to kind of have these auto-graded scenarios to get
+[  669.0] them up to speed on, like, okay, I've kind of met some of the, you know, bare minimum
+[  675.7] expectations or requirements of going into this, what's expected of me, what can I expect
+[  681.7] other people to have and know.
+[  683.9] And so I think that preparation aspect in terms of, like, tutorial resources and, you know,
+[  690.2] even some assignments, things like that, allowed.
+[  694.0] Yeah.
+[  695.0] It got us closer to having kind of a level playing field and lots of improvement points
+[  702.6] there, too, on my end.
+[  704.8] Yeah.
+[  705.8] Then this actually brings to our next question, you know, like, how do we prepare our audience
+[  713.9] for the hackathon?
+[  714.9] Because, like, we know people are coming from a different level, right?
+[  717.3] For example, people, for example, there will be audience, like, not even familiar with
+[  722.6] coding.
+[  723.6] There will be also, we have been using the machine learning also AI tools very frequently
+[  728.6] in their research.
+[  731.6] Yeah.
+[  732.6] For us, like, we have prepared, like, a series of tutorial videos at different levels, mainly
+[  737.9] by Professor Sergey Kalinin, so, like, at different people at a different level can
+[  741.8] just pick up whatever they need.
+[  744.3] Yeah.
+[  745.3] Yeah.
+[  746.3] I've thought a lot about this.
+[  752.9] I'm not perfect at it.
+[  754.0] I'm still trying to figure out a good balance of things there.
+[  759.6] If the Bayesian Optimization Hackathon, yeah, there was really this question of, you know,
+[  764.6] who's the audience?
+[  765.6] Who can benefit most from it?
+[  767.1] How do we make sure that, you know, if we have more advanced topics, that that's not
+[  771.9] leaving the, you know, the people who are newer to the space, you know, kind of in
+[  776.8] the dust, they'll just have to try to, you know, get up to speed while also keeping things
+[  782.2] interesting and trying to push forward, kind of, like, real research problems, safety art.
+[  788.6] And so that's where, in terms of the resources that I prepared, there were ones related
+[  797.3] to Python.
+[  800.2] Programming was a given for a lot of the projects, not everyone, not all the projects.
+[  806.0] And so that's where this, like, proposing a real-world task, that one was really important,
+[  812.1] I think, to allow people without a programming background who also maybe weren't particularly
+[  818.5] interested in using that for the Hackathon could make some really meaningful contributions
+[  825.1] in that aspect of what are the real challenges to tackle in chemistry and material science.
+[  831.5] On the other sense, I used GitHub Classroom for both, like, project repositories, as well
+[  841.1] as some intro material for Python and Bayesian Optimization.
+[  845.4] And so what that allowed is for people to kind of have these auto-graded scenarios to get
+[  851.2] them up to speed on, like, okay, I've kind of met some of the, you know, bare minimum
+[  857.9] expectations or requirements of going into this, what's expected of me, what can I expect
+[  863.9] other people to have and know.
+[  866.1] And so I think that preparation aspect in terms of, like, tutorial resources and, you know,
+[  872.3] and some assignments, things like that allowed us closer to having kind of a level playing
+[  881.3] field and lots of improvement points there, too, on my end.
+[  886.7] So we actually have the plan to encourage our audience, actually, to bring their own
+[  891.5] data, their own question to this Hackathon, because, like, I mean, this Hackathon, the
+[  897.1] focus is, you know, how to show the audience how the modeling microscopy, including the
+[  904.0] scanning improvement microscope and also the election microscope, can benefit from the other
+[  908.5] ones to machine learning and also AI tools.
+[  910.9] So we kind of, like, encourage the people from different research fields to bring their
+[  917.5] own experimental workflows, their research questions, and then see how our automated
+[  926.0] experiment can help them and essentially how they can build their own automated workflows
+[  931.3] to solve the questions.
+[  932.3] So what do you think about it?
+[  934.5] Yeah, I think I think that's great.
+[  936.9] I think that brings it into the brings in the real world aspect.
+[  941.8] And I think one of the, you know, there are two ways a Hackathon can kind of be exciting.
+[  950.2] One is that you connect it directly to the, you know, the research or whatever you're
+[  955.3] working on immediately.
+[  956.6] And so it becomes this very, you know, easy path and like easy to justify.
+[  964.0] At the same time, you can have something on the flip side where you're able to try out
+[  969.4] an idea that's been sitting on the back burner for, you know, months and months, and it's
+[  974.6] not directly related, but you can really focus in on that and, you know, kind of get
+[  979.4] exposed to new ideas.
+[  980.8] And so I think, you know, having that as something that you're encouraging people to do, not
+[  986.8] necessarily requiring them to, but encouraging is a great way to kind of play both ends there.
+[  994.6] Can people also makes it easier to justify the time, you know, you know, it's like you're
+[ 1000.4] going to spend two days or however long dedicated to this thing.
+[ 1005.7] You know, it's a lot easier to justify that time.
+[ 1008.2] Yeah. Yeah. It's kind of like getting them like more involved and also engaged.
+[ 1012.1] Yeah. Yeah, I guess like out of like this hack zones, we hope that, you know, like the
+[ 1018.2] audience and the participants can link to things, right?
+[ 1021.2] Like when they know how to do those kind of machining and also AI things.
+[ 1025.8] And secondly, it would be like to identify the use case, right?
+[ 1029.0] For example, how, you know, where and how they can apply those tools to their own
+[ 1033.8] research. So in our materials, sorry, machining and AI.
+[ 1038.2] Yeah, the machining and AI.
+[ 1044.7] So for microscopic hacks, we have prepared, you know, like the workflows from, you know,
+[ 1052.8] from the identification of the common tasks and problems in the microscopic research to,
+[ 1059.0] you know, how the for each of those tasks and the problem, each audience and
+[ 1064.2] participants can build their own automated workflows to tackle those questions.
+[ 1070.8] Do you have like similar setups in your Excel and what do you think?
+[ 1077.6] Do you have an example, you know, a team that's working on the next problem?
+[ 1081.1] Like, do you have an example of what that might look like?
+[ 1083.1] Yes. Yeah. So, for example, you know, like when you are using the microscopy,
+[ 1088.8] like a tuning of the microscopy, that's a huge, like a very time consuming task.
+[ 1094.1] And then the other example is, you know, like we need to find the features in the images
+[ 1099.2] and then, for example, go there to take the specific moment.
+[ 1102.5] And then we want to know the audience to build the automated workflows to follow those kind of tasks.
+[ 1109.7] And then the question is in that context.
+[ 1114.0] So the question is like to ask, like, do you have a similar setup, you know,
+[ 1121.6] help the audience to figure out, you know, how the Bayesian optimization can be helpful
+[ 1127.3] in the chemistry and material research?
+[ 1129.8] And secondly, like, what do you think of those kind of setup?
+[ 1132.6] Yeah, this might play back a little bit into the idea of special topics.
+[ 1139.2] I see. And if I'm if I'm missing the mark, feel free to follow up.
+[ 1144.5] But, yeah, kind of the special topics, giving clear guidelines on.
+[ 1153.5] So some potential projects that people could work on.
+[ 1165.5] And I think it was also really important to work with the individual teams.
+[ 1171.3] That was something that was maybe a little bit surprising.
+[ 1175.5] And I found that it was really important to have lots of interactions
+[ 1180.3] with the individual teams for a couple of reasons.
+[ 1183.2] One, a lot of people that had project ideas
+[ 1188.8] maybe didn't want to put it out there until they had bounced the idea off of somebody.
+[ 1194.5] And so, you know, I ended up talking with a lot of people, you know, for Slack or other venues.
+[ 1208.3] What's going on with the camera?
+[ 1210.3] So a lot of these individual interactions with people to, you know, they're saying, hey,
+[ 1217.1] what do you think about this idea?
+[ 1218.7] And then I can kind of go through and say, like, you know, maybe provide some suggestions
+[ 1223.6] that, you know, especially in terms of how they frame it and how they describe it
+[ 1226.9] to other people.
+[ 1228.7] The other piece was I was
+[ 1231.9] you know, as we were getting closer and closer to the hackathon, I was, you know,
+[ 1235.5] really hoping to see those teams forming in advance
+[ 1240.5] to really maximize the kind of synchronous time that we had at the hackathon.
+[ 1244.1] And so
+[ 1246.4] I spent a lot of time contacting people and people in my network just saying like, hey,
+[ 1251.1] you know, do you have an idea for this?
+[ 1252.9] If you do, you know, could you make a project submission and really
+[ 1258.3] being persistent on that?
+[ 1261.7] And what I think I found is that once we got
+[ 1266.1] to kind of a critical mass, you know, there's like 10 or 15 projects, it became a lot
+[ 1270.5] easier for people to see all these examples of existing project submissions and say,
+[ 1275.8] oh, OK, let me like
+[ 1279.3] I have this idea.
+[ 1280.3] I kind of know the format. Let me add it.
+[ 1282.5] And so that's this kind of initial seeding of the teams and projects.
+[ 1286.6] I think was really important to go from, you know, a handful,
+[ 1291.1] 10 or 15 projects to 44 teams,
+[ 1295.3] which had its own.
+[ 1299.1] You know, that that was both incredibly exciting for me to see.
+[ 1302.7] And then also it definitely kind of felt the growing pains and the stretch marks.
+[ 1307.6] Yeah, I guess that's also like the interesting part of the hackathon, right?
+[ 1310.5] It's like sparkling the the corrective ideas. Yeah.
+[ 1314.5] Yeah. Yeah, absolutely.
+[ 1316.1] So my my work is still cut out for me.
+[ 1319.0] You know, it's it's.
+[ 1322.1] There's a manuscript that we're actively working on for the hackathon.
+[ 1326.1] But if you can imagine a manuscript with 44 teams and 120 authors,
+[ 1332.9] you know, it's it's a lot.
+[ 1335.7] And so, you know, other lessons learned, but
+[ 1339.4] more than happy to keep it going forward because of the quality
+[ 1344.2] and the rigor of the the teams, you know, putting that dedicated time together
+[ 1348.5] for these projects, so it's a
+[ 1352.6] it's an amazing burden, if you will, that have couldn't couldn't ask for more.
+[ 1361.0] Yeah. And I was like, we don't want to like, you know,
+[ 1363.8] this hack sound to be like one time event, we want to be like a continuous effort.
+[ 1368.2] So do you think it's a good idea to, you know, set up something like a discord
+[ 1372.8] or select channel so like all the participants and also organizers
+[ 1377.1] can still communicate like frequently even after the hack song?
+[ 1382.0] Yeah, this gets into the weeds a little bit,
+[ 1385.2] but you've hit on a really, really key point.
+[ 1388.3] I thought I was being all like clever.
+[ 1391.3] I used single channel guest invites on Slack.
+[ 1396.0] The acceleration source, you know, like a dedicated.
+[ 1398.5] Yeah, Slack with like the the.
+[ 1402.4] Tier, you know, like academic tier or whatever, so that we get to see our messages
+[ 1407.0] after a month or two months, I don't think.
+[ 1410.3] And I I wanted to keep that aspect of, OK, this becomes
+[ 1414.9] like a semi permanent record of things you can go back, you could search.
+[ 1420.1] The single channel guest aspects
+[ 1423.6] prove to be somewhat challenging for different reasons.
+[ 1426.4] Like it was difficult to get people added.
+[ 1430.0] Sometimes there were there's a lot of confusion about like trying
+[ 1434.6] to connect one channel like a channel from the acceleration
+[ 1438.4] consortium organization to another workspace
+[ 1442.1] that didn't have the same like set up or two sort of thing.
+[ 1445.1] And so yeah, I was ambitious to make Slack work.
+[ 1450.2] And then there were a lot of issues
+[ 1452.9] with having this kind of single channel aspect to it.
+[ 1456.0] I think a dedicated Slack channel or a dedicated discord channel.
+[ 1459.6] Makes sense. And if it's you know, if it's possible on, you know,
+[ 1463.3] whoever's organizing it to spend some of the money to have that
+[ 1467.7] like academic discount protein or whatever for
+[ 1472.0] even just a few months or like six months or something like that,
+[ 1475.4] that might be worth it.
+[ 1476.5] Discord, you know, you yeah. Yeah.
+[ 1480.2] Great for forever.
+[ 1481.4] I guess the idea is also like in the discourse things like
+[ 1486.0] sometimes if the organizers are not available,
+[ 1488.9] like, you know, the audience or participants,
+[ 1491.2] they can answer the question, you know.
+[ 1493.0] Yeah. You know, happy each other. Yeah.
+[ 1495.0] Yeah. So I think it's important.
+[ 1497.1] And I. I messed up a little bit there,
+[ 1501.1] and that's good feedback for next time.
+[ 1505.1] Yeah, thanks for the experience. Yeah.
+[ 1508.2] Oh, I should maybe mention, too, Ben and Kevin were very great.
+[ 1514.1] You know, I when this came up, like, oh, OK,
+[ 1516.2] I'm thinking about running a hackathon like this.
+[ 1518.7] I think that I was like, hey, think about doing this.
+[ 1521.7] I just blasted them with questions and they were really responsive.
+[ 1524.9] And I learned a lot from, you know, kind of all the things
+[ 1527.9] that they were through.
+[ 1529.5] And that helped a lot with the challenges
+[ 1532.5] that I faced for the Bayesian optimization hackathon.
+[ 1535.2] And then the plan is to have this as a annual experience, you know,
+[ 1542.1] repeated the next year with another Bayesian optimization
+[ 1545.8] or, you know, maybe opening up adaptive experimentation
+[ 1548.9] and like active learning for chemistry materials,
+[ 1551.7] maybe something a little more kind of machine learning,
+[ 1554.7] generally focused on materials discovery, who knows?
+[ 1558.3] But the plan is to do it again.
+[ 1562.2] Oh, sounds exciting. Yeah, amazing.
+[ 1565.0] And I'm very excited for the the microscopy
+[ 1568.4] and the hackathon that you're arranging.
+[ 1570.6] Richard, and I'm just really excited to see where that goes.
+[ 1580.5] Yeah, thank you very much for your time today.
+[ 1582.6] Yeah. Yeah.
+[ 1585.3] And I use your Hondogumi.
+[ 1588.5] I mentioned you before.
+[ 1589.3] It's really great to get started with.
+[ 1592.7] So great development work.
+[ 1594.6] Thank you. Yeah, much appreciated.
+[ 1600.7] Yeah, thank you so much for like,
+[ 1602.5] for, you know, sharing so much experience and knowledge.
+[ 1605.8] It has been like a really, like, joyful conversation.
+[ 1610.2] Amazing. And I'm very excited for the the microscopy
+[ 1614.0] and the hackathon that you're arranging.
+[ 1616.2] Richard, and I'm just really excited to see where that goes.
