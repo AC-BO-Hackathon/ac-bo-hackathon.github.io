@@ -173,6 +173,11 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # claude-code-action v1.0.273+ denies python, pip, node and other code-running
+          # commands on PRs whose author lacks write access, and treats every bot as such.
+          # Lift that only for PRs the Claude app opened (in-repo branches that only
+          # writers can push to); everyone else's PRs keep the guard.
+          restrict_untrusted_prs: ${{ (github.event.issue.user.login || github.event.pull_request.user.login) == 'claude[bot]' && 'false' || 'true' }}
 
           # The exact tag found in the trigger text (@claude, @claude+opus-5:max, ...)
           trigger_phrase: ${{ steps.select.outputs.phrase }}
@@ -347,6 +352,11 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # claude-code-action v1.0.273+ denies python, pip, node and other code-running
+          # commands on PRs whose author lacks write access, and treats every bot as such.
+          # Lift that only for PRs the Claude app opened (in-repo branches that only
+          # writers can push to); everyone else's PRs keep the guard.
+          restrict_untrusted_prs: ${{ (github.event.issue.user.login || github.event.pull_request.user.login) == 'claude[bot]' && 'false' || 'true' }}
           trigger_phrase: ${{ steps.select.outputs.phrase }}
           # Without this line, the prompt below would switch the action into
           # automation ("agent") mode: no tracking comment, no thread context,
